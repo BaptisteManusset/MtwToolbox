@@ -3,18 +3,17 @@
   "version": "0.0.1",
   "displayName": "Baptiste's Toolbox",
   "description": "Toolbox for unity",
-  "unity": "2019.3",
+  "unity": "2019.1",
   "unityRelease": "3f1",
   "keywords": [
-    "keyword1",
-    "keyword2",
-    "keyword3"
+    "toolbox",
+    "salut",
+    "wesh"
   ],
   "author": {
     "name": "Baptiste Manusset",
     "email": "baptiste.manusset@gmail.com",
     "url": "baptistemanusset.github.io/"
   },
-  "type": "library",
-  "dependencies": {}
+  "hideInEditor": false
 }
