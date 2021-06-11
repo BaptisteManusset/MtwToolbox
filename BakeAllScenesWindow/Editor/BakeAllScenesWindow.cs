@@ -10,7 +10,7 @@ public class BakeAllScenesWindow : EditorWindow
     private SceneAsset[] scenes = new SceneAsset[0];
     private int numberOfScenes;
 
-    [MenuItem("Tools/Bake multiple scenes")]
+    [MenuItem("MtwTools/Bake multiple scenes")]
     static void ShowWindow()
     {
         BakeAllScenesWindow window = (BakeAllScenesWindow)EditorWindow.GetWindow(typeof(BakeAllScenesWindow));
