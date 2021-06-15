@@ -4,8 +4,8 @@ using UnityEditor;
 public class ReplaceGameObjects : ScriptableWizard {
     public GameObject useGameObject;
 
-    [MenuItem("MtwTools/Replace GameObjects")]
-    static void CreateWizard() {
+    [MenuItem("Tools/AssetStore/Replace GameObjects")]
+    public static void CreateWizard() {
         ScriptableWizard.DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
     }
 
@@ -18,7 +18,7 @@ public class ReplaceGameObjects : ScriptableWizard {
             newObj.rotation = transform.rotation;
             newObj.localScale = transform.localScale;
             GameObjectUtility.SetStaticEditorFlags(newObject,
-                GameObjectUtility.GetStaticEditorFlags(newObj.parent.gameObject ));
+                GameObjectUtility.GetStaticEditorFlags(newObj.parent.gameObject));
         }
 
         foreach (GameObject go in Selection.gameObjects) {
