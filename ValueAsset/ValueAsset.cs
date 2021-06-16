@@ -1,0 +1,22 @@
+﻿using UnityEngine;
+
+
+//https://stackoverflow.com/questions/54112813/how-to-create-a-dynamic-variable-system-with-scriptable-objects
+public class ValueAsset<T> : ScriptableObject {
+    [SerializeField] private T value;
+    [SerializeField] private T defaultValue;
+
+    public void ResetValue() => SetValue(defaultValue);
+    public void SetValue(T value) => this.value = value;
+
+    public T GetValue() => value;
+
+    [Space(60)] [TextArea] [SerializeField]
+    private string description;
+}
+
+[CreateAssetMenu(fileName = "new int", menuName = "ValueAssets/int")]
+public class IntValue : ValueAsset<int> { }
+
+[CreateAssetMenu(fileName = "new float", menuName = "ValueAssets/float")]
+public class FloatValue : ValueAsset<float> { }
