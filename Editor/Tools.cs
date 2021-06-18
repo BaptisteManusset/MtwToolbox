@@ -35,7 +35,12 @@ namespace Editor {
 
         private void ViewScene() {
             TopPage("Scene");
-            if (GUILayout.Button("Load Scenes", GUILayout.Height(50))) SceneLink.LoadScenes();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Load Scenes", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
+            if (GUILayout.Button("Load Scenes", GUILayout.Height(50))) SceneLink.ChangeStateToMenu();
+            GUILayout.EndHorizontal();
+
             // if (GUILayout.Button("Unload Scenes", GUILayout.Height(50))) SceneLink.UnloadScenes();
             if (GUILayout.Button("Display Asset", GUILayout.Height(50))) SceneLink.Instance.PingInEditor();
         }
