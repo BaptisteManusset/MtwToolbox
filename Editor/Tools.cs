@@ -1,4 +1,5 @@
 ﻿using AssetUsageDetectorNamespace;
+using Toolbox.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,19 +38,18 @@ namespace Editor {
             TopPage("Scene");
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Load Scenes", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
-            if (GUILayout.Button("Load Scenes", GUILayout.Height(50))) SceneLink.ChangeStateToMenu();
+            if (GUILayout.Button("Load Game", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
+            if (GUILayout.Button("Load Menu", GUILayout.Height(50))) SceneLink.ChangeStateToMenu();
             GUILayout.EndHorizontal();
 
             // if (GUILayout.Button("Unload Scenes", GUILayout.Height(50))) SceneLink.UnloadScenes();
-            if (GUILayout.Button("Display Asset", GUILayout.Height(50))) SceneLink.Instance.PingInEditor();
+            if (GUILayout.Button("Display Asset", GUILayout.Height(50))) SceneLink.Instance.SelectInEditor();
         }
 
         private void ViewMain() {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Scenes", GUILayout.Height(50))) page = 1;
             if (GUILayout.Button("Tools", GUILayout.Height(50))) page = 2;
-
             if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) page = 3;
             GUILayout.EndHorizontal();
         }
@@ -62,6 +62,7 @@ namespace Editor {
 
             if (GUILayout.Button("Editor Icons", GUILayout.Height(50)))
                 EditorIcons.EditorIconsOpen();
+
             if (GUILayout.Button("Bake All Scenes", GUILayout.Height(50)))
                 BakeAllScenesWindow.ShowWindow();
             GUILayout.EndHorizontal();
@@ -70,8 +71,13 @@ namespace Editor {
         private void ViewSceneTools() {
             TopPage("Scene Tools");
             GUILayout.BeginHorizontal();
+
             if (GUILayout.Button("Replace Gamobject", GUILayout.Height(50)))
                 ReplaceGameObjects.CreateWizard();
+
+            if (GUILayout.Button("Find Missing Scripts", GUILayout.Height(50)))
+                FindMissingScripts.ShowWindow();
+
             GUILayout.EndHorizontal();
         }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#pragma warning disable 0649
 
 //https://stackoverflow.com/questions/54112813/how-to-create-a-dynamic-variable-system-with-scriptable-objects
 public class ValueAsset<T> : ScriptableObject {
@@ -20,3 +21,4 @@ public class IntValue : ValueAsset<int> { }
 
 [CreateAssetMenu(fileName = "new float", menuName = "ValueAssets/float")]
 public class FloatValue : ValueAsset<float> { }
+#pragma warning restore 0649

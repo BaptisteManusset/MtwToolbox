@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#pragma warning disable 0649
 
 public class SerializableDictionaryExample : MonoBehaviour {
 	// The dictionaries can be accessed throught a property
@@ -22,3 +23,4 @@ public class SerializableDictionaryExample : MonoBehaviour {
 		m_objectColorDictionary = new ObjectColorDictionary() { {gameObject, Color.blue}, {this, Color.red} };
 	}
 }
+#pragma warning restore 0649
