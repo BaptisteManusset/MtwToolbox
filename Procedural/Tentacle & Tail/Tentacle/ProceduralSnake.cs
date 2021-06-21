@@ -14,7 +14,7 @@ namespace Toolbox.Procedural.Tentacle {
     ///     2   direction   =>  definie la direction avec sa rotation
     /// </summary>
     public class ProceduralSnake : MonoBehaviour {
-        [SerializeField] int length;
+        int _length;
 
         [SerializeField] Transform targetDir;
         [SerializeField] float targetDist;
@@ -28,17 +28,17 @@ namespace Toolbox.Procedural.Tentacle {
         [SerializeField] private GameObject[] bodyParts;
 
         private void Start() {
-            lineRenderer.positionCount = length;
+            _length = bodyParts.Length;
 
-            _segmentPoses = new Vector3[length];
-            _segmentV = new Vector3[length];
+            lineRenderer.positionCount = _length;
+
+            _segmentPoses = new Vector3[_length];
+            _segmentV = new Vector3[_length];
             for (int i = bodyParts.Length - 1; i >= 1; i--) {
                 bodyParts[i].GetComponent<BodyPartsRotate>().target = bodyParts[i - 1].transform;
             }
 
             bodyParts[0].GetComponent<BodyPartsRotate>().target = transform;
-
-            ResetPost();
         }
 
         void Update() {
@@ -50,16 +50,6 @@ namespace Toolbox.Procedural.Tentacle {
                 _segmentPoses[i] = Vector3.SmoothDamp(_segmentPoses[i], targetPos, ref _segmentV[i], smoothSpeed);
 
                 bodyParts[i - 1].transform.position = _segmentPoses[i];
-            }
-
-            lineRenderer.SetPositions(_segmentPoses);
-        }
-
-        [ContextMenu("Reset")]
-        void ResetPost() {
-            _segmentPoses[0] = targetDir.position;
-            for (int i = 0; i < length; i++) {
-                _segmentPoses[i] = _segmentPoses[i - 1] + targetDir.right * targetDist;
             }
 
             lineRenderer.SetPositions(_segmentPoses);
