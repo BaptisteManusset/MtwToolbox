@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 //https://medium.com/@GilbertoBitt/singleton-scriptableobject-madewithunity-bfe9b8385566
 public abstract class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject {
@@ -22,7 +21,7 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
                 }
 #else
                 // Get all asset of type T from Resources or loaded assets.
-                objs = Resources.FindObjectsOfTypeAll<T>();
+                objs = Resources.LoadAll<T>("SceneLink");
 #endif
 
                 // If no asset of type T was found...

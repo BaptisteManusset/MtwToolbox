@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Toolbox.Procedural.Tentacle {
     public class BodyPartsRotate : MonoBehaviour {

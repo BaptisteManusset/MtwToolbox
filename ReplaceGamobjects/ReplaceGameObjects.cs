@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 
 public class ReplaceGameObjects : ScriptableWizard {
@@ -6,7 +7,7 @@ public class ReplaceGameObjects : ScriptableWizard {
 
     [MenuItem("Tools/AssetStore/Replace GameObjects")]
     public static void CreateWizard() {
-        ScriptableWizard.DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
+        DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
     }
 
     void OnWizardCreate() {
@@ -26,3 +27,5 @@ public class ReplaceGameObjects : ScriptableWizard {
         }
     }
 }
+
+#endif
