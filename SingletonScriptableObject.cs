@@ -6,6 +6,7 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
 
     public static T Instance {
         get {
+            Debug.Log("SingletonScriptableObject instance");
             if (!s_Instance) {
                 T[] objs = null;
 
