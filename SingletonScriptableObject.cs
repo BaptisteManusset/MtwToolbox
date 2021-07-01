@@ -21,7 +21,7 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
                 }
 #else
                 // Get all asset of type T from Resources or loaded assets.
-                objs = Resources.LoadAll<T>("SceneLink");
+                objs = Resources.FindObjectsOfTypeAll<T>();
 #endif
 
                 // If no asset of type T was found...
