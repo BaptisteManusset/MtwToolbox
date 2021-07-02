@@ -6,15 +6,7 @@ using UnityEngine;
 
 namespace Editor {
     public class Tools : EditorWindow {
-        static int page = 0;
-
-
-        [MenuItem("Tools/Tools")]
-        private static void ShowWindow() {
-            var window = GetWindow<Tools>();
-            window.titleContent = new GUIContent("Tools");
-            window.Show();
-        }
+        private static int page;
 
         private void OnGUI() {
             switch (page) {
@@ -33,14 +25,35 @@ namespace Editor {
             }
         }
 
+
+        [MenuItem("Tools/Tools")]
+        private static void ShowWindow() {
+            Tools window = GetWindow<Tools>();
+            window.titleContent = new GUIContent("Tools");
+            window.Show();
+        }
+
+        #region Editor
+
+        private void TopPage(string pageName = "") {
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Retour", GUILayout.Height(50), GUILayout.Width(50))) page = 0;
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(pageName, GUILayout.Height(50));
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+        }
+
+        #endregion
+
         #region Views
 
         private void ViewScene() {
             TopPage("Scene");
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Load Game", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
             if (GUILayout.Button("Load Menu", GUILayout.Height(50))) SceneLink.ChangeStateToMenu();
+            if (GUILayout.Button("Load Game", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
             GUILayout.EndHorizontal();
 
             // if (GUILayout.Button("Unload Scenes", GUILayout.Height(50))) SceneLink.UnloadScenes();
@@ -79,19 +92,6 @@ namespace Editor {
             if (GUILayout.Button("Find Missing Scripts", GUILayout.Height(50)))
                 FindMissingScripts.ShowWindow();
 
-            GUILayout.EndHorizontal();
-        }
-
-        #endregion
-
-        #region Editor
-
-        private void TopPage(string pageName = "") {
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Retour", GUILayout.Height(50), GUILayout.Width(50))) page = 0;
-            GUILayout.FlexibleSpace();
-            GUILayout.Label(pageName, GUILayout.Height(50));
-            GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
 

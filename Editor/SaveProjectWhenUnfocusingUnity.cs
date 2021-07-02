@@ -1,18 +1,19 @@
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Toolbox.Editor {
     public static class SaveProjectWhenUnfocusingUnity {
-        static bool wasFocused;
+        private static bool wasFocused;
 
         [InitializeOnLoadMethod]
-        static void Init() {
+        private static void Init() {
             EditorApplication.update -= CheckApplicationFocus;
             EditorApplication.update += CheckApplicationFocus;
         }
 
-        static void CheckApplicationFocus() {
-            bool isFocused = UnityEditorInternal.InternalEditorUtility.isApplicationActive;
+        private static void CheckApplicationFocus() {
+            bool isFocused = InternalEditorUtility.isApplicationActive;
 
             if (isFocused == false && wasFocused) {
                 AssetDatabase.SaveAssets();
