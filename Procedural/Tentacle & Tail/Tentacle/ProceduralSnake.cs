@@ -2,30 +2,27 @@
 
 namespace Toolbox.Procedural.Tentacle {
     /// <summary>
-    /// tentacule fait a partir d'un linerenderer a placer sur le point ou elle doit etre connecté
-    ///
-    ///      \
+    ///     tentacule fait a partir d'un linerenderer a placer sur le point ou elle doit etre connecté
+    ///     \
     ///     #---#   #---#
     ///     | 1 |---| 2 |
     ///     #---#   #---#
-    ///      /
-    ///
+    ///     /
     ///     1   tete        =>  ProceduralTentacleWiggle et LineRenderer
     ///     2   direction   =>  definie la direction avec sa rotation
     /// </summary>
     public class ProceduralSnake : MonoBehaviour {
-        int _length;
+        [SerializeField] private Transform targetDir;
+        [SerializeField] private float targetDist;
+        [SerializeField] private float smoothSpeed;
 
-        [SerializeField] Transform targetDir;
-        [SerializeField] float targetDist;
-        [SerializeField] float smoothSpeed;
-
-        [Space] [SerializeField] LineRenderer lineRenderer;
+        [Space] [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private GameObject[] bodyParts;
+        private int _length;
 
 
         private Vector3[] _segmentPoses;
         private Vector3[] _segmentV;
-        [SerializeField] private GameObject[] bodyParts;
 
         private void Start() {
             _length = bodyParts.Length;
@@ -34,14 +31,13 @@ namespace Toolbox.Procedural.Tentacle {
 
             _segmentPoses = new Vector3[_length];
             _segmentV = new Vector3[_length];
-            for (int i = bodyParts.Length - 1; i >= 1; i--) {
+            for (int i = bodyParts.Length - 1; i >= 1; i--)
                 bodyParts[i].GetComponent<BodyPartsRotate>().target = bodyParts[i - 1].transform;
-            }
 
             bodyParts[0].GetComponent<BodyPartsRotate>().target = transform;
         }
 
-        void Update() {
+        private void Update() {
             _segmentPoses[0] = targetDir.position;
 
             for (int i = 1; i < _segmentPoses.Length; i++) {

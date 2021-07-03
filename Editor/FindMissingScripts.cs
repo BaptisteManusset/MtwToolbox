@@ -3,17 +3,15 @@ using UnityEngine;
 
 namespace Toolbox.Editor {
     public class FindMissingScripts : EditorWindow {
-        static int goCount = 0, componentsCount = 0, missingCount = 0;
+        private static int goCount, componentsCount, missingCount;
+
+        public void OnGUI() {
+            if (GUILayout.Button("Find Missing Scripts in selected GameObjects")) FindInSelected();
+        }
 
         [MenuItem("Window/FindMissingScripts")]
         public static void ShowWindow() {
             GetWindow(typeof(FindMissingScripts));
-        }
-
-        public void OnGUI() {
-            if (GUILayout.Button("Find Missing Scripts in selected GameObjects")) {
-                FindInSelected();
-            }
         }
 
         private static void FindInSelected() {
@@ -21,9 +19,7 @@ namespace Toolbox.Editor {
             goCount = 0;
             componentsCount = 0;
             missingCount = 0;
-            foreach (GameObject g in go) {
-                FindInGO(g);
-            }
+            foreach (GameObject g in go) FindInGO(g);
 
             Debug.Log($"Searched {goCount} GameObjects, {componentsCount} components, found {missingCount} missing");
         }
@@ -47,10 +43,8 @@ namespace Toolbox.Editor {
             }
 
             // Now recurse through each child GO (if there are any):
-            foreach (Transform childT in g.transform) {
-                //Debug.Log("Searching " + childT.name  + " " );
+            foreach (Transform childT in g.transform) //Debug.Log("Searching " + childT.name  + " " );
                 FindInGO(childT.gameObject);
-            }
         }
     }
 }

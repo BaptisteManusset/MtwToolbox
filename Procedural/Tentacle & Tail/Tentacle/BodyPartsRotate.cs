@@ -2,12 +2,12 @@
 
 namespace Toolbox.Procedural.Tentacle {
     public class BodyPartsRotate : MonoBehaviour {
-        [SerializeField] float speed;
-        private Vector2 direction;
+        [SerializeField] private float speed;
         public Transform target;
+        private Vector2 direction;
 
 
-        void Update() {
+        private void Update() {
             direction = target.position - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);

@@ -7,13 +7,20 @@ public class ValueAsset<T> : ScriptableObject {
     [SerializeField] private T value;
     [SerializeField] private T defaultValue;
 
-    public void ResetValue() => SetValue(defaultValue);
-    public void SetValue(T value) => this.value = value;
-
-    public T GetValue() => value;
-
     [Space(60)] [TextArea] [SerializeField]
     private string description;
+
+    public void ResetValue() {
+        SetValue(defaultValue);
+    }
+
+    public void SetValue(T value) {
+        this.value = value;
+    }
+
+    public T GetValue() {
+        return value;
+    }
 }
 
 [CreateAssetMenu(fileName = "new int", menuName = "ValueAssets/int")]

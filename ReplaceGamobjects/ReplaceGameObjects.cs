@@ -1,16 +1,11 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 public class ReplaceGameObjects : ScriptableWizard {
     public GameObject useGameObject;
 
-    [MenuItem("Tools/AssetStore/Replace GameObjects")]
-    public static void CreateWizard() {
-        DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
-    }
-
-    void OnWizardCreate() {
+    private void OnWizardCreate() {
         foreach (Transform transform in Selection.transforms) {
             GameObject newObject = (GameObject) PrefabUtility.InstantiatePrefab(useGameObject);
             Transform newObj = newObject.transform;
@@ -22,9 +17,12 @@ public class ReplaceGameObjects : ScriptableWizard {
                 GameObjectUtility.GetStaticEditorFlags(newObj.parent.gameObject));
         }
 
-        foreach (GameObject go in Selection.gameObjects) {
-            DestroyImmediate(go);
-        }
+        foreach (GameObject go in Selection.gameObjects) DestroyImmediate(go);
+    }
+
+    [MenuItem("Tools/AssetStore/Replace GameObjects")]
+    public static void CreateWizard() {
+        DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
     }
 }
 
