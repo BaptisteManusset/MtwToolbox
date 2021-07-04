@@ -1,4 +1,5 @@
 ﻿using AssetUsageDetectorNamespace;
+using Scriptabbles;
 using Scriptabbles.SceneLink;
 using Toolbox.Editor;
 using UnityEditor;
@@ -79,6 +80,13 @@ namespace Editor {
 
             if (GUILayout.Button("Bake All Scenes", GUILayout.Height(50)))
                 BakeAllScenesWindow.ShowWindow();
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(nameof(RequiredPrefab), GUILayout.Height(50)))
+                RequiredPrefab.Instance.SelectInEditor();
+
+
             GUILayout.EndHorizontal();
         }
 
