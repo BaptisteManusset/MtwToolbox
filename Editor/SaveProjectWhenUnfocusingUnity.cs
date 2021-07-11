@@ -17,9 +17,7 @@ namespace Toolbox.Editor {
 
             if (isFocused == false && wasFocused) {
                 AssetDatabase.SaveAssets();
-                Debug.Log("<color=cyan>Project AutoSave</color>");
             }
-
             wasFocused = isFocused;
         }
     }
