@@ -18,6 +18,10 @@ namespace Toolbox.UIScript {
 
         [SerializeField] private bool invert;
 
+
+        [Space] [SerializeField] private bool useCurve = false;
+        [SerializeField] private AnimationCurve curve;
+
         private Color _color;
 
         private void Awake() {
@@ -32,7 +36,15 @@ namespace Toolbox.UIScript {
             float value = valueAsset.Value / valueAsset.initialValue;
 
 
-            if (invert) value = 1 - value;
+            if (invert) {
+                value = 1 - value;
+            }
+
+            if (useCurve) {
+                value = curve.Evaluate(value);
+                value = Mathf.Clamp(value, 0, 1);
+            }
+
             switch (elementToModif) {
                 case Select.FillAmount:
                     image.fillAmount = value;
