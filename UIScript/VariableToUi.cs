@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaughtyAttributes;
+using Toolbox.ValueAsset;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,7 @@ namespace Toolbox.UIScript {
 
 
         [Space] [SerializeField] private bool useCurve = false;
-        [SerializeField] private AnimationCurve curve;
+        [ShowIf("useCurve")] [SerializeField] private AnimationCurve curve;
 
         private Color _color;
 
