@@ -33,10 +33,7 @@ namespace Toolbox.UIScript {
         }
 
         private void OnValueChange() {
-            MtwTools.Log("Value Change");
             float value = valueAsset.Value / valueAsset.initialValue;
-
-
             if (invert) {
                 value = 1 - value;
             }
