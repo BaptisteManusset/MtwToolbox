@@ -1,6 +1,6 @@
 ﻿using AssetUsageDetectorNamespace;
-using Scriptabbles;
-using Scriptabbles.SceneLink;
+using ItsBaptiste.Scriptabbles.RequiredPrefab;
+using ItsBaptiste.Scriptabbles.SceneLink;
 using Toolbox.Editor;
 using UnityEditor;
 using UnityEngine;

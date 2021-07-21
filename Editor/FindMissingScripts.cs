@@ -9,7 +9,7 @@ namespace Toolbox.Editor {
             if (GUILayout.Button("Find Missing Scripts in selected GameObjects")) FindInSelected();
         }
 
-        [MenuItem("Window/FindMissingScripts")]
+        [MenuItem("Tools/Find Missing Scripts")]
         public static void ShowWindow() {
             GetWindow(typeof(FindMissingScripts));
         }
