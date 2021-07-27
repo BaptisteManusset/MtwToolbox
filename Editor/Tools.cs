@@ -53,8 +53,14 @@ namespace Editor {
             TopPage("Scene");
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Load Menu", GUILayout.Height(50))) SceneLink.ChangeStateToMenu();
-            if (GUILayout.Button("Load Game", GUILayout.Height(50))) SceneLink.ChangeStateToPlay();
+            if (GUILayout.Button("Load Menu", GUILayout.Height(50))) {
+                SceneLink.LoadMenu();
+            }
+
+            if (GUILayout.Button("Load Game", GUILayout.Height(50))) {
+                SceneLink.LoadGame();
+            }
+
             GUILayout.EndHorizontal();
 
             // if (GUILayout.Button("Unload Scenes", GUILayout.Height(50))) SceneLink.UnloadScenes();

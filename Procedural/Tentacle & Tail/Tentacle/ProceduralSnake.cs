@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using AssetUsageDetectorNamespace;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Toolbox.Procedural.Tentacle {
     /// <summary>
@@ -49,6 +52,28 @@ namespace Toolbox.Procedural.Tentacle {
             }
 
             lineRenderer.SetPositions(_segmentPoses);
+        }
+
+
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.yellow;
+
+            for (int i = 0; i < bodyParts.Length; i++) {
+                Gizmos.DrawCube(transform.position + -(transform.forward * i * targetDist), new Vector3(1.5f, 1.5f, .1f));
+            }
+        }
+
+        private void OnValidate() {
+            for (int i = 0; i < bodyParts.Length; i++) {
+                bodyParts[i].transform.position = GetBodyPartsPosition(i);
+            }
+        }
+
+        private Vector3 GetBodyPartsPosition(int index) {
+            Vector3 position = Vector3.zero;
+
+            position = transform.position + -(transform.forward * index * targetDist);
+            return position;
         }
     }
 }
