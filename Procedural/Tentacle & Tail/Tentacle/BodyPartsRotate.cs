@@ -2,6 +2,7 @@
 using UnityEngine;
 
 namespace Toolbox.Procedural.Tentacle {
+   [DisallowMultipleComponent]
     public class BodyPartsRotate : MonoBehaviour {
         [SerializeField] private float speed;
         public Transform target;
@@ -9,6 +10,8 @@ namespace Toolbox.Procedural.Tentacle {
 
 
         private void FixedUpdate() {
+            if (target) enabled = false;
+            
             // direction = target.position - transform.position;
             // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             // Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);

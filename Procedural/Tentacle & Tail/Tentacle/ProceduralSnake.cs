@@ -1,7 +1,4 @@
-﻿using System;
-using AssetUsageDetectorNamespace;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 namespace Toolbox.Procedural.Tentacle {
     /// <summary>
@@ -14,13 +11,14 @@ namespace Toolbox.Procedural.Tentacle {
     ///     1   tete        =>  ProceduralTentacleWiggle et LineRenderer
     ///     2   direction   =>  definie la direction avec sa rotation
     /// </summary>
+    [DisallowMultipleComponent]
     public class ProceduralSnake : MonoBehaviour {
         [SerializeField] private Transform targetDir;
         [SerializeField] private float targetDist;
         [SerializeField] private float smoothSpeed;
 
         [Space] [SerializeField] private LineRenderer lineRenderer;
-        [SerializeField] private GameObject[] bodyParts;
+        [SerializeField] private BodyPartsRotate[] bodyParts;
         private int _length;
 
 
@@ -34,10 +32,17 @@ namespace Toolbox.Procedural.Tentacle {
 
             _segmentPoses = new Vector3[_length];
             _segmentV = new Vector3[_length];
-            for (int i = bodyParts.Length - 1; i >= 1; i--)
-                bodyParts[i].GetComponent<BodyPartsRotate>().target = bodyParts[i - 1].transform;
 
-            bodyParts[0].GetComponent<BodyPartsRotate>().target = transform;
+            SetBodyParts();
+        }
+
+        [ContextMenu("Set Body Parts")]
+        private void SetBodyParts() {
+            for (int i = bodyParts.Length - 1; i >= 1; i--) {
+                bodyParts[i].target = bodyParts[i - 1].transform;
+            }
+
+            bodyParts[0].target = transform;
         }
 
         private void Update() {
@@ -63,11 +68,14 @@ namespace Toolbox.Procedural.Tentacle {
             }
         }
 
+#if UNITY_EDITOR
         private void OnValidate() {
+            SetBodyParts();
             for (int i = 0; i < bodyParts.Length; i++) {
-                bodyParts[i].transform.position = GetBodyPartsPosition(i);
+                bodyParts[i].transform.position = transform.position + -(transform.forward * i * targetDist);
             }
         }
+#endif
 
         private Vector3 GetBodyPartsPosition(int index) {
             Vector3 position = Vector3.zero;
