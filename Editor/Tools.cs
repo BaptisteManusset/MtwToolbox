@@ -27,12 +27,17 @@ namespace Editor {
         }
 
 
-        [MenuItem("Tools/Tools")]
+        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools")]
         private static void ShowWindow() {
             Tools window = GetWindow<Tools>();
             window.titleContent = new GUIContent("Tools");
             window.Show();
         }
+
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Trello")] private static void OpenTrello() => Application.OpenURL("https://trello.com/b/X2LKhO8w/unity");
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Inspiration")] private static void OpenInspi() => Application.OpenURL("https://drive.google.com/drive/u/0/folders/1hBiQjx4Kr3m9LdXd6tDmEmHDpkZWmLQm");
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Git")] private static void OpenGit() => Application.OpenURL("https://github.com/BaptisteManusset/ffffffps");
+
 
         #region Editor
 

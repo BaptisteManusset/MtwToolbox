@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Toolbox.Procedural.Tentacle {
     [DisallowMultipleComponent]
     public class BodyPartsHealthSystem : MonoBehaviour, IDamageable {
-        private IDamageable _damageable;
+        private HealthSystem _healthSystem;
 
         private void Awake() {
-            _damageable = transform.root.GetComponent<IDamageable>();
+            _healthSystem = GetComponentInParent<HealthSystem>();
         }
 
         public void TakeDamage(float value, TeamsInfo.Team shooterTeamsInfo) {
-            _damageable.TakeDamage(value, shooterTeamsInfo);
+            _healthSystem.TakeDamage(value, shooterTeamsInfo);
         }
     }
 }

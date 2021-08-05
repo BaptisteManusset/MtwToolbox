@@ -74,7 +74,7 @@ public class BakeAllScenesWindow : EditorWindow {
         }
     }
 
-    [MenuItem("Tools/AssetStore/Bake multiple scenes")]
+    [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/AssetStore/Bake multiple scenes")]
     public static void ShowWindow() {
         BakeAllScenesWindow window = (BakeAllScenesWindow) GetWindow(typeof(BakeAllScenesWindow));
         window.titleContent.text = "Multi-scene baking";
