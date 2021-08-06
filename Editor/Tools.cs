@@ -27,7 +27,7 @@ namespace Editor {
         }
 
 
-        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools")]
+        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools",priority = -1000)]
         private static void ShowWindow() {
             Tools window = GetWindow<Tools>();
             window.titleContent = new GUIContent("Tools");
