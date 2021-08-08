@@ -3,6 +3,7 @@ using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
 using Toolbox.Editor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Editor {
@@ -27,16 +28,21 @@ namespace Editor {
         }
 
 
-        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools",priority = -1000)]
+        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools", priority = -1000)]
         private static void ShowWindow() {
             Tools window = GetWindow<Tools>();
             window.titleContent = new GUIContent("Tools");
             window.Show();
         }
 
-        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Trello")] private static void OpenTrello() => Application.OpenURL("https://trello.com/b/X2LKhO8w/unity");
-        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Inspiration")] private static void OpenInspi() => Application.OpenURL("https://drive.google.com/drive/u/0/folders/1hBiQjx4Kr3m9LdXd6tDmEmHDpkZWmLQm");
-        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Git")] private static void OpenGit() => Application.OpenURL("https://github.com/BaptisteManusset/ffffffps");
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Trello")]
+        private static void OpenTrello() => Application.OpenURL("https://trello.com/b/X2LKhO8w/unity");
+
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Inspiration")]
+        private static void OpenInspi() => Application.OpenURL("https://drive.google.com/drive/u/0/folders/1hBiQjx4Kr3m9LdXd6tDmEmHDpkZWmLQm");
+
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Git")]
+        private static void OpenGit() => Application.OpenURL("https://github.com/BaptisteManusset/ffffffps");
 
 
         #region Editor
@@ -59,12 +65,23 @@ namespace Editor {
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Load Menu", GUILayout.Height(50))) {
-                SceneLink.LoadMenu();
+                EditorSceneManager.OpenScene(SceneLink.Instance.menu);
+                EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.menu));
+
+                EditorSceneManager.OpenScene(SceneLink.Instance.common, OpenSceneMode.Additive);
             }
 
+            
             if (GUILayout.Button("Load Game", GUILayout.Height(50))) {
-                SceneLink.LoadGame();
+                EditorSceneManager.OpenScene(SceneLink.Instance.Level);
+                EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.Level));
+
+                EditorSceneManager.OpenScene(SceneLink.Instance.ingameControl, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.hud, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.player, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.common, OpenSceneMode.Additive);
             }
+
 
             GUILayout.EndHorizontal();
 

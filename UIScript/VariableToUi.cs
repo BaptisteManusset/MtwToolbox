@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System;
+using NaughtyAttributes;
 using Toolbox.ValueAsset;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,11 +27,19 @@ namespace Toolbox.UIScript {
         private Color _color;
 
         private void Awake() {
-            valueAsset.OnValueChange += OnValueChange;
             _color = image.color;
 
             OnValueChange();
         }
+
+        private void OnEnable() {
+            valueAsset.OnValueChange += OnValueChange;
+        }
+
+        private void OnDisable() {
+            valueAsset.OnValueChange -= OnValueChange;
+        }
+
 
         private void OnValueChange() {
             float value = valueAsset.Value / valueAsset.initialValue;
