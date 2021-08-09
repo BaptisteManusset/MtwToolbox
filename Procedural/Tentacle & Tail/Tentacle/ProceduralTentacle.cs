@@ -11,6 +11,9 @@ namespace Toolbox.Procedural.Tentacle {
     ///     1   tete        =>  ProceduralTentacleWiggle et LineRenderer
     ///     2   direction   =>  definie la direction avec sa rotation
     /// </summary>
+
+    #pragma warning disable 0649
+
     public class ProceduralTentacle : MonoBehaviour {
         [SerializeField] private int length;
 
@@ -43,4 +46,6 @@ namespace Toolbox.Procedural.Tentacle {
             lineRenderer.SetPositions(_segmentPoses);
         }
     }
+
+    #pragma warning restore 0649
 }

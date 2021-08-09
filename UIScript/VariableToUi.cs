@@ -1,10 +1,10 @@
-﻿using System;
-using NaughtyAttributes;
-using Toolbox.ValueAsset;
+﻿using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Toolbox.UIScript {
+        #pragma warning disable 0649
+
     public class VariableToUi : MonoBehaviour {
         enum Select {
             FillAmount = 1,
@@ -65,4 +65,6 @@ namespace Toolbox.UIScript {
             }
         }
     }
+        #pragma warning restore 0649
+
 }
