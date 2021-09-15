@@ -71,8 +71,11 @@ namespace Editor {
                 EditorSceneManager.OpenScene(SceneLink.Instance.common, OpenSceneMode.Additive);
             }
 
-            
+
             if (GUILayout.Button("Load Game", GUILayout.Height(50))) {
+                EditorSceneManager.OpenScene(SceneLink.Instance.Level);
+                EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.Level));
+
                 EditorSceneManager.OpenScene(SceneLink.Instance.Level);
                 EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.Level));
 
@@ -88,6 +91,8 @@ namespace Editor {
             // if (GUILayout.Button("Unload Scenes", GUILayout.Height(50))) SceneLink.UnloadScenes();
             if (GUILayout.Button("Display Asset", GUILayout.Height(50))) SceneLink.Instance.SelectInEditor();
         }
+
+
 
         private void ViewMain() {
             GUILayout.BeginHorizontal();
