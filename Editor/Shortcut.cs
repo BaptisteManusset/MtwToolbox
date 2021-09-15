@@ -96,16 +96,34 @@ public class Shortcut : EditorWindow {
                 ViewDisplayLoadedScene(t);
             }
 
-            GUILayout.Label("Loaded");
-
-            for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
-                Scene scene = EditorSceneManager.GetSceneAt(i);
-                GUILayout.Label(scene.name);
-            }
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
         else {
             //no scene found
             NoScenesFoundPleaseReload();
+        }
+
+        GUILayout.Label("Loaded", EditorStyles.largeLabel);
+
+        for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
+            Scene scene = EditorSceneManager.GetSceneAt(i);
+
+            GUILayout.BeginHorizontal();
+
+
+            if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("CollabPush"), "Activer la scene dans la builds"))) {
+                AddSceneToBuildList(scene.path, true);
+                Init();
+            }
+
+            GUILayout.Label(scene.name);
+            GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_winbtn_win_close"), "Unload"))) {
+                EditorSceneManager.CloseScene(scene, true);
+            }
+
+            GUILayout.EndHorizontal();
         }
 
 
@@ -155,16 +173,16 @@ public class Shortcut : EditorWindow {
         //selection le fichier de la scéne
         if (GUILayout.Button("Ping")) PingAssetByPath(item.path);
 
-        LoadSceneButton(item.path);
+        SceneButtons(item.path);
         DisplayNameAndPath(item.path);
         GUILayout.FlexibleSpace();
         if (GUILayout.Button(
             new GUIContent(
                 EditorGUIUtility.FindTexture("d_TreeEditor.Trash"),
-                "Enlever la scene de la build")))
+                "Remove the Scene from the build")))
             if (EditorUtility.DisplayDialog(
-                "Suppression la scène de la build",
-                $"Confirmez la suppression de {item.path} de la build ?", "Oui supprimer", "Annuler")) {
+                "Remove the Scene from the build",
+                $"Removing {item.path} from the build ?", "Yes remove", "Cancel")) {
                 RemoveSceneToBuild(item.path);
                 ReloadSceneinBuildList();
             }
@@ -198,15 +216,18 @@ public class Shortcut : EditorWindow {
 
     #region Buttons
 
-    private static void LoadSceneButton(string path) {
-        if (GUILayout.Button(new GUIContent("Load", "Charger la scene"))) {
-            if (EditorUtility.DisplayDialog("Charger la scene", "Charger la scene ?", "Oui", "Annuler")) {
+    private static void SceneButtons(string path) {
+        int tab = -1;
+
+
+        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_UnityEditor.Graphs.AnimatorControllerTool"), "Unload"))) {
+            if (EditorUtility.DisplayDialog("Replace the scene", "Replace actual scene and load that scene ?", "Yes", "Cancel")) {
                 EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                 EditorSceneManager.OpenScene(path);
             }
         }
 
-        if (GUILayout.Button(new GUIContent("Add", "Ajouter la scene"))) {
+        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("CreateAddNew"), "Add Scene"))) {
             EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
         }
     }
@@ -347,9 +368,9 @@ public class Shortcut : EditorWindow {
     #region Utilitys
 
     public static void DisplayNameAndPath(string path, bool displayPath = false) {
+        GUILayout.Label(GetSubFolder(path), EditorStyles.helpBox);
         GUILayout.Label($"{NameFromPath(path)}", EditorStyles.boldLabel);
 
-        GUILayout.Label($"({GetSubFolder(path)})", _styleFolder);
         GUILayout.FlexibleSpace();
 
         if (displayPath) {
