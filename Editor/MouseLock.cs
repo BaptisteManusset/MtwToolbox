@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEditor;
 
 public static class MouseLock {
-    [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Editor/Toggle Inspector lock %#l")]
+    [MenuItem("Tools/Editor/Toggle Inspector lock %#l")]
     public static void ToggleInspectorLock() {
         Type inspectorType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.InspectorWindow");
         var isLocked = inspectorType.GetProperty("isLocked", BindingFlags.Instance | BindingFlags.Public);

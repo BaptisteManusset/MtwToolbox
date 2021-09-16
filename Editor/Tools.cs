@@ -1,4 +1,5 @@
 ﻿using AssetUsageDetectorNamespace;
+using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
 using Toolbox.Editor;
@@ -28,7 +29,7 @@ namespace Editor {
         }
 
 
-        [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Tools", priority = -1000)]
+        [MenuItem("Tools/Tools", priority = -1000)]
         private static void ShowWindow() {
             Tools window = GetWindow<Tools>();
             window.titleContent = new GUIContent("Tools");
@@ -93,12 +94,16 @@ namespace Editor {
         }
 
 
-
         private void ViewMain() {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Scenes", GUILayout.Height(50))) page = 1;
             if (GUILayout.Button("Tools", GUILayout.Height(50))) page = 2;
             if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) page = 3;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Shortcut", GUILayout.Height(50)))  Shortcut.ShowWindow();
+            if (GUILayout.Button("GameEventList", GUILayout.Height(50)))  GameEventList.ShowWindow();
             GUILayout.EndHorizontal();
         }
 

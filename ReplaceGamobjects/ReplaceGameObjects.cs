@@ -20,7 +20,7 @@ public class ReplaceGameObjects : ScriptableWizard {
         foreach (GameObject go in Selection.gameObjects) DestroyImmediate(go);
     }
 
-    [MenuItem("⚙️ 𝗧𝗢𝗢𝗟𝗦/Replace GameObjects")]
+    [MenuItem("Tools/Replace GameObjects")]
     public static void CreateWizard() {
         DisplayWizard("Replace GameObjects", typeof(ReplaceGameObjects), "Replace");
     }

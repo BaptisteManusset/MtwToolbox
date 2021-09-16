@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AssetUsageDetectorNamespace;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -33,8 +34,8 @@ public class Shortcut : EditorWindow {
     #region INIT
 
     // [DidReloadScripts]
-    [MenuItem("Tools/Shortcut")]
-    private static void Init() {
+    [MenuItem("Tools/Shortcut", false, 1)]
+    public static void ShowWindow() {
         var window = (Shortcut)GetWindow(typeof(Shortcut));
         window.Show();
         ReloadSceneinBuildList();
@@ -113,16 +114,17 @@ public class Shortcut : EditorWindow {
 
             if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("CollabPush"), "Activer la scene dans la builds"))) {
                 AddSceneToBuildList(scene.path, true);
-                Init();
+                ShowWindow();
             }
 
             GUILayout.Label(scene.name);
             GUILayout.FlexibleSpace();
-
+            GUI.backgroundColor = Color.red;
             if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_winbtn_win_close"), "Unload"))) {
                 EditorSceneManager.CloseScene(scene, true);
             }
 
+            GUI.backgroundColor = Color.white;
             GUILayout.EndHorizontal();
         }
 
@@ -167,7 +169,7 @@ public class Shortcut : EditorWindow {
                 item.enabled ? "Desactiver la scene dans la builds" : "Activer la scene dans la builds")
         )) {
             AddSceneToBuildList(item.path, !item.enabled);
-            Init();
+            ShowWindow();
         }
 
         //selection le fichier de la scéne
@@ -219,8 +221,8 @@ public class Shortcut : EditorWindow {
     private static void SceneButtons(string path) {
         int tab = -1;
 
-
-        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_UnityEditor.Graphs.AnimatorControllerTool"), "Unload"))) {
+        GUILayout.BeginHorizontal(EditorStyles.helpBox);
+        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_UnityEditor.Graphs.AnimatorControllerTool"), "Replace Actual Scene"))) {
             if (EditorUtility.DisplayDialog("Replace the scene", "Replace actual scene and load that scene ?", "Yes", "Cancel")) {
                 EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                 EditorSceneManager.OpenScene(path);
@@ -230,6 +232,8 @@ public class Shortcut : EditorWindow {
         if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("CreateAddNew"), "Add Scene"))) {
             EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
         }
+
+        GUILayout.EndHorizontal();
     }
 
     #endregion
@@ -368,7 +372,10 @@ public class Shortcut : EditorWindow {
     #region Utilitys
 
     public static void DisplayNameAndPath(string path, bool displayPath = false) {
-        GUILayout.Label(GetSubFolder(path), EditorStyles.helpBox);
+        float h = Mathf.Abs((float)(GetSubFolder(path).GetHashCode() % 10)) / 10;
+        GUI.backgroundColor = Color.HSVToRGB(h, 1, 1);
+        GUILayout.Label(GetSubFolder(path), EditorStyles.miniButton);
+        GUI.backgroundColor = Color.white;
         GUILayout.Label($"{NameFromPath(path)}", EditorStyles.boldLabel);
 
         GUILayout.FlexibleSpace();
@@ -386,119 +393,119 @@ public class Shortcut : EditorWindow {
 
     #endregion
 }
-
-
-/// <summary>
-/// Scene auto loader.
-/// </summary>
-/// <description>
-/// This class adds a File > Scene Autoload menu containing options to select
-/// a "master scene" enable it to be auto-loaded when the user presses play
-/// in the editor. When enabled, the selected scene will be loaded on play,
-/// then the original scene will be reloaded on stop.
-///
-/// Based on an idea on this thread:
-/// http://forum.unity3d.com/threads/157502-Executing-first-scene-in-build-settings-when-pressing-play-button-in-editor
-/// </description>
-[InitializeOnLoad]
-static class SceneAutoLoader {
-    // Static constructor binds a playmode-changed callback.
-    // [InitializeOnLoad] above makes sure this gets executed.
-    static SceneAutoLoader() {
-        EditorApplication.playModeStateChanged += OnPlayModeChanged;
-    }
-
-    // Menu items to select the "master" scene and control whether or not to load it.
-    [MenuItem("File/Scene Autoload/Select Master Scene...")]
-    private static void SelectMasterScene() {
-        string masterScene = EditorUtility.OpenFilePanel("Select Master Scene", Application.dataPath, "unity");
-        masterScene = masterScene.Replace(Application.dataPath, "Assets"); //project relative instead of absolute path
-        if (!string.IsNullOrEmpty(masterScene)) {
-            MasterScene = masterScene;
-            LoadMasterOnPlay = true;
-        }
-    }
-
-    [MenuItem("File/Scene Autoload/Load Master On Play", true)]
-    private static bool ShowLoadMasterOnPlay() {
-        return !LoadMasterOnPlay;
-    }
-
-    [MenuItem("File/Scene Autoload/Load Master On Play")]
-    private static void EnableLoadMasterOnPlay() {
-        LoadMasterOnPlay = true;
-    }
-
-    [MenuItem("File/Scene Autoload/Don't Load Master On Play", true)]
-    private static bool ShowDontLoadMasterOnPlay() {
-        return LoadMasterOnPlay;
-    }
-
-    [MenuItem("File/Scene Autoload/Don't Load Master On Play")]
-    private static void DisableLoadMasterOnPlay() {
-        LoadMasterOnPlay = false;
-    }
-
-    // Play mode change callback handles the scene load/reload.
-    private static void OnPlayModeChanged(PlayModeStateChange state) {
-        if (!LoadMasterOnPlay) {
-            return;
-        }
-
-
-        if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode) {
-            // User pressed play -- autoload master scene.
-            PreviousScene = EditorSceneManager.GetActiveScene().path;
-
-
-            //if the scene is not in scenes build list cancel
-            if (SceneUtility.GetBuildIndexByScenePath(PreviousScene) == -1) return;
-
-            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
-                try {
-                    EditorSceneManager.OpenScene(MasterScene);
-                }
-                catch {
-                    Debug.LogError(string.Format("error: scene not found: {0}", MasterScene));
-                    EditorApplication.isPlaying = false;
-                }
-            }
-            else {
-                // User cancelled the save operation -- cancel play as well.
-                EditorApplication.isPlaying = false;
-            }
-        }
-
-        // isPlaying check required because cannot OpenScene while playing
-        if (!EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode) {
-            // User pressed stop -- reload previous scene.
-            try {
-                EditorSceneManager.OpenScene(PreviousScene);
-            }
-            catch {
-                Debug.LogError(string.Format("error: scene not found: {0}", PreviousScene));
-            }
-        }
-    }
-
-    // Properties are remembered as editor preferences.
-    private const string CEditorPrefLoadMasterOnPlay = "SceneAutoLoader.LoadMasterOnPlay";
-    private const string CEditorPrefMasterScene = "SceneAutoLoader.MasterScene";
-    private const string CEditorPrefPreviousScene = "SceneAutoLoader.PreviousScene";
-
-    public static bool LoadMasterOnPlay {
-        get { return EditorPrefs.GetBool(CEditorPrefLoadMasterOnPlay, false); }
-        set { EditorPrefs.SetBool(CEditorPrefLoadMasterOnPlay, value); }
-    }
-
-    private static string MasterScene {
-        get { return EditorPrefs.GetString(CEditorPrefMasterScene, "Master.unity"); }
-        set { EditorPrefs.SetString(CEditorPrefMasterScene, value); }
-    }
-
-    private static string PreviousScene {
-        get { return EditorPrefs.GetString(CEditorPrefPreviousScene, EditorSceneManager.GetActiveScene().path); }
-        set { EditorPrefs.SetString(CEditorPrefPreviousScene, value); }
-    }
-}
+//
+//
+// /// <summary>
+// /// Scene auto loader.
+// /// </summary>
+// /// <description>
+// /// This class adds a File > Scene Autoload menu containing options to select
+// /// a "master scene" enable it to be auto-loaded when the user presses play
+// /// in the editor. When enabled, the selected scene will be loaded on play,
+// /// then the original scene will be reloaded on stop.
+// ///
+// /// Based on an idea on this thread:
+// /// http://forum.unity3d.com/threads/157502-Executing-first-scene-in-build-settings-when-pressing-play-button-in-editor
+// /// </description>
+// [InitializeOnLoad]
+// static class SceneAutoLoader {
+//     // Static constructor binds a playmode-changed callback.
+//     // [InitializeOnLoad] above makes sure this gets executed.
+//     static SceneAutoLoader() {
+//         EditorApplication.playModeStateChanged += OnPlayModeChanged;
+//     }
+//
+//     // Menu items to select the "master" scene and control whether or not to load it.
+//     [MenuItem("File/Scene Autoload/Select Master Scene...")]
+//     private static void SelectMasterScene() {
+//         string masterScene = EditorUtility.OpenFilePanel("Select Master Scene", Application.dataPath, "unity");
+//         masterScene = masterScene.Replace(Application.dataPath, "Assets"); //project relative instead of absolute path
+//         if (!string.IsNullOrEmpty(masterScene)) {
+//             MasterScene = masterScene;
+//             LoadMasterOnPlay = true;
+//         }
+//     }
+//
+//     [MenuItem("File/Scene Autoload/Load Master On Play", true)]
+//     private static bool ShowLoadMasterOnPlay() {
+//         return !LoadMasterOnPlay;
+//     }
+//
+//     [MenuItem("File/Scene Autoload/Load Master On Play")]
+//     private static void EnableLoadMasterOnPlay() {
+//         LoadMasterOnPlay = true;
+//     }
+//
+//     [MenuItem("File/Scene Autoload/Don't Load Master On Play", true)]
+//     private static bool ShowDontLoadMasterOnPlay() {
+//         return LoadMasterOnPlay;
+//     }
+//
+//     [MenuItem("File/Scene Autoload/Don't Load Master On Play")]
+//     private static void DisableLoadMasterOnPlay() {
+//         LoadMasterOnPlay = false;
+//     }
+//
+//     // Play mode change callback handles the scene load/reload.
+//     private static void OnPlayModeChanged(PlayModeStateChange state) {
+//         if (!LoadMasterOnPlay) {
+//             return;
+//         }
+//
+//
+//         if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode) {
+//             // User pressed play -- autoload master scene.
+//             PreviousScene = EditorSceneManager.GetActiveScene().path;
+//
+//
+//             //if the scene is not in scenes build list cancel
+//             if (SceneUtility.GetBuildIndexByScenePath(PreviousScene) == -1) return;
+//
+//             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
+//                 try {
+//                     EditorSceneManager.OpenScene(MasterScene);
+//                 }
+//                 catch {
+//                     Debug.LogError(string.Format("error: scene not found: {0}", MasterScene));
+//                     EditorApplication.isPlaying = false;
+//                 }
+//             }
+//             else {
+//                 // User cancelled the save operation -- cancel play as well.
+//                 EditorApplication.isPlaying = false;
+//             }
+//         }
+//
+//         // isPlaying check required because cannot OpenScene while playing
+//         if (!EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode) {
+//             // User pressed stop -- reload previous scene.
+//             try {
+//                 EditorSceneManager.OpenScene(PreviousScene);
+//             }
+//             catch {
+//                 Debug.LogError(string.Format("error: scene not found: {0}", PreviousScene));
+//             }
+//         }
+//     }
+//
+//     // Properties are remembered as editor preferences.
+//     private const string CEditorPrefLoadMasterOnPlay = "SceneAutoLoader.LoadMasterOnPlay";
+//     private const string CEditorPrefMasterScene = "SceneAutoLoader.MasterScene";
+//     private const string CEditorPrefPreviousScene = "SceneAutoLoader.PreviousScene";
+//
+//     public static bool LoadMasterOnPlay {
+//         get { return EditorPrefs.GetBool(CEditorPrefLoadMasterOnPlay, false); }
+//         set { EditorPrefs.SetBool(CEditorPrefLoadMasterOnPlay, value); }
+//     }
+//
+//     private static string MasterScene {
+//         get { return EditorPrefs.GetString(CEditorPrefMasterScene, "Master.unity"); }
+//         set { EditorPrefs.SetString(CEditorPrefMasterScene, value); }
+//     }
+//
+//     private static string PreviousScene {
+//         get { return EditorPrefs.GetString(CEditorPrefPreviousScene, EditorSceneManager.GetActiveScene().path); }
+//         set { EditorPrefs.SetString(CEditorPrefPreviousScene, value); }
+//     }
+// }
 #endif
