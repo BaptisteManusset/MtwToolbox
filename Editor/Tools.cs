@@ -1,4 +1,5 @@
-﻿using AssetUsageDetectorNamespace;
+﻿using ArdenfallEditor.Utility;
+using AssetUsageDetectorNamespace;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
@@ -95,15 +96,19 @@ namespace Editor {
 
 
         private void ViewMain() {
+            GUILayout.Label("Pages :");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Scenes", GUILayout.Height(50))) page = 1;
             if (GUILayout.Button("Tools", GUILayout.Height(50))) page = 2;
             if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) page = 3;
             GUILayout.EndHorizontal();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
+            GUILayout.Label("Rapide :");
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Shortcut", GUILayout.Height(50)))  Shortcut.ShowWindow();
-            if (GUILayout.Button("GameEventList", GUILayout.Height(50)))  GameEventList.ShowWindow();
+            if (GUILayout.Button("Shortcut", GUILayout.Height(50))) Shortcut.ShowWindow();
+            if (GUILayout.Button("Game Events", GUILayout.Height(50))) GameEventList.ShowWindow();
+            if (GUILayout.Button("Asset Library", GUILayout.Height(50))) AssetLibraryWindow.ShowWindow();
             GUILayout.EndHorizontal();
         }
 
