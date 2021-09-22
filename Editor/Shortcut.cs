@@ -75,6 +75,8 @@ public class Shortcut : EditorWindow {
 
     #region views
 
+    bool showPosition = true;
+
     private void ViewListOfAllSceneInBuild() {
         ReloadSceneinBuildList();
         GUILayout.BeginHorizontal();
@@ -93,9 +95,13 @@ public class Shortcut : EditorWindow {
         if (ScenesInBuildList.Count > 0) {
             // liste des scenes dispo
 
-            foreach (EditorBuildSettingsScene t in ScenesInBuildList) {
-                ViewDisplayLoadedScene(t);
-            }
+            showPosition = EditorGUILayout.Foldout(showPosition, "Scene dans la build");
+
+            if (showPosition)
+                foreach (EditorBuildSettingsScene t in ScenesInBuildList) {
+                    ViewDisplayLoadedScene(t);
+                }
+
 
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         }
@@ -173,7 +179,7 @@ public class Shortcut : EditorWindow {
         }
 
         //selection le fichier de la scéne
-        if (GUILayout.Button("Ping")) PingAssetByPath(item.path);
+        if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("d_AvatarCompass")))) PingAssetByPath(item.path);
 
         SceneButtons(item.path);
         DisplayNameAndPath(item.path);
@@ -219,8 +225,6 @@ public class Shortcut : EditorWindow {
     #region Buttons
 
     private static void SceneButtons(string path) {
-        int tab = -1;
-
         GUILayout.BeginHorizontal(EditorStyles.helpBox);
         if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_UnityEditor.Graphs.AnimatorControllerTool"), "Replace Actual Scene"))) {
             if (EditorUtility.DisplayDialog("Replace the scene", "Replace actual scene and load that scene ?", "Yes", "Cancel")) {
@@ -376,7 +380,8 @@ public class Shortcut : EditorWindow {
         GUI.backgroundColor = Color.HSVToRGB(h, 1, 1);
         GUILayout.Label(GetSubFolder(path), EditorStyles.miniButton);
         GUI.backgroundColor = Color.white;
-        GUILayout.Label($"{NameFromPath(path)}", EditorStyles.boldLabel);
+        // GUILayout.Label($"{NameFromPath(path)}", EditorStyles.boldLabel);
+        if (GUILayout.Button(NameFromPath(path), EditorStyles.boldLabel)) PingAssetByPath(path);
 
         GUILayout.FlexibleSpace();
 

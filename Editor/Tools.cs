@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Editor {
     public class Tools : EditorWindow {
-        private static int page;
+        private int page = 0;
 
         private void OnGUI() {
             switch (page) {
@@ -50,10 +50,10 @@ namespace Editor {
         #region Editor
 
         private void TopPage(string pageName = "") {
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Retour", GUILayout.Height(50), GUILayout.Width(50))) page = 0;
+            GUILayout.BeginHorizontal(GUI.skin.box);
+            if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("tab_prev@2x")), GUILayout.Height(30), GUILayout.Width(30))) page = 0;
             GUILayout.FlexibleSpace();
-            GUILayout.Label(pageName, GUILayout.Height(50));
+            GUILayout.Label(pageName, GUILayout.Height(30));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -96,8 +96,7 @@ namespace Editor {
 
 
         private void ViewMain() {
-            GUILayout.Label("Pages :");
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal(GUI.skin.box);
             if (GUILayout.Button("Scenes", GUILayout.Height(50))) page = 1;
             if (GUILayout.Button("Tools", GUILayout.Height(50))) page = 2;
             if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) page = 3;
