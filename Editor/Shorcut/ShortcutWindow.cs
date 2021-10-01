@@ -18,7 +18,7 @@ public class ShortcutWindow : EditorWindow {
 
     [MenuItem("Tools/Shortcut", false, 1)]
     public static void ShowWindow() {
-        var window = (ShortcutWindow)GetWindow(typeof(ShortcutWindow));
+        ShortcutWindow window = (ShortcutWindow)GetWindow(typeof(ShortcutWindow));
         window.Show();
         ReloadSceneinBuildList();
     }
@@ -43,10 +43,6 @@ public class ShortcutWindow : EditorWindow {
 
         View();
     }
-
-
-    bool showPosition = true;
-
     private void View() {
         ReloadSceneinBuildList();
         ViewListOfAllLoadedScenesInEditor();
@@ -81,9 +77,7 @@ public class ShortcutWindow : EditorWindow {
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             _scrollViewPosition = EditorGUILayout.BeginScrollView(_scrollViewPosition);
-            foreach (EditorBuildSettingsScene t in ScenesInBuildList) {
-                ViewDisplayLoadedScene(t);
-            }
+            foreach (EditorBuildSettingsScene t in ScenesInBuildList) ViewDisplayLoadedScene(t);
 
             EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
@@ -98,40 +92,36 @@ public class ShortcutWindow : EditorWindow {
         GUILayout.Label("Loaded", EditorStyles.largeLabel);
         GUILayout.BeginVertical(EditorStyles.helpBox);
         _scrollViewPositionEditor = EditorGUILayout.BeginScrollView(_scrollViewPositionEditor,
-            GUILayout.MinHeight(EditorSceneManager.sceneCount * 23),
+            GUILayout.MinHeight(SceneManager.sceneCount * 23),
             GUILayout.MaxHeight(position.height / 3));
 
-        for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
-            Scene scene = EditorSceneManager.GetSceneAt(i);
-
+        for (int i = 0; i < SceneManager.sceneCount; i++) {
+            Scene scene = SceneManager.GetSceneAt(i);
             GUILayout.BeginHorizontal();
 
-            if (scene.buildIndex == -1) {
+            if (scene.buildIndex == -1)
                 if (MtwStyle.ButtonIcon("CollabPush", "Activer la scene dans la builds")) {
                     Shortcut.AddSceneToBuildList(scene.path, true);
                     ReloadSceneinBuildList();
                     ShowWindow();
                 }
-            }
-
             if (MtwStyle.ButtonIcon("d_AvatarCompass")) Shortcut.PingAssetByPath(scene.path);
-
-            // GUILayout.Label(scene.name);
-
             DisplayName(scene.path);
             GUILayout.FlexibleSpace();
-            GUI.backgroundColor = Color.red;
-            if (MtwStyle.ButtonIcon("d_winbtn_win_close", "Unload")) {
-                EditorSceneManager.CloseScene(scene, true);
-            }
-
-            GUI.backgroundColor = Color.white;
+            ButtonCloseScene(scene);
             GUILayout.EndHorizontal();
         }
 
         EditorGUILayout.EndScrollView();
 
         GUILayout.EndVertical();
+    }
+
+    private static void ButtonCloseScene(Scene scene) {
+        GUI.backgroundColor = Color.red;
+        if (MtwStyle.ButtonIcon("d_winbtn_win_close", "Unload")) EditorSceneManager.CloseScene(scene, true);
+
+        GUI.backgroundColor = Color.white;
     }
 
 
@@ -142,16 +132,20 @@ public class ShortcutWindow : EditorWindow {
 
         ButtonToggleSceneInBuild(scene);
         ButtonPingAsset(scene.path);
-        GUILayout.BeginHorizontal(EditorStyles.helpBox);
+        Seperator();
         ButtonReplaceScene(scene.path);
         ButtonOpenSceneAdditive(scene.path);
-        GUILayout.EndHorizontal();
+        Seperator();
 
         DisplayName(scene.path);
         GUILayout.FlexibleSpace();
         ButtonRemoveSceneFromBuild(scene);
 
         GUILayout.EndHorizontal();
+    }
+
+    private static void Seperator() {
+        GUILayout.Label("",GUILayout.Width(0));
     }
 
 
@@ -178,18 +172,15 @@ public class ShortcutWindow : EditorWindow {
 
 
     private static void ButtonOpenSceneAdditive(string path) {
-        if (MtwStyle.ButtonIcon("CreateAddNew", "Add Scene")) {
-            EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
-        }
+        if (MtwStyle.ButtonIcon("CreateAddNew", "Add Scene")) EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
     }
 
     private static void ButtonReplaceScene(string path) {
-        if (MtwStyle.ButtonIcon("d_UnityEditor.Graphs.AnimatorControllerTool", "Replace Actual Scene")) {
+        if (MtwStyle.ButtonIcon("d_UnityEditor.Graphs.AnimatorControllerTool", "Replace Actual Scene"))
             if (EditorUtility.DisplayDialog("Replace the scene", "Replace actual scene and load that scene ?", "Yes", "Cancel")) {
                 EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                 EditorSceneManager.OpenScene(path);
             }
-        }
     }
 
 
@@ -211,7 +202,7 @@ public class ShortcutWindow : EditorWindow {
     }
 
     /// <summary>
-    /// selection le fichier de la scéne
+    ///     selection le fichier de la scéne
     /// </summary>
     /// <param name="path"></param>
     private static void ButtonPingAsset(string path) {
@@ -226,9 +217,7 @@ public class ShortcutWindow : EditorWindow {
     //display all Layer for the camera
     private void EnableTrueVision() {
         Camera[] cams = FindObjectsOfType<Camera>();
-        foreach (Camera cam in cams) {
-            cam.cullingMask = -1;
-        }
+        foreach (Camera cam in cams) cam.cullingMask = -1;
     }
 
 

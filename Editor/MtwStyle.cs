@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace ItsBaptiste {
     public static class MtwStyle {
-        public static GUIStyle StyleButton = new GUIStyle(GUI.skin.button) {
+        public static readonly GUIStyle StyleButton = new GUIStyle(GUI.skin.button) {
             richText = true
         };
 
-        public static GUIStyle StyleFolder = new GUIStyle(GUI.skin.label) {
+        public static readonly GUIStyle StyleFolder = new GUIStyle(GUI.skin.label) {
             richText = true,
             fontSize = 10,
             alignment = TextAnchor.MiddleRight
         };
 
-        public static readonly GUIStyle StyleTxt = new GUIStyle() {
+        public static readonly GUIStyle StyleTxt = new GUIStyle {
             richText = true
         };
 
