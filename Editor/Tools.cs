@@ -105,7 +105,7 @@ namespace Editor {
 
             GUILayout.Label("Rapide :");
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Shortcut", GUILayout.Height(50))) Shortcut.ShowWindow();
+            if (GUILayout.Button("Shortcut", GUILayout.Height(50))) ShortcutWindow.ShowWindow();
             if (GUILayout.Button("Game Events", GUILayout.Height(50))) GameEventList.ShowWindow();
             if (GUILayout.Button("Asset Library", GUILayout.Height(50))) AssetLibraryWindow.ShowWindow();
             GUILayout.EndHorizontal();
