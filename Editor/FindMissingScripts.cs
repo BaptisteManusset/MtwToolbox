@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Toolbox.Editor {
     public class FindMissingScripts : EditorWindow {
-        private static int goCount, componentsCount, missingCount;
+        private static int _goCount, _componentsCount, _missingCount;
 
         public void OnGUI() {
             if (GUILayout.Button("Find Missing Scripts in selected GameObjects")) FindInSelected();
@@ -15,22 +15,26 @@ namespace Toolbox.Editor {
         }
 
         private static void FindInSelected() {
-            GameObject[] go = Selection.gameObjects;
-            goCount = 0;
-            componentsCount = 0;
-            missingCount = 0;
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            
+            
+            // GameObject[] go = Selection.gameObjects;
+            GameObject[] go = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+            _goCount = 0;
+            _componentsCount = 0;
+            _missingCount = 0;
             foreach (GameObject g in go) FindInGO(g);
 
-            Debug.Log($"Searched {goCount} GameObjects, {componentsCount} components, found {missingCount} missing");
+            Debug.Log($"Searched {_goCount} GameObjects, {_componentsCount} components, found {_missingCount} missing");
         }
 
         private static void FindInGO(GameObject g) {
-            goCount++;
+            _goCount++;
             Component[] components = g.GetComponents<Component>();
             for (int i = 0; i < components.Length; i++) {
-                componentsCount++;
+                _componentsCount++;
                 if (components[i] == null) {
-                    missingCount++;
+                    _missingCount++;
                     string s = g.name;
                     Transform t = g.transform;
                     while (t.parent != null) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Toolbox.Editor {
     public static class SaveProjectWhenUnfocusingUnity {
-        private static bool wasFocused;
+        private static bool _wasFocused;
 
         [InitializeOnLoadMethod]
         private static void Init() {
@@ -15,10 +15,10 @@ namespace Toolbox.Editor {
         private static void CheckApplicationFocus() {
             bool isFocused = InternalEditorUtility.isApplicationActive;
 
-            if (isFocused == false && wasFocused) {
+            if (isFocused == false && _wasFocused) {
                 AssetDatabase.SaveAssets();
             }
-            wasFocused = isFocused;
+            _wasFocused = isFocused;
         }
     }
 }

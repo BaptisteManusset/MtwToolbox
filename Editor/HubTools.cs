@@ -1,5 +1,6 @@
 ﻿using ArdenfallEditor.Utility;
 using AssetUsageDetectorNamespace;
+using ItsBaptiste;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
@@ -9,11 +10,11 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Editor {
-    public class Tools : EditorWindow {
-        private int page = 0;
+    public class HubTools : EditorWindow {
+        private int _page = 0;
 
         private void OnGUI() {
-            switch (page) {
+            switch (_page) {
                 default:
                     ViewMain();
                     break;
@@ -32,8 +33,8 @@ namespace Editor {
 
         [MenuItem("Tools/Tools", priority = -1000)]
         private static void ShowWindow() {
-            Tools window = GetWindow<Tools>();
-            window.titleContent = new GUIContent("Tools");
+            HubTools window = GetWindow<HubTools>();
+            window.titleContent = new GUIContent(nameof(HubTools));
             window.Show();
         }
 
@@ -51,7 +52,7 @@ namespace Editor {
 
         private void TopPage(string pageName = "") {
             GUILayout.BeginHorizontal(GUI.skin.box);
-            if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("tab_prev@2x")), GUILayout.Height(30), GUILayout.Width(30))) page = 0;
+            if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("tab_prev@2x")), GUILayout.Height(30), GUILayout.Width(30))) _page = 0;
             GUILayout.FlexibleSpace();
             GUILayout.Label(pageName, GUILayout.Height(30));
             GUILayout.FlexibleSpace();
@@ -97,9 +98,9 @@ namespace Editor {
 
         private void ViewMain() {
             GUILayout.BeginHorizontal(GUI.skin.box);
-            if (GUILayout.Button("Scenes", GUILayout.Height(50))) page = 1;
-            if (GUILayout.Button("Tools", GUILayout.Height(50))) page = 2;
-            if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) page = 3;
+            if (GUILayout.Button("Scenes", GUILayout.Height(50))) _page = 1;
+            if (GUILayout.Button("Tools", GUILayout.Height(50))) _page = 2;
+            if (GUILayout.Button("Scene Tools", GUILayout.Height(50))) _page = 3;
             GUILayout.EndHorizontal();
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -108,6 +109,10 @@ namespace Editor {
             if (GUILayout.Button("Shortcut", GUILayout.Height(50))) ShortcutWindow.ShowWindow();
             if (GUILayout.Button("Game Events", GUILayout.Height(50))) GameEventList.ShowWindow();
             if (GUILayout.Button("Asset Library", GUILayout.Height(50))) AssetLibraryWindow.ShowWindow();
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Fbx 2 Prefab", GUILayout.Height(50))) Fbx2PrefabWindow.ShowWindow();
+            if (GUILayout.Button("Scene approval", GUILayout.Height(50))) SceneApproval.ShowWindow();
             GUILayout.EndHorizontal();
         }
 
