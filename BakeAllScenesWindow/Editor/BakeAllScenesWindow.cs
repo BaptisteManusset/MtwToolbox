@@ -16,20 +16,20 @@ public class BakeAllScenesWindow : EditorWindow {
         numberOfScenes = EditorGUILayout.IntField("Number of scenes", numberOfScenes);
         if (numberOfScenes > scenes.Length) {
             // Number of scenes has increased, copy the current ones and leave space for new ones
-            SceneAsset[] copy = (SceneAsset[]) scenes.Clone();
+            SceneAsset[] copy = (SceneAsset[])scenes.Clone();
             scenes = new SceneAsset[numberOfScenes];
             for (int i = 0; i < copy.Length; i++) scenes[i] = copy[i];
         }
         else if (numberOfScenes < scenes.Length) {
             // Number of scenes has decreased, remove the last ones
-            SceneAsset[] copy = (SceneAsset[]) scenes.Clone();
+            SceneAsset[] copy = (SceneAsset[])scenes.Clone();
             scenes = new SceneAsset[numberOfScenes];
             for (int i = 0; i < scenes.Length; i++) scenes[i] = copy[i];
         }
 
         // if numberOfScenes equals scenes.Lenght, nothing has changed
         for (int i = 0; i < scenes.Length; i++)
-            scenes[i] = (SceneAsset) EditorGUILayout.ObjectField(scenes[i], typeof(SceneAsset), false);
+            scenes[i] = (SceneAsset)EditorGUILayout.ObjectField(scenes[i], typeof(SceneAsset), false);
 
         GUILayout.Space(15);
         GUILayout.Label("Include all scenes in this folder", EditorStyles.boldLabel);
@@ -76,7 +76,7 @@ public class BakeAllScenesWindow : EditorWindow {
 
     [MenuItem("Tools/AssetStore/Bake multiple scenes")]
     public static void ShowWindow() {
-        BakeAllScenesWindow window = (BakeAllScenesWindow) GetWindow(typeof(BakeAllScenesWindow));
+        BakeAllScenesWindow window = (BakeAllScenesWindow)GetWindow(typeof(BakeAllScenesWindow));
         window.titleContent.text = "Multi-scene baking";
         window.Show();
     }

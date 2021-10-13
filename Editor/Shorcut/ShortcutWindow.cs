@@ -19,6 +19,7 @@ public class ShortcutWindow : EditorWindow {
     [MenuItem("Tools/Shortcut", false, 1)]
     public static void ShowWindow() {
         ShortcutWindow window = (ShortcutWindow)GetWindow(typeof(ShortcutWindow));
+        window.name = "Shortcut";
         window.Show();
         ReloadSceneinBuildList();
     }
@@ -43,6 +44,7 @@ public class ShortcutWindow : EditorWindow {
 
         View();
     }
+
     private void View() {
         ReloadSceneinBuildList();
         ViewListOfAllLoadedScenesInEditor();
@@ -105,6 +107,7 @@ public class ShortcutWindow : EditorWindow {
                     ReloadSceneinBuildList();
                     ShowWindow();
                 }
+
             if (MtwStyle.ButtonIcon("d_AvatarCompass")) Shortcut.PingAssetByPath(scene.path);
             DisplayName(scene.path);
             GUILayout.FlexibleSpace();
@@ -145,7 +148,7 @@ public class ShortcutWindow : EditorWindow {
     }
 
     private static void Seperator() {
-        GUILayout.Label("",GUILayout.Width(0));
+        GUILayout.Label("", GUILayout.Width(0));
     }
 
 

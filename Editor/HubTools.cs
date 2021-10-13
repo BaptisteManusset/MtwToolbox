@@ -8,6 +8,7 @@ using Toolbox.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityHierarchyFolders.Editor;
 
 namespace Editor {
     public class HubTools : EditorWindow {
@@ -146,6 +147,18 @@ namespace Editor {
 
             if (GUILayout.Button("Find Missing Scripts", GUILayout.Height(50)))
                 FindMissingScripts.ShowWindow();
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Scene Initializer", GUILayout.Height(50))) {
+                string[] names = new[] { "Post process", "Ennemies", "Decor Statique", "Decor Dynamic", "Technique", "Interactable" };
+
+                foreach (string n in names) {
+                    FolderEditorUtils.AddFolderPrefab(n);
+                }
+            }
 
             GUILayout.EndHorizontal();
         }
