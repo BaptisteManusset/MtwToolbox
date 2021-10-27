@@ -4,6 +4,7 @@ using ItsBaptiste;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
+using ItsBaptiste.Windows;
 using Toolbox.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;

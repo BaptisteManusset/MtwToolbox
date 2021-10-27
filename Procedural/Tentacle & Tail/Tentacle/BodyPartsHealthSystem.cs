@@ -1,5 +1,5 @@
-﻿using ItsBaptiste.Interface;
-using ItsBaptiste.Main;
+﻿using ItsBaptiste.Core;
+using ItsBaptiste.Interface;
 using UnityEngine;
 
 namespace Toolbox.Procedural.Tentacle {
