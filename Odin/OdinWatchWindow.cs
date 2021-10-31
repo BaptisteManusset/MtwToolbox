@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 #if ODIN_INSPECTOR
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class OdinWatchWindow : OdinEditorWindow {
             property = property.Copy();
             menu.AddItem(new GUIContent("Watch"), false, () => {
                 ShowMenu();
-                PropertyTree tree = Sirenix.OdinInspector.Editor.PropertyTree.Create(new SerializedObject(property.serializedObject.targetObject));
+                PropertyTree tree = PropertyTree.Create(new SerializedObject(property.serializedObject.targetObject));
                 TreeValuesHolder holder = _instance._properties.FirstOrDefault(o => (object)o.Tree.WeakTargets[0] == property.serializedObject.targetObject);
                 if (holder == null) {
                     holder = new TreeValuesHolder(tree);
@@ -54,7 +55,7 @@ public class OdinWatchWindow : OdinEditorWindow {
 
     public static void AddWatch(InspectorProperty property) {
         ShowMenu();
-        PropertyTree tree = Sirenix.OdinInspector.Editor.PropertyTree.Create(property.Tree.WeakTargets, new SerializedObject(property.Tree.UnitySerializedObject.targetObject));
+        PropertyTree tree = PropertyTree.Create(property.Tree.WeakTargets, new SerializedObject(property.Tree.UnitySerializedObject.targetObject));
         TreeValuesHolder holder = _instance._properties.FirstOrDefault(o => o.Tree.WeakTargets[0] == property.Tree.WeakTargets[0]);
         if (holder == null) {
             holder = new TreeValuesHolder(tree);
@@ -229,7 +230,7 @@ public class OdinWatchWindow : OdinEditorWindow {
                 if (Target == null)
                     return false;
                 GetParentObject();
-                Tree = Sirenix.OdinInspector.Editor.PropertyTree.Create(new List<Object> { Target }, ParentObject != null ? new SerializedObject(ParentObject) : null);
+                Tree = PropertyTree.Create(new List<Object> { Target }, ParentObject != null ? new SerializedObject(ParentObject) : null);
             }
 
             return true;
@@ -272,4 +273,5 @@ public class OdinWatchWindowContextMenuDrawer<T> : OdinValueDrawer<T>, IDefinesG
     }
 }
 
+#endif
 #endif
