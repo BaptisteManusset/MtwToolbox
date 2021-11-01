@@ -11,10 +11,23 @@ using UnityEngine.SceneManagement;
 
 public class ShortcutWindow : EditorWindow {
     private static readonly List<EditorBuildSettingsScene> ScenesInBuildList = new List<EditorBuildSettingsScene>();
-    private int _tab;
     private static int _scriptableSelected = 0;
 
     private static Vector2 _scrollPosition = Vector2.zero;
+
+
+    private Vector2 _scrollViewPosition;
+    private Vector2 _scrollViewPositionEditor;
+    private int _tab;
+
+    private void OnGUI() {
+        if (EditorApplication.isPlaying) {
+            ViewOnPlay();
+            return;
+        }
+
+        View();
+    }
 
     [MenuItem("Tools/Shortcut", false, 1)]
     public static void ShowWindow() {
@@ -34,15 +47,6 @@ public class ShortcutWindow : EditorWindow {
         path = path.Split('/')[0];
         if (path.Contains(".unity")) path = "";
         return path;
-    }
-
-    private void OnGUI() {
-        if (EditorApplication.isPlaying) {
-            ViewOnPlay();
-            return;
-        }
-
-        View();
     }
 
     private void View() {
@@ -121,30 +125,37 @@ public class ShortcutWindow : EditorWindow {
     }
 
     private static void ButtonCloseScene(Scene scene) {
-        GUI.backgroundColor = Color.red;
-        if (MtwStyle.ButtonIcon("d_winbtn_win_close", "Unload")) EditorSceneManager.CloseScene(scene, true);
-
-        GUI.backgroundColor = Color.white;
+        // GUI.backgroundColor = Color.red;
+        if (MtwStyle.ButtonIcon("d_Toolbar Minus", "Unload")) EditorSceneManager.CloseScene(scene, true);
+        // GUI.backgroundColor = Color.white;
     }
 
 
     private void ViewDisplayLoadedScene(EditorBuildSettingsScene scene) {
-        GUILayout.BeginHorizontal();
+        bool sceneIsLoaded = SceneManager.GetSceneByPath(scene.path).isLoaded;
 
-        //change l'etat de la scene entre actif et desactiver & change le voyant
+        GUI.backgroundColor = sceneIsLoaded ? Color.green : Color.white;
+        using (new GUILayout.HorizontalScope("Button")) {
+            GUI.backgroundColor = Color.white;
+            //change l'etat de la scene entre actif et desactiver & change le voyant
 
-        ButtonToggleSceneInBuild(scene);
-        ButtonPingAsset(scene.path);
-        Seperator();
-        ButtonReplaceScene(scene.path);
-        ButtonOpenSceneAdditive(scene.path);
-        Seperator();
+            ButtonToggleSceneInBuild(scene);
+            ButtonPingAsset(scene.path);
+            Seperator();
+            ButtonReplaceScene(scene.path);
+            if (sceneIsLoaded) {
+                ButtonCloseScene(EditorSceneManager.GetSceneByPath(scene.path));
+            }
+            else {
+                ButtonOpenSceneAdditive(scene.path);
+            }
 
-        DisplayName(scene.path);
-        GUILayout.FlexibleSpace();
-        ButtonRemoveSceneFromBuild(scene);
+            Seperator();
 
-        GUILayout.EndHorizontal();
+            DisplayName(scene.path);
+            GUILayout.FlexibleSpace();
+            ButtonRemoveSceneFromBuild(scene);
+        }
     }
 
     private static void Seperator() {
@@ -213,10 +224,6 @@ public class ShortcutWindow : EditorWindow {
     }
 
 
-    private Vector2 _scrollViewPosition;
-    private Vector2 _scrollViewPositionEditor;
-
-
     //display all Layer for the camera
     private void EnableTrueVision() {
         Camera[] cams = FindObjectsOfType<Camera>();
@@ -225,8 +232,10 @@ public class ShortcutWindow : EditorWindow {
 
 
     public static void DisplayName(string path) {
+        string name = Shortcut.NameFromPath(path);
         MtwStyle.Label(path, GetSubFolder(path));
-        if (GUILayout.Button(Shortcut.NameFromPath(path), EditorStyles.boldLabel)) Shortcut.PingAssetByPath(path);
+        if (GUILayout.Button(new GUIContent(name, name), EditorStyles.boldLabel)) Shortcut.PingAssetByPath(path);
+        // if (GUILayout.Button(Shortcut.NameFromPath(path), EditorStyles.boldLabel)) Shortcut.PingAssetByPath(path);
 
         GUILayout.FlexibleSpace();
     }
