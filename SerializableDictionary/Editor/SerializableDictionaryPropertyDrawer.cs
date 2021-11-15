@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -32,23 +33,23 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer {
     static SerializableDictionaryPropertyDrawer() {
         Dictionary<SerializedPropertyType, string> serializedPropertyValueAccessorsNameDict =
             new Dictionary<SerializedPropertyType, string> {
-                {SerializedPropertyType.Integer, "intValue"},
-                {SerializedPropertyType.Boolean, "boolValue"},
-                {SerializedPropertyType.Float, "floatValue"},
-                {SerializedPropertyType.String, "stringValue"},
-                {SerializedPropertyType.Color, "colorValue"},
-                {SerializedPropertyType.ObjectReference, "objectReferenceValue"},
-                {SerializedPropertyType.LayerMask, "intValue"},
-                {SerializedPropertyType.Enum, "intValue"},
-                {SerializedPropertyType.Vector2, "vector2Value"},
-                {SerializedPropertyType.Vector3, "vector3Value"},
-                {SerializedPropertyType.Vector4, "vector4Value"},
-                {SerializedPropertyType.Rect, "rectValue"},
-                {SerializedPropertyType.ArraySize, "intValue"},
-                {SerializedPropertyType.Character, "intValue"},
-                {SerializedPropertyType.AnimationCurve, "animationCurveValue"},
-                {SerializedPropertyType.Bounds, "boundsValue"},
-                {SerializedPropertyType.Quaternion, "quaternionValue"}
+                { SerializedPropertyType.Integer, "intValue" },
+                { SerializedPropertyType.Boolean, "boolValue" },
+                { SerializedPropertyType.Float, "floatValue" },
+                { SerializedPropertyType.String, "stringValue" },
+                { SerializedPropertyType.Color, "colorValue" },
+                { SerializedPropertyType.ObjectReference, "objectReferenceValue" },
+                { SerializedPropertyType.LayerMask, "intValue" },
+                { SerializedPropertyType.Enum, "intValue" },
+                { SerializedPropertyType.Vector2, "vector2Value" },
+                { SerializedPropertyType.Vector3, "vector3Value" },
+                { SerializedPropertyType.Vector4, "vector4Value" },
+                { SerializedPropertyType.Rect, "rectValue" },
+                { SerializedPropertyType.ArraySize, "intValue" },
+                { SerializedPropertyType.Character, "intValue" },
+                { SerializedPropertyType.AnimationCurve, "animationCurveValue" },
+                { SerializedPropertyType.Bounds, "boundsValue" },
+                { SerializedPropertyType.Quaternion, "quaternionValue" }
             };
         Type serializedPropertyType = typeof(SerializedProperty);
 
@@ -387,7 +388,7 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer {
     }
 
     private static void SetPropertyValueArray(SerializedProperty property, object v) {
-        object[] array = (object[]) v;
+        object[] array = (object[])v;
         property.arraySize = array.Length;
         for (int i = 0; i < property.arraySize; i++) {
             SerializedProperty item = property.GetArrayElementAtIndex(i);
@@ -396,7 +397,7 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer {
     }
 
     private static void SetPropertyValueGeneric(SerializedProperty property, object v) {
-        Dictionary<string, object> dict = (Dictionary<string, object>) v;
+        Dictionary<string, object> dict = (Dictionary<string, object>)v;
         SerializedProperty iterator = property.Copy();
         if (iterator.Next(true)) {
             SerializedProperty end = property.GetEndProperty();
@@ -409,8 +410,8 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer {
 
     private static bool ComparePropertyValues(object value1, object value2) {
         if (value1 is Dictionary<string, object> && value2 is Dictionary<string, object>) {
-            Dictionary<string, object> dict1 = (Dictionary<string, object>) value1;
-            Dictionary<string, object> dict2 = (Dictionary<string, object>) value2;
+            Dictionary<string, object> dict1 = (Dictionary<string, object>)value1;
+            Dictionary<string, object> dict2 = (Dictionary<string, object>)value2;
             return CompareDictionaries(dict1, dict2);
         }
 
@@ -503,3 +504,4 @@ public class SerializableDictionaryStoragePropertyDrawer : PropertyDrawer {
         return EditorGUI.GetPropertyHeight(property);
     }
 }
+#endif

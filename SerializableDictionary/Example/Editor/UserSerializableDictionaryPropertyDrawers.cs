@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 
 [CustomPropertyDrawer(typeof(StringStringDictionary))]
 [CustomPropertyDrawer(typeof(ObjectColorDictionary))]
@@ -7,3 +8,4 @@ public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPro
 
 [CustomPropertyDrawer(typeof(ColorArrayStorage))]
 public class AnySerializableDictionaryStoragePropertyDrawer : SerializableDictionaryStoragePropertyDrawer { }
+#endif

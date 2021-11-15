@@ -133,10 +133,10 @@ namespace ItsBaptiste {
         }
 
         public static string NameFromPath(string path) {
-            //string path = SceneUtility.GetScenePathByBuildIndex(BuildIndex);
             var slash = path.LastIndexOf('/');
             var name = path.Substring(slash + 1);
             var dot = name.LastIndexOf('.');
+            dot = Mathf.Max(0, dot); // wtf sans ça je ne peux pas build l'application meme si la class est entourée par un unity_editor Uu
             return name.Substring(0, dot);
         }
 
