@@ -1,7 +1,6 @@
 ﻿using System;
 #if UNITY_EDITOR
 using JetBrains.Annotations;
-using NaughtyAttributes;
 #endif
 using UnityEngine;
 
