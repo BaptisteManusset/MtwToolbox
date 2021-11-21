@@ -40,11 +40,15 @@ namespace Editor {
             window.Show();
         }
 
+        [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Notion")]
+        private static void OpenNotion() => Application.OpenURL("https://www.notion.so/itsbaptiste/Gamedev-84e8cb13359c48d9be7d8662591e9bc8");
+
         [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Trello")]
         private static void OpenTrello() => Application.OpenURL("https://trello.com/b/X2LKhO8w/unity");
 
+
         [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Inspiration")]
-        private static void OpenInspi() => Application.OpenURL("https://drive.google.com/drive/u/0/folders/1hBiQjx4Kr3m9LdXd6tDmEmHDpkZWmLQm");
+        private static void OpenInspiration() => Application.OpenURL("https://drive.google.com/drive/u/1/folders/1hBiQjx4Kr3m9LdXd6tDmEmHDpkZWmLQm");
 
         [MenuItem("🌐 𝗘𝗫𝗧𝗘𝗥𝗡𝗔𝗟/Git")]
         private static void OpenGit() => Application.OpenURL("https://github.com/BaptisteManusset/ffffffps");
