@@ -48,9 +48,9 @@ namespace Toolbox.ValueAsset {
         private void OnEnable() {
             Value = initialValue;
         }
+
+        public void ResetValue() {
+            value = initialValue;
+        }
     }
 }
-
-
-
-

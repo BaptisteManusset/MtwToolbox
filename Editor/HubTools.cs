@@ -158,14 +158,18 @@ namespace Editor {
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Scene Initializer", GUILayout.Height(50))) {
-                string[] names = new[] { "Post process", "Ennemies", "Decor Statique", "Decor Dynamic", "Technique", "Interactable" };
-
-                foreach (string n in names) {
-                    FolderEditorUtils.AddFolderPrefab(n);
-                }
+                ConfigurationScene();
             }
 
             GUILayout.EndHorizontal();
+        }
+
+        private static void ConfigurationScene() {
+            string[] names = new[] { "Post process", "Ennemies", "Decor Statique", "Decor Dynamic", "Technique", "Interactable" };
+
+            foreach (string n in names) {
+                FolderEditorUtils.AddFolderPrefab(n);
+            }
         }
 
         #endregion
