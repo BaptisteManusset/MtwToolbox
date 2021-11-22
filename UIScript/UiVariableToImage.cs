@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Toolbox.UIScript {
         #pragma warning disable 0649
 
-    public class VariableToUi : MonoBehaviour {
+    public class UiVariableToImage : MonoBehaviour {
         enum Select {
             FillAmount = 1,
             Opacity = 2

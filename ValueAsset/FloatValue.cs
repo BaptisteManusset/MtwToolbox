@@ -12,5 +12,10 @@ public class FloatValue : ValueAsset<float> {
     void ButtonIncrease() {
         Value += 1;
     }
+
+    public void ResetValue() {
+
+        Value = initialValue;
+    }
 }
 #pragma warning restore 0649
