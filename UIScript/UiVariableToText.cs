@@ -23,10 +23,12 @@ namespace Toolbox.UIScript {
 
         private void OnEnable() {
             valueAsset.OnValueChange += OnValueChange;
+            OnValueChange();
         }
 
         private void OnDisable() {
             valueAsset.OnValueChange -= OnValueChange;
+            OnValueChange();
         }
 
 

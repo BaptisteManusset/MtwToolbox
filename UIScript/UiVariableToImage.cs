@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Toolbox.UIScript {
-        #pragma warning disable 0649
+#pragma warning disable 0649
 
     public class UiVariableToImage : MonoBehaviour {
         enum Select {
@@ -34,10 +34,12 @@ namespace Toolbox.UIScript {
 
         private void OnEnable() {
             valueAsset.OnValueChange += OnValueChange;
+            OnValueChange();
         }
 
         private void OnDisable() {
             valueAsset.OnValueChange -= OnValueChange;
+            OnValueChange();
         }
 
 
@@ -65,6 +67,5 @@ namespace Toolbox.UIScript {
             }
         }
     }
-        #pragma warning restore 0649
-
+#pragma warning restore 0649
 }
