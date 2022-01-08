@@ -1,6 +1,7 @@
 ﻿using ArdenfallEditor.Utility;
 using AssetUsageDetectorNamespace;
 using ItsBaptiste;
+using ItsBaptiste.Core;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
@@ -119,7 +120,17 @@ namespace Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Fbx 2 Prefab", GUILayout.Height(50))) Fbx2PrefabWindow.ShowWindow();
             if (GUILayout.Button("Scene approval", GUILayout.Height(50))) SceneApproval.ShowWindow();
+            if (GUILayout.Button("Game Variable", GUILayout.Height(50))) FindGameVariable();
             GUILayout.EndHorizontal();
+        }
+
+        private void FindGameVariable() {
+            string[] objsGuid = AssetDatabase.FindAssets("t:" + typeof(GameVariable).Name);
+     
+            Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[0]));
+            
+            AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[0])).PingInEditor();
+            // for (int i = 0; i < count; i++) objs[i] = AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[i]));
         }
 
         private void ViewToolsMenu() {
@@ -156,21 +167,21 @@ namespace Editor {
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-
-            if (GUILayout.Button("Scene Initializer", GUILayout.Height(50))) {
-                ConfigurationScene();
-            }
+            //
+            // if (GUILayout.Button("Scene Initializer", GUILayout.Height(50))) {
+            //     ConfigurationScene();
+            // }
 
             GUILayout.EndHorizontal();
         }
 
-        private static void ConfigurationScene() {
-            string[] names = new[] { "Post process", "Ennemies", "Decor Statique", "Decor Dynamic", "Technique", "Interactable" };
-
-            foreach (string n in names) {
-                FolderEditorUtils.AddFolderPrefab(n);
-            }
-        }
+        // private static void ConfigurationScene() {
+        //     string[] names = new[] { "Post process", "Ennemies", "Decor Statique", "Decor Dynamic", "Technique", "Interactable" };
+        //
+        //     foreach (string n in names) {
+        //         FolderEditorUtils.AddFolderPrefab(n);
+        //     }
+        // }
 
         #endregion
     }
