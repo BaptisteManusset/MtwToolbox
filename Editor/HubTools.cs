@@ -3,6 +3,8 @@ using AssetUsageDetectorNamespace;
 using ItsBaptiste;
 using ItsBaptiste.Core;
 using ItsBaptiste.GameEvent.Editor;
+using ItsBaptiste.Inventory.Core;
+using ItsBaptiste.LazyGun;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
 using ItsBaptiste.Windows;
@@ -120,12 +122,18 @@ namespace Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Fbx 2 Prefab", GUILayout.Height(50))) Fbx2PrefabWindow.ShowWindow();
             if (GUILayout.Button("Scene approval", GUILayout.Height(50))) SceneApproval.ShowWindow();
-            if (GUILayout.Button("Game Variable", GUILayout.Height(50))) FindGameVariable();
             GUILayout.EndHorizontal();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Game Variable", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GameVariable));
+            if (GUILayout.Button("Items object", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(Item));
+            if (GUILayout.Button("Gun Stat", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GunStat));
+            GUILayout.EndHorizontal();
+
         }
 
-        private void FindGameVariable() {
-            string[] objsGuid = AssetDatabase.FindAssets("t:" + typeof(GameVariable).Name);
+        private void FindAssetAndOpenInInspector(string name) {
+            string[] objsGuid = AssetDatabase.FindAssets("t:" + name);
      
             Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[0]));
             
