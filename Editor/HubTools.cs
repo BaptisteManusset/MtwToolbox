@@ -129,14 +129,23 @@ namespace Editor {
             if (GUILayout.Button("Items object", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(Item));
             if (GUILayout.Button("Gun Stat", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GunStat));
             GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(nameof(InputConfiguration), GUILayout.Height(50))) {
+                string[] objsGuid = AssetDatabase.FindAssets(nameof(InputConfiguration));
 
+                Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[1]));
+
+                AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[1])).PingInEditor();
+            }
+
+            GUILayout.EndHorizontal();
         }
 
         private void FindAssetAndOpenInInspector(string name) {
             string[] objsGuid = AssetDatabase.FindAssets("t:" + name);
-     
+
             Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[0]));
-            
+
             AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[0])).PingInEditor();
             // for (int i = 0; i < count; i++) objs[i] = AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[i]));
         }

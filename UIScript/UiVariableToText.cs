@@ -33,7 +33,6 @@ namespace Toolbox.UIScript {
 
 
         private void OnValueChange() {
-            Debug.Log("onvaluechange");
             _text.text = String.Format(format, valueAsset.Value);
         }
     }
