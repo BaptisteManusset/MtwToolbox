@@ -1,13 +1,12 @@
 #if UNITY_EDITOR
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ItsBaptiste {
+namespace ItsBaptiste.Toolbox.Editor.Shorcut {
     public static class Shortcut {
         public static void DisableAllScenes() {
             foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes) {

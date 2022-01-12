@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ItsBaptiste;
+using ItsBaptiste.Toolbox.Editor.Shorcut;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

@@ -1,20 +1,19 @@
 ﻿using ArdenfallEditor.Utility;
 using AssetUsageDetectorNamespace;
-using ItsBaptiste;
 using ItsBaptiste.Core;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Inventory.Core;
 using ItsBaptiste.LazyGun;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
 using ItsBaptiste.Scriptabbles.SceneLink;
+using ItsBaptiste.Toolbox.Editor.Shorcut;
 using ItsBaptiste.Windows;
 using Toolbox.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityHierarchyFolders.Editor;
 
-namespace Editor {
+namespace ItsBaptiste.Toolbox.Editor {
     public class HubTools : EditorWindow {
         private int _page = 0;
 
@@ -117,7 +116,7 @@ namespace Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Shortcut", GUILayout.Height(50))) ShortcutWindow.ShowWindow();
             if (GUILayout.Button("Game Events", GUILayout.Height(50))) GameEventList.ShowWindow();
-            if (GUILayout.Button("Asset Library", GUILayout.Height(50))) AssetLibraryWindow.ShowWindow();
+            if (GUILayout.Button("Asset Library", GUILayout.Height(50))) AssetLibraryWindow.OpenWindow();
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Fbx 2 Prefab", GUILayout.Height(50))) Fbx2PrefabWindow.ShowWindow();
