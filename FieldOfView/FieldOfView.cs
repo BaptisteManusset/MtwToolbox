@@ -1,24 +1,34 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ItsBaptiste.Core;
 using UnityEditor;
 using UnityEngine;
 
 namespace ItsBaptiste.Toolbox.FieldOfView {
     public class FieldOfView : MonoBehaviour {
-        [Header("Parametres")] [SerializeField] public FieldOfViewParam fovParam;
+        [Header("Parametres")] [Tooltip("Parametre changé dynamiquement durant le projet")] [SerializeField]
+        public FieldOfViewParam fovParam;
 
 
-        private List<Transform> visibleTargets = new List<Transform>();
+        [SerializeField] protected List<Transform> visibleTargets = new List<Transform>();
+
+        // public List<Transform> GetVisibleTargets() => visibleTargets;
+
 
         [Serializable]
         public class FieldOfViewParam {
             public float viewRadius;
             [Range(0, 360)] public float viewAngle;
+
+
             public LayerMask targetMask;
             public LayerMask obstacleMask;
         }
+
+
+        private void FixedUpdate() {
+            FindVisibleTargets();
+        }
+
 
         public void SetFieldOfView(FieldOfViewParam fieldOfViewParam) {
             fovParam = fieldOfViewParam;
@@ -26,19 +36,14 @@ namespace ItsBaptiste.Toolbox.FieldOfView {
 
         public List<Transform> FindVisibleTargets() {
             visibleTargets.Clear();
+            Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, fovParam.viewRadius,
+                fovParam.targetMask);
 
-            var slt = Physics.OverlapSphere(transform.position, fovParam.viewRadius, fovParam.targetMask).ToList();
-            List<Collider> targetsInViewRadius = slt;
-
-            for (int i = 0; i < targetsInViewRadius.Count; i++) {
+            for (int i = 0; i < targetsInViewRadius.Length; i++) {
                 Transform target = targetsInViewRadius[i].transform;
                 Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-                //verifie si l'on est dans la zone de vue
                 if (Vector3.Angle(transform.forward, dirToTarget) < fovParam.viewAngle / 2) {
                     float dstToTarget = Vector3.Distance(transform.position, target.position);
-
-                    //verifie que la cible est visible 
                     if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, fovParam.obstacleMask)) {
                         if (!visibleTargets.Contains(target))
                             visibleTargets.Add(target);
@@ -49,7 +54,6 @@ namespace ItsBaptiste.Toolbox.FieldOfView {
             return visibleTargets;
         }
 
-
         public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal) {
             if (!angleIsGlobal) {
                 angleInDegrees += transform.eulerAngles.y;
@@ -59,6 +63,7 @@ namespace ItsBaptiste.Toolbox.FieldOfView {
         }
 
 #if UNITY_EDITOR
+
         void OnDrawGizmosSelected() {
             //Draws view reach
             Handles.color = Color.white;
@@ -77,13 +82,5 @@ namespace ItsBaptiste.Toolbox.FieldOfView {
             }
         }
 #endif
-    }
-
-    public static class FieldOfViewTools {
-        public static List<Transform> IsInAnotherTeam(this List<Transform> list, TeamsInfo.Team team) {
-            return list.Where(x =>
-                x.GetComponent<TeamsInfo>() != null &&
-                x.GetComponent<TeamsInfo>().GetTeam() != team).ToList();
-        }
     }
 }
