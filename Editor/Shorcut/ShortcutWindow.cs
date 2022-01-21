@@ -22,10 +22,10 @@ public class ShortcutWindow : EditorWindow {
     private int _tab;
 
     private void OnGUI() {
-        if (EditorApplication.isPlaying) {
-            ViewOnPlay();
-            return;
-        }
+        // if (EditorApplication.isPlaying) {
+        //     ViewOnPlay();
+        //     return;
+        // }
 
         View();
     }
