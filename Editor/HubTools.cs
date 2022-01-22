@@ -1,11 +1,12 @@
 ﻿using ArdenfallEditor.Utility;
 using AssetUsageDetectorNamespace;
+using ItsBaptiste._Scripts.SceneLink;
+using ItsBaptiste._Scripts.SceneLink.Core;
 using ItsBaptiste.Core;
 using ItsBaptiste.GameEvent.Editor;
 using ItsBaptiste.Inventory.Core;
 using ItsBaptiste.LazyGun;
 using ItsBaptiste.Scriptabbles.RequiredPrefab;
-using ItsBaptiste.Scriptabbles.SceneLink;
 using ItsBaptiste.Toolbox.Editor.Shorcut;
 using ItsBaptiste.Windows;
 using Toolbox.Editor;
