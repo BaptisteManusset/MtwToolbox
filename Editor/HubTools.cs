@@ -80,7 +80,7 @@ namespace ItsBaptiste.Toolbox.Editor {
                 EditorSceneManager.OpenScene(SceneLink.Instance.menu);
                 EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.menu));
 
-                EditorSceneManager.OpenScene(SceneLink.Instance.common, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.ThePersistantScene, OpenSceneMode.Additive);
             }
 
 
@@ -91,10 +91,10 @@ namespace ItsBaptiste.Toolbox.Editor {
                 EditorSceneManager.OpenScene(SceneLink.Instance.Level);
                 EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath(SceneLink.Instance.Level));
 
-                EditorSceneManager.OpenScene(SceneLink.Instance.ingameControl, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.PersistantLevel, OpenSceneMode.Additive);
                 EditorSceneManager.OpenScene(SceneLink.Instance.hud, OpenSceneMode.Additive);
                 EditorSceneManager.OpenScene(SceneLink.Instance.player, OpenSceneMode.Additive);
-                EditorSceneManager.OpenScene(SceneLink.Instance.common, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(SceneLink.Instance.ThePersistantScene, OpenSceneMode.Additive);
             }
 
 
