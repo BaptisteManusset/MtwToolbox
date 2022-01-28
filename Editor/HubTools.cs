@@ -141,13 +141,16 @@ namespace ItsBaptiste.Toolbox.Editor {
             GUILayout.EndHorizontal();
         }
 
-        private void FindAssetAndOpenInInspector(string name) {
-            string[] objsGuid = AssetDatabase.FindAssets("t:" + name);
+        private void FindAssetAndOpenInInspector(string name, string[] folders) {
+            string[] objsGuid = AssetDatabase.FindAssets("t:" + name, folders);
 
             Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[0]));
 
             AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[0])).PingInEditor();
             // for (int i = 0; i < count; i++) objs[i] = AssetDatabase.LoadAssetAtPath<GameVariable>(AssetDatabase.GUIDToAssetPath(objsGuid[i]));
+        }
+        private void FindAssetAndOpenInInspector(string name) {
+            FindAssetAndOpenInInspector(name, new[] {"Assets/Resources","Assets/_Scripts"});
         }
 
         private void ViewToolsMenu() {

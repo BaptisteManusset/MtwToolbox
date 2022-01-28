@@ -1,4 +1,5 @@
-﻿using ItsBaptiste.Core;
+﻿using ItsBaptiste._Scripts.Core;
+using ItsBaptiste.Core;
 using ItsBaptiste.Interface;
 using UnityEngine;
 
