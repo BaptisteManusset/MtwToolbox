@@ -127,7 +127,7 @@ namespace ItsBaptiste.Toolbox.Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Game Variable", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GameVariable));
             if (GUILayout.Button("Items object", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(Item));
-            if (GUILayout.Button("Gun Stat", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GunStat));
+            if (GUILayout.Button("Gun Stat", GUILayout.Height(50))) FindAssetAndOpenInInspector(nameof(GunStatOld));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(nameof(InputConfiguration), GUILayout.Height(50))) {
