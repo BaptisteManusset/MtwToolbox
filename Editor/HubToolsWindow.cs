@@ -15,7 +15,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace ItsBaptiste.Toolbox.Editor {
-    public class HubTools : EditorWindow {
+    public class HubToolsWindow : EditorWindow {
         private int _page = 0;
 
         private void OnGUI() {
@@ -38,8 +38,8 @@ namespace ItsBaptiste.Toolbox.Editor {
 
         [MenuItem("Tools/Tools", priority = -1000)]
         private static void ShowWindow() {
-            HubTools window = GetWindow<HubTools>();
-            window.titleContent = new GUIContent(nameof(HubTools));
+            HubToolsWindow window = GetWindow<HubToolsWindow>();
+            window.titleContent = new GUIContent(nameof(HubToolsWindow));
             window.Show();
         }
 
@@ -158,9 +158,8 @@ namespace ItsBaptiste.Toolbox.Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Asset Usage Dectector", GUILayout.Height(50)))
                 AssetUsageDetectorWindow.OpenActiveWindow();
-
-            if (GUILayout.Button("Editor Icons", GUILayout.Height(50)))
-                EditorIcons.EditorIconsOpen();
+            if (GUILayout.Button("Asset Usage Dectector", GUILayout.Height(50)))
+                AssetOrganizerWindow.Open();
 
             if (GUILayout.Button("Bake All Scenes", GUILayout.Height(50)))
                 BakeAllScenesWindow.ShowWindow();
@@ -169,6 +168,9 @@ namespace ItsBaptiste.Toolbox.Editor {
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(nameof(RequiredPrefab), GUILayout.Height(50)))
                 RequiredPrefab.Instance.SelectInEditor();
+            
+            if (GUILayout.Button("Editor Icons", GUILayout.Height(50)))
+                EditorIcons.EditorIconsOpen(); 
 
 
             GUILayout.EndHorizontal();
