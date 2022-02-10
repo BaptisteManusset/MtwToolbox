@@ -40,12 +40,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.spritesAndNewNames == null)
+                if (spritesAndNewNames == null)
                 {
-                    this.spritesAndNewNames = new Dictionary<Sprite, string>();
+                    spritesAndNewNames = new Dictionary<Sprite, string>();
                 }
 
-                return this.spritesAndNewNames;
+                return spritesAndNewNames;
             }
         }
 
@@ -58,7 +58,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var pathToSprite = AssetDatabase.GetAssetPath(sprite);
 
-            var existingPathToTexture = this.GetPathToTextureForFirstSprite();
+            var existingPathToTexture = GetPathToTextureForFirstSprite();
             if (!string.IsNullOrEmpty(existingPathToTexture) && pathToSprite != existingPathToTexture)
             {
                 var exception = string.Format(
@@ -81,9 +81,9 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             // Unity doesn't let you name two sprites with the same name, so we shouldn't either.
-            var uniqueName = this.CreateSpritesheetUniqueName(newName);
+            var uniqueName = CreateSpritesheetUniqueName(newName);
 
-            this.SpritesAndNewNames.Add(sprite, uniqueName);
+            SpritesAndNewNames.Add(sprite, uniqueName);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace RedBlueGames.MulliganRenamer
         public void RenameSprites()
         {
             // Nothing to rename
-            if (this.SpritesAndNewNames == null || this.spritesAndNewNames.Count == 0)
+            if (SpritesAndNewNames == null || spritesAndNewNames.Count == 0)
             {
                 return;
             }
@@ -107,7 +107,7 @@ namespace RedBlueGames.MulliganRenamer
             string metaFileWithRenames = System.IO.File.ReadAllText(pathToTextureMetaFile);
 
             var spritesAndUniqueNames = new Dictionary<Sprite, string>();
-            foreach (var spriteNamePair in this.SpritesAndNewNames)
+            foreach (var spriteNamePair in SpritesAndNewNames)
             {
                 // First we set all sprites to a (almost) guaranteed unique name. This prevents us from
                 // naming it the same as another sprite in the sheet, which can result in both sprites being renamed and
@@ -169,7 +169,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             int repeats = 0;
             var uniqueName = newName;
-            while (this.SpritesAndNewNames.ContainsValue(uniqueName))
+            while (SpritesAndNewNames.ContainsValue(uniqueName))
             {
                 repeats++;
                 uniqueName = $"{newName}({repeats})";
@@ -180,7 +180,7 @@ namespace RedBlueGames.MulliganRenamer
 
         private string GetPathToTextureForFirstSprite()
         {
-            foreach (var spriteNamePair in this.SpritesAndNewNames)
+            foreach (var spriteNamePair in SpritesAndNewNames)
             {
                 return AssetDatabase.GetAssetPath(spriteNamePair.Key);
             }

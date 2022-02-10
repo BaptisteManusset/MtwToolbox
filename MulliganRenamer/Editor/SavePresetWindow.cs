@@ -46,7 +46,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="name">Name to edit</param>
         public void SetName(string name)
         {
-            this.enteredName = name;
+            enteredName = name;
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace RedBlueGames.MulliganRenamer
 
         private void OnEnable()
         {
-            this.existingPresetNames = new List<string>();
-            this.textFieldNeedsFocus = true;
+            existingPresetNames = new List<string>();
+            textFieldNeedsFocus = true;
         }
 
         private void OnGUI()
@@ -84,23 +84,23 @@ namespace RedBlueGames.MulliganRenamer
 
             var presetFieldName = "SavePresetField";
             GUI.SetNextControlName(presetFieldName);
-            this.enteredName = EditorGUILayout.TextField(this.enteredName);
+            enteredName = EditorGUILayout.TextField(enteredName);
 
-            if (this.textFieldNeedsFocus)
+            if (textFieldNeedsFocus)
             {
                 EditorGUI.FocusTextInControl(presetFieldName);
-                this.textFieldNeedsFocus = false;
+                textFieldNeedsFocus = false;
             }
 
-            EditorGUI.BeginDisabledGroup(!IsNameValid(this.enteredName));
-            if (GUILayout.Button("Save") || (hitEnter && IsNameValid(this.enteredName)))
+            EditorGUI.BeginDisabledGroup(!IsNameValid(enteredName));
+            if (GUILayout.Button("Save") || (hitEnter && IsNameValid(enteredName)))
             {
                 var saveAndClose = false;
-                if (this.existingPresetNames.Contains(this.enteredName))
+                if (existingPresetNames.Contains(enteredName))
                 {
                     var popupMessage = string.Format(
                         "A preset named \"{0}\" already exists. Do you want to replace it?",
-                        this.enteredName
+                        enteredName
                     );
 
                     saveAndClose = EditorUtility.DisplayDialog("Warning", popupMessage, "Replace", "No");
@@ -112,14 +112,14 @@ namespace RedBlueGames.MulliganRenamer
 
                 if (saveAndClose)
                 {
-                    this.InvokePresetSaved();
-                    this.Close();
+                    InvokePresetSaved();
+                    Close();
                 }
             }
             else
             {
                 // Keep focus on the text field
-                this.textFieldNeedsFocus = true;
+                textFieldNeedsFocus = true;
             }
 
             EditorGUI.EndDisabledGroup();
@@ -127,9 +127,9 @@ namespace RedBlueGames.MulliganRenamer
 
         private void InvokePresetSaved()
         {
-            if (this.PresetSaved != null)
+            if (PresetSaved != null)
             {
-                this.PresetSaved.Invoke(this.enteredName);
+                PresetSaved.Invoke(enteredName);
             }
         }
     }

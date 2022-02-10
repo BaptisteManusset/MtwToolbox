@@ -61,7 +61,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public EnumerateOperation()
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -71,14 +71,14 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public EnumerateOperation(EnumerateOperation operationToCopy)
         {
-            this.Initialize();
+            Initialize();
 
-            this.formatPreset = operationToCopy.formatPreset;
-            this.countFormat = operationToCopy.countFormat;
+            formatPreset = operationToCopy.formatPreset;
+            countFormat = operationToCopy.countFormat;
 
-            this.StartingCount = operationToCopy.StartingCount;
-            this.Increment = operationToCopy.Increment;
-            this.Prepend = operationToCopy.Prepend;
+            StartingCount = operationToCopy.StartingCount;
+            Increment = operationToCopy.Increment;
+            Prepend = operationToCopy.Prepend;
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.startingCount;
+                return startingCount;
             }
 
             set
             {
-                this.startingCount = value;
+                startingCount = value;
             }
         }
 
@@ -106,21 +106,21 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.formatPreset == CountFormatPreset.SingleDigit)
+                if (formatPreset == CountFormatPreset.SingleDigit)
                 {
                     return "0";
                 }
-                else if (this.formatPreset == CountFormatPreset.LeadingZero)
+                else if (formatPreset == CountFormatPreset.LeadingZero)
                 {
                     return "00";
                 }
-                else if (this.formatPreset == CountFormatPreset.Underscore)
+                else if (formatPreset == CountFormatPreset.Underscore)
                 {
                     return "_00";
                 }
                 else
                 {
-                    return this.countFormat;
+                    return countFormat;
                 }
             }
         }
@@ -132,12 +132,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.increment;
+                return increment;
             }
 
             set
             {
-                this.increment = value;
+                increment = value;
             }
         }
 
@@ -148,12 +148,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.prepend;
+                return prepend;
             }
 
             set
             {
-                this.prepend = value;
+                prepend = value;
             }
         }
 
@@ -161,7 +161,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.formatPreset;
+                return formatPreset;
             }
         }
 
@@ -174,7 +174,7 @@ namespace RedBlueGames.MulliganRenamer
             {
                 try
                 {
-                    this.StartingCount.ToString(this.CountFormat);
+                    StartingCount.ToString(CountFormat);
                     return true;
                 }
                 catch (System.FormatException)
@@ -212,17 +212,17 @@ namespace RedBlueGames.MulliganRenamer
         public RenameResult Rename(string input, int relativeCount)
         {
             var renameResult = new RenameResult();
-            if (!string.IsNullOrEmpty(input) && !this.Prepend)
+            if (!string.IsNullOrEmpty(input) && !Prepend)
             {
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
             }
 
-            if (!string.IsNullOrEmpty(this.CountFormat))
+            if (!string.IsNullOrEmpty(CountFormat))
             {
-                var currentCount = this.StartingCount + (relativeCount * this.Increment);
+                var currentCount = StartingCount + (relativeCount * Increment);
                 try
                 {
-                    var currentCountAsString = currentCount.ToString(this.CountFormat);
+                    var currentCountAsString = currentCount.ToString(CountFormat);
                     renameResult.Add(new Diff(currentCountAsString, DiffOperation.Insertion));
                 }
                 catch (System.FormatException)
@@ -231,7 +231,7 @@ namespace RedBlueGames.MulliganRenamer
                 }
             }
 
-            if (this.Prepend)
+            if (Prepend)
             {
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
             }
@@ -245,8 +245,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="format">String format to use when counting</param>
         public void SetCountFormat(string format)
         {
-            this.countFormat = format;
-            this.formatPreset = CountFormatPreset.Custom;
+            countFormat = format;
+            formatPreset = CountFormatPreset.Custom;
         }
 
 
@@ -256,7 +256,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="preset">Preset format to use when counting.</param>
         public void SetCountFormatPreset(CountFormatPreset preset)
         {
-            this.formatPreset = preset;
+            formatPreset = preset;
         }
 
         /// <summary>
@@ -268,11 +268,11 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.StartingCount.GetHashCode();
-            hash = hash * 23 + this.Increment.GetHashCode();
-            hash = hash * 23 + this.CountFormat.GetHashCode();
-            hash = hash * 23 + this.FormatPreset.GetHashCode();
-            hash = hash * 23 + this.Prepend.GetHashCode();
+            hash = hash * 23 + StartingCount.GetHashCode();
+            hash = hash * 23 + Increment.GetHashCode();
+            hash = hash * 23 + CountFormat.GetHashCode();
+            hash = hash * 23 + FormatPreset.GetHashCode();
+            hash = hash * 23 + Prepend.GetHashCode();
             return hash;
         }
 
@@ -288,27 +288,27 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.StartingCount != otherAsOp.StartingCount)
+            if (StartingCount != otherAsOp.StartingCount)
             {
                 return false;
             }
 
-            if (this.Increment != otherAsOp.Increment)
+            if (Increment != otherAsOp.Increment)
             {
                 return false;
             }
 
-            if (this.CountFormat != otherAsOp.CountFormat)
+            if (CountFormat != otherAsOp.CountFormat)
             {
                 return false;
             }
 
-            if (this.FormatPreset != otherAsOp.FormatPreset)
+            if (FormatPreset != otherAsOp.FormatPreset)
             {
                 return false;
             }
 
-            if (this.Prepend != otherAsOp.Prepend)
+            if (Prepend != otherAsOp.Prepend)
             {
                 return false;
             }
@@ -318,14 +318,14 @@ namespace RedBlueGames.MulliganRenamer
 
         private void Initialize()
         {
-            this.Increment = 1;
+            Increment = 1;
 
             // Give it an initially valid count format
-            this.countFormat = "0";
+            countFormat = "0";
 
             // Start in Single digit just because it's more readable and shows the user
             // what to do.
-            this.formatPreset = CountFormatPreset.SingleDigit;
+            formatPreset = CountFormatPreset.SingleDigit;
         }
     }
 }

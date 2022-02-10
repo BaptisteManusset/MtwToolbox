@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Toolbox.ValueAsset {
+namespace ItsBaptiste.Toolbox.ValueAsset.Main {
 #if UNITY_EDITOR
     [CustomEditor(typeof(ValueAsset<>))]
     public class ValueAssetEditor : Editor {

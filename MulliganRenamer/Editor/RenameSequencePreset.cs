@@ -28,7 +28,7 @@ namespace RedBlueGames.MulliganRenamer
     using UnityEngine;
 
     [System.Serializable]
-    public class RenameSequencePreset : UnityEngine.ISerializationCallbackReceiver
+    public class RenameSequencePreset : ISerializationCallbackReceiver
     {
         [SerializeField]
         private string name;
@@ -42,11 +42,11 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.name;
+                return name;
             }
             set
             {
-                this.name = value;
+                name = value;
             }
         }
 
@@ -54,31 +54,31 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.operationSequence;
+                return operationSequence;
             }
 
             set
             {
-                this.operationSequence = value;
+                operationSequence = value;
             }
         }
 
         public void OnBeforeSerialize()
         {
-            if (this.OperationSequence != null)
+            if (OperationSequence != null)
             {
-                this.serializedOperationSequence = this.OperationSequence.ToSerializableString();
+                serializedOperationSequence = OperationSequence.ToSerializableString();
             }
             else
             {
-                this.serializedOperationSequence = string.Empty;
+                serializedOperationSequence = string.Empty;
             }
         }
 
         public void OnAfterDeserialize()
         {
-            this.operationSequence = RenameOperationSequence<IRenameOperation>.FromString(
-                this.serializedOperationSequence);
+            operationSequence = RenameOperationSequence<IRenameOperation>.FromString(
+                serializedOperationSequence);
         }
 
         public override int GetHashCode()
@@ -100,12 +100,12 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.Name != otherPreset.Name)
+            if (Name != otherPreset.Name)
             {
                 return false;
             }
 
-            return this.OperationSequence.Equals(otherPreset.OperationSequence);
+            return OperationSequence.Equals(otherPreset.OperationSequence);
         }
     }
 }

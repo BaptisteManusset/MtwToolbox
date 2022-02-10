@@ -62,12 +62,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.previousSequence;
+                return previousSequence;
             }
 
             set
             {
-                this.previousSequence = value;
+                previousSequence = value;
             }
         }
 
@@ -78,12 +78,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.savedPresets;
+                return savedPresets;
             }
 
             set
             {
-                this.savedPresets = value;
+                savedPresets = value;
             }
         }
 
@@ -94,12 +94,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.lastUsedPresetName;
+                return lastUsedPresetName;
             }
 
             set
             {
-                this.lastUsedPresetName = value;
+                lastUsedPresetName = value;
             }
         }
 
@@ -110,8 +110,8 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                var names = new List<string>(this.savedPresets.Count);
-                foreach (var preset in this.savedPresets)
+                var names = new List<string>(savedPresets.Count);
+                foreach (var preset in savedPresets)
                 {
                     names.Add(preset.Name);
                 }
@@ -128,12 +128,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.numSessionsUsed;
+                return numSessionsUsed;
             }
 
             set
             {
-                this.numSessionsUsed = value;
+                numSessionsUsed = value;
             }
         }
 
@@ -144,12 +144,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.hasClickedPrompt;
+                return hasClickedPrompt;
             }
 
             set
             {
-                this.hasClickedPrompt = value;
+                hasClickedPrompt = value;
             }
         }
 
@@ -160,8 +160,8 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                var hasBeenUsedEnough = this.NumSessionsUsed >= NumberOfSessionsBeforeReviewPrompt;
-                return hasBeenUsedEnough && !this.HasConfirmedReviewPrompt;
+                var hasBeenUsedEnough = NumSessionsUsed >= NumberOfSessionsBeforeReviewPrompt;
+                return hasBeenUsedEnough && !HasConfirmedReviewPrompt;
             }
         }
 
@@ -172,10 +172,10 @@ namespace RedBlueGames.MulliganRenamer
         {
             // Default previous sequence to a replace string op just because it's
             // most user friendly
-            this.previousSequence = new RenameOperationSequence<IRenameOperation>();
-            this.previousSequence.Add(new ReplaceStringOperation());
+            previousSequence = new RenameOperationSequence<IRenameOperation>();
+            previousSequence.Add(new ReplaceStringOperation());
 
-            this.savedPresets = new List<RenameSequencePreset>();
+            savedPresets = new List<RenameSequencePreset>();
         }
 
         /// <summary>
@@ -185,10 +185,10 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preset with the specified name, if it exists; null otherwise</returns>
         public RenameSequencePreset FindSavedPresetWithName(string name)
         {
-            var index = this.FindIndexOfSavedPresetWithName(name);
+            var index = FindIndexOfSavedPresetWithName(name);
             if (index >= 0)
             {
-                return this.SavedPresets[index];
+                return SavedPresets[index];
             }
             else
             {
@@ -203,9 +203,9 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The index of the preset that matches the name, or else -1</returns>
         public int FindIndexOfSavedPresetWithName(string name)
         {
-            for (int i = 0; i < this.SavedPresets.Count; ++i)
+            for (int i = 0; i < SavedPresets.Count; ++i)
             {
-                if (this.SavedPresets[i].Name == name)
+                if (SavedPresets[i].Name == name)
                 {
                     return i;
                 }
@@ -220,16 +220,16 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="preset">Preset to save</param>
         public void SavePreset(RenameSequencePreset preset)
         {
-            var existingPresetIndex = this.FindIndexOfSavedPresetWithName(preset.Name);
+            var existingPresetIndex = FindIndexOfSavedPresetWithName(preset.Name);
 
             if (existingPresetIndex >= 0)
             {
-                this.SavedPresets.RemoveAt(existingPresetIndex);
-                this.SavedPresets.Insert(existingPresetIndex, preset);
+                SavedPresets.RemoveAt(existingPresetIndex);
+                SavedPresets.Insert(existingPresetIndex, preset);
             }
             else
             {
-                this.SavedPresets.Add(preset);
+                SavedPresets.Add(preset);
             }
         }
 
@@ -238,7 +238,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public void OnBeforeSerialize()
         {
-            this.serializedPreviousSequence = this.PreviousSequence.ToSerializableString();
+            serializedPreviousSequence = PreviousSequence.ToSerializableString();
         }
 
         /// <summary>
@@ -246,8 +246,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public void OnAfterDeserialize()
         {
-            this.PreviousSequence = RenameOperationSequence<IRenameOperation>.FromString(
-                this.serializedPreviousSequence);
+            PreviousSequence = RenameOperationSequence<IRenameOperation>.FromString(
+                serializedPreviousSequence);
         }
     }
 }

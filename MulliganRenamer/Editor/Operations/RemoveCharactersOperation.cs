@@ -34,21 +34,21 @@ namespace RedBlueGames.MulliganRenamer
     [System.Serializable]
     public class RemoveCharactersOperation : IRenameOperation
     {
-        private static readonly RemoveCharactersOperation.RenameOptions Symbols = new RemoveCharactersOperation.RenameOptions()
+        private static readonly RenameOptions Symbols = new RenameOptions()
         {
             CharactersToRemove = "^\\s\\w",
             CharactersAreRegex = true,
             IsCaseSensitive = false
         };
 
-        private static readonly RemoveCharactersOperation.RenameOptions Numbers = new RemoveCharactersOperation.RenameOptions()
+        private static readonly RenameOptions Numbers = new RenameOptions()
         {
             CharactersToRemove = "\\d",
             CharactersAreRegex = true,
             IsCaseSensitive = false
         };
 
-        private static readonly RemoveCharactersOperation.RenameOptions Whitespace = new RemoveCharactersOperation.RenameOptions()
+        private static readonly RenameOptions Whitespace = new RenameOptions()
         {
             CharactersToRemove = "\\s",
             CharactersAreRegex = true,
@@ -84,7 +84,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public RemoveCharactersOperation(RemoveCharactersOperation operationToCopy)
         {
-            this.CopyFrom(operationToCopy);
+            CopyFrom(operationToCopy);
         }
 
         public enum PresetID
@@ -103,7 +103,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.CurrentOptions.CharactersToRemove;
+                return CurrentOptions.CharactersToRemove;
             }
         }
 
@@ -117,7 +117,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.CurrentOptions.CharactersAreRegex;
+                return CurrentOptions.CharactersAreRegex;
             }
         }
 
@@ -129,7 +129,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.CurrentOptions.IsCaseSensitive;
+                return CurrentOptions.IsCaseSensitive;
             }
         }
 
@@ -137,7 +137,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.currentPresetID;
+                return currentPresetID;
             }
         }
 
@@ -145,13 +145,13 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.currentPresetID == PresetID.Custom)
+                if (currentPresetID == PresetID.Custom)
                 {
-                    return this.customOptions;
+                    return customOptions;
                 }
                 else
                 {
-                    return optionsPresets[this.currentPresetID];
+                    return optionsPresets[currentPresetID];
                 }
             }
         }
@@ -160,25 +160,25 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.internalReplaceStringOperation == null)
+                if (internalReplaceStringOperation == null)
                 {
-                    this.internalReplaceStringOperation = new ReplaceStringOperation();
+                    internalReplaceStringOperation = new ReplaceStringOperation();
                 }
 
-                this.internalReplaceStringOperation.SearchIsCaseSensitive = this.IsCaseSensitive;
-                this.internalReplaceStringOperation.UseRegex = true;
+                internalReplaceStringOperation.SearchIsCaseSensitive = IsCaseSensitive;
+                internalReplaceStringOperation.UseRegex = true;
 
-                var regexPattern = this.CharactersToRemove;
-                if (!this.CharactersAreRegex)
+                var regexPattern = CharactersToRemove;
+                if (!CharactersAreRegex)
                 {
                     regexPattern = Regex.Escape(regexPattern);
                 }
 
                 var charactersAsRegex = $"[{regexPattern}]";
-                this.internalReplaceStringOperation.SearchString = charactersAsRegex;
-                this.internalReplaceStringOperation.ReplacementString = string.Empty;
+                internalReplaceStringOperation.SearchString = charactersAsRegex;
+                internalReplaceStringOperation.ReplacementString = string.Empty;
 
-                return this.internalReplaceStringOperation;
+                return internalReplaceStringOperation;
             }
         }
 
@@ -214,7 +214,7 @@ namespace RedBlueGames.MulliganRenamer
                 return RenameResult.Empty;
             }
 
-            return this.InternalReplaceStringOperation.Rename(input, relativeCount);
+            return InternalReplaceStringOperation.Rename(input, relativeCount);
         }
 
         /// <summary>
@@ -223,8 +223,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="other">Other.</param>
         private void CopyFrom(RemoveCharactersOperation other)
         {
-            this.SetOptions(other.CurrentOptions);
-            this.currentPresetID = other.currentPresetID;
+            SetOptions(other.CurrentOptions);
+            currentPresetID = other.currentPresetID;
         }
 
         public void SetOptions(RenameOptions other)
@@ -234,13 +234,13 @@ namespace RedBlueGames.MulliganRenamer
             optionsCopy.CharactersAreRegex = other.CharactersAreRegex;
             optionsCopy.IsCaseSensitive = other.IsCaseSensitive;
 
-            this.customOptions = optionsCopy;
-            this.currentPresetID = PresetID.Custom;
+            customOptions = optionsCopy;
+            currentPresetID = PresetID.Custom;
         }
 
         public void SetOptionPreset(PresetID preset)
         {
-            this.currentPresetID = preset;
+            currentPresetID = preset;
         }
 
         /// <summary>
@@ -252,8 +252,8 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.customOptions.GetHashCode();
-            hash = hash * 23 + this.currentPresetID.GetHashCode();
+            hash = hash * 23 + customOptions.GetHashCode();
+            hash = hash * 23 + currentPresetID.GetHashCode();
             return hash;
         }
 
@@ -269,12 +269,12 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (!this.customOptions.Equals(otherAsOp.customOptions))
+            if (!customOptions.Equals(otherAsOp.customOptions))
             {
                 return false;
             }
 
-            if (this.currentPresetID != otherAsOp.currentPresetID)
+            if (currentPresetID != otherAsOp.currentPresetID)
             {
                 return false;
             }
@@ -298,19 +298,19 @@ namespace RedBlueGames.MulliganRenamer
             {
                 get
                 {
-                    if (string.IsNullOrEmpty(this.charactersToRemove))
+                    if (string.IsNullOrEmpty(charactersToRemove))
                     {
                         return string.Empty;
                     }
                     else
                     {
-                        return this.charactersToRemove;
+                        return charactersToRemove;
                     }
                 }
 
                 set
                 {
-                    this.charactersToRemove = value;
+                    charactersToRemove = value;
                 }
             }
 
@@ -318,12 +318,12 @@ namespace RedBlueGames.MulliganRenamer
             {
                 get
                 {
-                    return this.isCaseSensitive;
+                    return isCaseSensitive;
                 }
 
                 set
                 {
-                    this.isCaseSensitive = value;
+                    isCaseSensitive = value;
                 }
             }
 
@@ -331,12 +331,12 @@ namespace RedBlueGames.MulliganRenamer
             {
                 get
                 {
-                    return this.charactersAreRegex;
+                    return charactersAreRegex;
                 }
 
                 set
                 {
-                    this.charactersAreRegex = value;
+                    charactersAreRegex = value;
                 }
             }
         }

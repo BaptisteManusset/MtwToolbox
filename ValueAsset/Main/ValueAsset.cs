@@ -5,7 +5,7 @@ using UnityEngine;
 #pragma warning disable 0649
 
 //https://stackoverflow.com/questions/54112813/how-to-create-a-dynamic-variable-system-with-scriptable-objects
-namespace Toolbox.ValueAsset {
+namespace ItsBaptiste.Toolbox.ValueAsset.Main {
     public class ValueAsset<T> : ScriptableObject, ISerializationCallbackReceiver {
         public T initialValue;
 

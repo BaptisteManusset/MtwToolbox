@@ -38,18 +38,18 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <param name="objectToRename">Object to rename.</param>
         /// <param name="renameResultSequence">Rename result sequence.</param>
-        public RenamePreview(UnityEngine.Object objectToRename, RenameResultSequence renameResultSequence)
+        public RenamePreview(Object objectToRename, RenameResultSequence renameResultSequence)
         {
-            this.ObjectToRename = objectToRename;
-            this.RenameResultSequence = renameResultSequence;
-            this.OriginalPathToObject = AssetDatabase.GetAssetPath(this.ObjectToRename);
-            this.OriginalPathToSubAsset = AssetDatabaseUtility.GetAssetPathWithSubAsset(this.ObjectToRename);
+            ObjectToRename = objectToRename;
+            RenameResultSequence = renameResultSequence;
+            OriginalPathToObject = AssetDatabase.GetAssetPath(ObjectToRename);
+            OriginalPathToSubAsset = AssetDatabaseUtility.GetAssetPathWithSubAsset(ObjectToRename);
         }
 
         /// <summary>
         /// Gets the object to rename.
         /// </summary>
-        public UnityEngine.Object ObjectToRename { get; private set; }
+        public Object ObjectToRename { get; private set; }
 
         /// <summary>
         /// Gets the rename result sequence.
@@ -73,7 +73,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.HasInvalidEmptyFinalName || this.FinalNameContainsInvalidCharacters;
+                return HasInvalidEmptyFinalName || FinalNameContainsInvalidCharacters;
             }
         }
 
@@ -86,12 +86,12 @@ namespace RedBlueGames.MulliganRenamer
             get
             {
                 // Scene objects can be empty names... even though that's a terrible idea. But still, it's allowed.
-                if (!this.ObjectToRename.IsAsset())
+                if (!ObjectToRename.IsAsset())
                 {
                     return false;
                 }
 
-                return string.IsNullOrEmpty(this.RenameResultSequence.NewName);
+                return string.IsNullOrEmpty(RenameResultSequence.NewName);
             }
         }
 
@@ -103,14 +103,14 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (!this.ObjectToRename.IsAsset())
+                if (!ObjectToRename.IsAsset())
                 {
                     // Scene objects can have symbols
                     return false;
                 }
 
                 var invalidCharacters = new char[] { '?', '.', '/', '<', '>', '\\', '|', '*', ':', '"' };
-                return this.RenameResultSequence.NewName.IndexOfAny(invalidCharacters) >= 0;
+                return RenameResultSequence.NewName.IndexOfAny(invalidCharacters) >= 0;
             }
         }
 
@@ -121,19 +121,19 @@ namespace RedBlueGames.MulliganRenamer
         public string GetResultingPath()
         {
             var resultingPath = string.Empty;
-            string newFilename = this.RenameResultSequence.NewName;
-            if (AssetDatabase.IsSubAsset(this.ObjectToRename))
+            string newFilename = RenameResultSequence.NewName;
+            if (AssetDatabase.IsSubAsset(ObjectToRename))
             {
-                resultingPath = $"{this.OriginalPathToObject}/{newFilename}";
+                resultingPath = $"{OriginalPathToObject}/{newFilename}";
             }
             else
             {
-                var pathWithoutFilename = System.IO.Path.GetDirectoryName(this.OriginalPathToObject);
+                var pathWithoutFilename = System.IO.Path.GetDirectoryName(OriginalPathToObject);
                 resultingPath = string.Concat(
                     pathWithoutFilename,
                     System.IO.Path.DirectorySeparatorChar,
-                    this.RenameResultSequence.NewName,
-                    System.IO.Path.GetExtension(this.OriginalPathToObject));
+                    RenameResultSequence.NewName,
+                    System.IO.Path.GetExtension(OriginalPathToObject));
             }
 
             return resultingPath;

@@ -76,7 +76,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.renameOperation;
+                return renameOperation;
             }
         }
 
@@ -88,7 +88,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             // This cast is a *bit* of an assumption, that the passed instance can be
             // downcasted to a more derived type (T : IRenameOperation) than IRenameOperation.
-            this.renameOperation = (T) renameOperationInstance;
+            renameOperation = (T) renameOperationInstance;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace RedBlueGames.MulliganRenamer
         public float GetPreferredHeight()
         {
             var headerHeight = EditorGUIUtility.singleLineHeight + HeaderAndContentSpacing;
-            return headerHeight + this.GetPreferredHeightForContents() + Padding.top + Padding.bottom;
+            return headerHeight + GetPreferredHeightForContents() + Padding.top + Padding.bottom;
         }
 
         /// <summary>
@@ -114,16 +114,16 @@ namespace RedBlueGames.MulliganRenamer
             GUI.Box(containingRect, "", operationStyle);
             var headerRect = new Rect(paddedContainer);
             headerRect.height = HeaderHeight;
-            RenameOperationSortingButtonEvent buttonEvent = this.DrawHeaderAndReorderButtons(
+            RenameOperationSortingButtonEvent buttonEvent = DrawHeaderAndReorderButtons(
                                               headerRect,
-                                              this.HeadingLabel,
+                                              HeadingLabel,
                                               guiOptions.DisableUpButton,
                                               guiOptions.DisableDownButton);
             EditorGUI.indentLevel++;
             var contentsRect = new Rect(paddedContainer);
             contentsRect.y += headerRect.height + HeaderAndContentSpacing;
             contentsRect.height -= headerRect.height;
-            this.DrawContents(contentsRect, guiOptions.ControlPrefix);
+            DrawContents(contentsRect, guiOptions.ControlPrefix);
             EditorGUI.indentLevel--;
 
             var coloredHighlightRect = new Rect(containingRect);
@@ -132,7 +132,7 @@ namespace RedBlueGames.MulliganRenamer
             coloredHighlightRect.xMin += 2.0f;
             coloredHighlightRect.width = 3.0f;
             var oldColor = GUI.color;
-            GUI.color = this.HighlightColor;
+            GUI.color = HighlightColor;
             GUI.DrawTexture(coloredHighlightRect, Texture2D.whiteTexture);
             GUI.color = oldColor;
 
@@ -189,7 +189,7 @@ namespace RedBlueGames.MulliganRenamer
                 labelRect.y + buttonPaddingTop,
                 buttonGroupWidth,
                 labelRect.height - (buttonPaddingBottom + buttonPaddingTop));
-            buttonEvent = this.DrawReorderingButtons(buttonRect, disableUpButton, disableDownButton);
+            buttonEvent = DrawReorderingButtons(buttonRect, disableUpButton, disableDownButton);
 
             return buttonEvent;
         }

@@ -61,7 +61,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.AddColor;
+                return AddColor;
             }
         }
 
@@ -86,7 +86,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(2);
+            return CalculateGUIHeightForLines(2);
         }
 
         /// <summary>
@@ -96,23 +96,23 @@ namespace RedBlueGames.MulliganRenamer
         protected override void DrawContents(Rect operationRect, int controlPrefix)
         {
             // AddStringSequence is just a CountByLetter without carrying over
-            this.RenameOperation.DoNotCarryOver = true;
+            RenameOperation.DoNotCarryOver = true;
 
             var currentRectSplit = 0;
             var numLines = 2;
 
             var stringRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            var stringSequence = this.DrawStringSequenceField(
+            var stringSequence = DrawStringSequenceField(
                 stringRect,
                 controlPrefix,
-                this.RenameOperation.CountSequence);
+                RenameOperation.CountSequence);
             if (stringSequence != null)
             {
-                this.RenameOperation.SetCountSequence(stringSequence);
+                RenameOperation.SetCountSequence(stringSequence);
             }
 
             var prependRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            this.RenameOperation.Prepend = this.DrawPrependField(prependRect, controlPrefix, this.RenameOperation.Prepend);
+            RenameOperation.Prepend = DrawPrependField(prependRect, controlPrefix, RenameOperation.Prepend);
         }
 
         private string[] DrawStringSequenceField(Rect rect, int controlPrefix, string[] stringSequence)

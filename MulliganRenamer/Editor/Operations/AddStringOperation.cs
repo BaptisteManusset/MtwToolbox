@@ -43,8 +43,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public AddStringOperation()
         {
-            this.Prefix = string.Empty;
-            this.Suffix = string.Empty;
+            Prefix = string.Empty;
+            Suffix = string.Empty;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public AddStringOperation(AddStringOperation operationToCopy)
         {
-            this.Prefix = operationToCopy.Prefix;
-            this.Suffix = operationToCopy.Suffix;
+            Prefix = operationToCopy.Prefix;
+            Suffix = operationToCopy.Suffix;
         }
 
         /// <summary>
@@ -65,12 +65,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.prefix;
+                return prefix;
             }
 
             set
             {
-                this.prefix = value;
+                prefix = value;
             }
         }
 
@@ -81,12 +81,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.suffix;
+                return suffix;
             }
 
             set
             {
-                this.suffix = value;
+                suffix = value;
             }
         }
 
@@ -114,9 +114,9 @@ namespace RedBlueGames.MulliganRenamer
         public RenameResult Rename(string input, int relativeCount)
         {
             var renameResult = new RenameResult();
-            if (!string.IsNullOrEmpty(this.Prefix))
+            if (!string.IsNullOrEmpty(Prefix))
             {
-                renameResult.Add(new Diff(this.Prefix, DiffOperation.Insertion));
+                renameResult.Add(new Diff(Prefix, DiffOperation.Insertion));
             }
 
             if (!string.IsNullOrEmpty(input))
@@ -124,9 +124,9 @@ namespace RedBlueGames.MulliganRenamer
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
             }
 
-            if (!string.IsNullOrEmpty(this.Suffix))
+            if (!string.IsNullOrEmpty(Suffix))
             {
-                renameResult.Add(new Diff(this.Suffix, DiffOperation.Insertion));
+                renameResult.Add(new Diff(Suffix, DiffOperation.Insertion));
             }
 
             return renameResult;
@@ -141,8 +141,8 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.Prefix.GetHashCode();
-            hash = hash * 23 + this.Prefix.GetHashCode();
+            hash = hash * 23 + Prefix.GetHashCode();
+            hash = hash * 23 + Prefix.GetHashCode();
             return hash;
         }
 
@@ -158,12 +158,12 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.Prefix != otherAsOp.Prefix)
+            if (Prefix != otherAsOp.Prefix)
             {
                 return false;
             }
 
-            if (this.Suffix != otherAsOp.Suffix)
+            if (Suffix != otherAsOp.Suffix)
             {
                 return false;
             }

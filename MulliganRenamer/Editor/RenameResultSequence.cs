@@ -38,7 +38,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="renameOperationResults">Rename operation results.</param>
         public RenameResultSequence(List<RenameResult> renameOperationResults)
         {
-            this.OperationResults = renameOperationResults;
+            OperationResults = renameOperationResults;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.OperationResults.DefaultIfEmpty(RenameResult.Empty).First().Original;
+                return OperationResults.DefaultIfEmpty(RenameResult.Empty).First().Original;
             }
         }
 
@@ -61,7 +61,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.OperationResults.DefaultIfEmpty(RenameResult.Empty).Last().Result;
+                return OperationResults.DefaultIfEmpty(RenameResult.Empty).Last().Result;
             }
         }
 
@@ -73,7 +73,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.OperationResults.Count;
+                return OperationResults.Count;
             }
         }
 
@@ -87,7 +87,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="deletionTagColor">Color for deletions</param>
         public string GetNameBeforeAtStep(int stepIndex, Color deletionTagColor)
         {
-            if (stepIndex < 0 || stepIndex >= this.NumSteps)
+            if (stepIndex < 0 || stepIndex >= NumSteps)
             {
                 var exception = string.Format(
                                     "Trying to get original name for RenameResultSequence at index that's out of bounds. Index: {0}",
@@ -95,7 +95,7 @@ namespace RedBlueGames.MulliganRenamer
                 throw new System.ArgumentException(exception, "stepIndex");
             }
 
-            return this.OperationResults.DefaultIfEmpty(RenameResult.Empty).ElementAtOrDefault(stepIndex).GetOriginalColored(deletionTagColor);
+            return OperationResults.DefaultIfEmpty(RenameResult.Empty).ElementAtOrDefault(stepIndex).GetOriginalColored(deletionTagColor);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="insertionTagColor">Color for insertions</param>
         public string GetNewNameAtStep(int stepIndex, Color insertionTagColor)
         {
-            if (stepIndex < 0 || stepIndex >= this.NumSteps)
+            if (stepIndex < 0 || stepIndex >= NumSteps)
             {
                 var exception = string.Format(
                     "Trying to get original name for RenameResultSequence at index that's out of bounds. Index: {0}",
@@ -114,7 +114,7 @@ namespace RedBlueGames.MulliganRenamer
                 throw new System.ArgumentException(exception, "stepIndex");
             }
 
-            return this.OperationResults.DefaultIfEmpty(RenameResult.Empty).ElementAtOrDefault(stepIndex).GetResultColored(insertionTagColor);
+            return OperationResults.DefaultIfEmpty(RenameResult.Empty).ElementAtOrDefault(stepIndex).GetResultColored(insertionTagColor);
         }
     }
 }

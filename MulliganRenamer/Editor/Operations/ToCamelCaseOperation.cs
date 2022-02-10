@@ -46,8 +46,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public ToCamelCaseOperation()
         {
-            this.delimiterCharacters = "- _";
-            this.usePascal = false;
+            delimiterCharacters = "- _";
+            usePascal = false;
         }
 
         /// <summary>
@@ -56,20 +56,20 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public ToCamelCaseOperation(ToCamelCaseOperation operationToCopy)
         {
-            this.delimiterCharacters = operationToCopy.delimiterCharacters;
-            this.usePascal = operationToCopy.usePascal;
+            delimiterCharacters = operationToCopy.delimiterCharacters;
+            usePascal = operationToCopy.usePascal;
         }
 
         public bool UsePascal
         {
             get
             {
-                return this.usePascal;
+                return usePascal;
             }
 
             set
             {
-                this.usePascal = value;
+                usePascal = value;
             }
         }
 
@@ -77,7 +77,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return !this.UsePascal;
+                return !UsePascal;
             }
         }
 
@@ -85,12 +85,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.delimiterCharacters;
+                return delimiterCharacters;
             }
 
             set
             {
-                this.delimiterCharacters = value;
+                delimiterCharacters = value;
             }
         }
 
@@ -123,10 +123,10 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             var inputCaseChanged = string.Empty;
-            if (!string.IsNullOrEmpty(this.DelimiterCharacters))
+            if (!string.IsNullOrEmpty(DelimiterCharacters))
             {
                 // We use regex instead of string.Split simply because the results can include the delimiters using capture groups
-                var delimiterCharArray = this.DelimiterCharacters.ToCharArray();
+                var delimiterCharArray = DelimiterCharacters.ToCharArray();
                 var patternBuilder = new System.Text.StringBuilder();
                 patternBuilder.Append("([");
                 foreach (var delimiterChar in delimiterCharArray)
@@ -151,15 +151,15 @@ namespace RedBlueGames.MulliganRenamer
                     if (!string.IsNullOrEmpty(word))
                     {
                         // Do not capitalize the delimiter characters
-                        if (word.Length == 1 && this.DelimiterCharacters.Contains(word))
+                        if (word.Length == 1 && DelimiterCharacters.Contains(word))
                         {
                             changedStringBuilder.Append(word);
                         }
                         else
                         {
                             var isFirstWord = word == words[0];
-                            var useLowerCasing = isFirstWord && this.UseCamel;
-                            changedStringBuilder.Append(this.UpperOrLowerFirstChar(word, useLowerCasing));
+                            var useLowerCasing = isFirstWord && UseCamel;
+                            changedStringBuilder.Append(UpperOrLowerFirstChar(word, useLowerCasing));
                         }
                     }
                 }
@@ -171,7 +171,7 @@ namespace RedBlueGames.MulliganRenamer
                 inputCaseChanged = input;
             }
 
-            var renameResult = this.GetDiffResultFromStrings(input, inputCaseChanged);
+            var renameResult = GetDiffResultFromStrings(input, inputCaseChanged);
             return renameResult;
         }
 
@@ -181,7 +181,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>A unique hash code from the values</returns>
         public override int GetHashCode()
         {
-            return this.delimiterCharacters.GetHashCode();
+            return delimiterCharacters.GetHashCode();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.DelimiterCharacters != otherAsOp.DelimiterCharacters)
+            if (DelimiterCharacters != otherAsOp.DelimiterCharacters)
             {
                 return false;
             }

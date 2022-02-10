@@ -41,12 +41,12 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public BulkRenamer()
         {
-            this.Initialize();
+            Initialize();
         }
 
         ~BulkRenamer()
         {
-            AssetPostprocessorEvents.AssetsReimported.RemoveListener(this.HandleAssetsReimported);
+            AssetPostprocessorEvents.AssetsReimported.RemoveListener(HandleAssetsReimported);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="renameOperationSequence">Rename operation sequence to apply when renaming.</param>
         public BulkRenamer(RenameOperationSequence<IRenameOperation> renameOperationSequence)
         {
-            this.Initialize();
+            Initialize();
 
-            this.operationSequence = renameOperationSequence;
+            operationSequence = renameOperationSequence;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="renameOperationSequence">Rename operation sequence.</param>
         public void SetRenameOperations(RenameOperationSequence<IRenameOperation> renameOperationSequence)
         {
-            this.operationSequence = renameOperationSequence;
+            operationSequence = renameOperationSequence;
         }
 
         /// <summary>
@@ -168,10 +168,10 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The number of successfully renamed objects.</returns>
         /// <param name="objectsToRename">Objects to rename.</param>
         /// <param name="ignoreUndo">If set to <c>true</c> ignore undo.</param>
-        public int RenameObjects(List<UnityEngine.Object> objectsToRename, bool ignoreUndo = false)
+        public int RenameObjects(List<Object> objectsToRename, bool ignoreUndo = false)
         {
             var nameChanges = new List<ObjectNameDelta>();
-            var previews = this.GetBulkRenamePreview(objectsToRename);
+            var previews = GetBulkRenamePreview(objectsToRename);
             for (int i = 0; i < previews.NumObjects; ++i)
             {
                 // Don't request a rename if the preview has warnings
@@ -194,7 +194,7 @@ namespace RedBlueGames.MulliganRenamer
                 nameChanges.Add(new ObjectNameDelta(objectsToRename[i], newName));
             }
 
-            return BulkRenamer.ApplyNameDeltas(nameChanges, ignoreUndo);
+            return ApplyNameDeltas(nameChanges, ignoreUndo);
         }
 
         /// <summary>
@@ -203,14 +203,14 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The results preview.</returns>
         /// <param name="objectsToRename">Objects to rename.</param>
-        public BulkRenamePreview GetBulkRenamePreview(List<UnityEngine.Object> objectsToRename)
+        public BulkRenamePreview GetBulkRenamePreview(List<Object> objectsToRename)
         {
             var previews = new RenamePreview[objectsToRename.Count];
             for (int i = 0; i < objectsToRename.Count; ++i)
             {
                 var singlePreview = new RenamePreview(
                                         objectsToRename[i],
-                                        this.operationSequence.GetRenamePreview(objectsToRename[i].name, i));
+                                        operationSequence.GetRenamePreview(objectsToRename[i].name, i));
                 previews[i] = singlePreview;
             }
 
@@ -220,16 +220,16 @@ namespace RedBlueGames.MulliganRenamer
                 var obj = objectsToRename[i];
                 if (obj.IsAsset())
                 {
-                    CacheAsestsInSameDirectoryAsAsset(obj, ref this.assetCache);
+                    CacheAsestsInSameDirectoryAsAsset(obj, ref assetCache);
                 }
             }
 
-            var renameResultPreviews = new BulkRenamePreview(previews, this.assetCache);
+            var renameResultPreviews = new BulkRenamePreview(previews, assetCache);
 
             return renameResultPreviews;
         }
 
-        private static void CacheAsestsInSameDirectoryAsAsset(UnityEngine.Object asset, ref AssetCache assetCache)
+        private static void CacheAsestsInSameDirectoryAsAsset(Object asset, ref AssetCache assetCache)
         {
             var path = AssetDatabase.GetAssetPath(asset);
             var assetDirectory = AssetDatabaseUtility.GetDirectoryFromAssetPath(path);
@@ -323,7 +323,7 @@ namespace RedBlueGames.MulliganRenamer
             gameObject.name = newName;
         }
 
-        private static void RenameAsset(UnityEngine.Object asset, string newName)
+        private static void RenameAsset(Object asset, string newName)
         {
             var pathToAsset = AssetDatabase.GetAssetPath(asset);
             AssetDatabase.RenameAsset(pathToAsset, newName);
@@ -345,13 +345,13 @@ namespace RedBlueGames.MulliganRenamer
 
         private void Initialize()
         {
-            this.assetCache = new AssetCache();
-            AssetPostprocessorEvents.AssetsReimported.AddListener(this.HandleAssetsReimported);
+            assetCache = new AssetCache();
+            AssetPostprocessorEvents.AssetsReimported.AddListener(HandleAssetsReimported);
         }
 
         private void HandleAssetsReimported()
         {
-            this.assetCache.Clear();
+            assetCache.Clear();
         }
     }
 }

@@ -44,8 +44,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public ChangeCaseOperation()
         {
-            this.Casing = CasingChange.Lowercase;
-            this.changeFirstCharacterOnly = false;
+            Casing = CasingChange.Lowercase;
+            changeFirstCharacterOnly = false;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public ChangeCaseOperation(ChangeCaseOperation operationToCopy)
         {
-            this.Casing = operationToCopy.Casing;
-            this.changeFirstCharacterOnly = operationToCopy.changeFirstCharacterOnly;
+            Casing = operationToCopy.Casing;
+            changeFirstCharacterOnly = operationToCopy.changeFirstCharacterOnly;
         }
 
         /// <summary>
@@ -82,12 +82,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.casing;
+                return casing;
             }
 
             set
             {
-                this.casing = value;
+                casing = value;
             }
         }
 
@@ -98,12 +98,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.changeFirstCharacterOnly;
+                return changeFirstCharacterOnly;
             }
 
             set
             {
-                this.changeFirstCharacterOnly = value;
+                changeFirstCharacterOnly = value;
             }
         }
 
@@ -136,7 +136,7 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             var inputCaseChanged = input;
-            switch (this.Casing)
+            switch (Casing)
             {
                 case CasingChange.Lowercase:
                     inputCaseChanged = input.ToLower();
@@ -147,11 +147,11 @@ namespace RedBlueGames.MulliganRenamer
                 default:
                     var message = string.Format(
                                       "CaseOperation received unknown CasingOption {0}",
-                                      this.Casing);
+                                      Casing);
                     throw new System.ArgumentOutOfRangeException(message);
             }
 
-            if (this.ChangeFirstCharacterOnly)
+            if (ChangeFirstCharacterOnly)
             {
                 var firstCharacter = inputCaseChanged.Substring(0, 1);
                 var remainingCharacters = string.Empty;
@@ -200,7 +200,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>A unique hash code from the values</returns>
         public override int GetHashCode()
         {
-            return this.Casing.GetHashCode();
+            return Casing.GetHashCode();
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.Casing != otherAsOp.Casing)
+            if (Casing != otherAsOp.Casing)
             {
                 return false;
             }

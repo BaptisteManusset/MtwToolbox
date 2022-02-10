@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.DeleteColor;
+                return DeleteColor;
             }
         }
 
@@ -83,7 +83,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(2);
+            return CalculateGUIHeightForLines(2);
         }
 
         /// <summary>
@@ -93,18 +93,18 @@ namespace RedBlueGames.MulliganRenamer
         protected override void DrawContents(Rect operationRect, int controlPrefix)
         {
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Delete from Front"));
-            this.RenameOperation.NumFrontDeleteChars = EditorGUI.IntField(
+            RenameOperation.NumFrontDeleteChars = EditorGUI.IntField(
                 operationRect.GetSplitVertical(1, 2, LineSpacing),
                 "Delete from Front",
-                this.RenameOperation.NumFrontDeleteChars);
-            this.RenameOperation.NumFrontDeleteChars = Mathf.Max(0, this.RenameOperation.NumFrontDeleteChars);
+                RenameOperation.NumFrontDeleteChars);
+            RenameOperation.NumFrontDeleteChars = Mathf.Max(0, RenameOperation.NumFrontDeleteChars);
 
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Delete from Back"));
-            this.RenameOperation.NumBackDeleteChars = EditorGUI.IntField(
+            RenameOperation.NumBackDeleteChars = EditorGUI.IntField(
                 operationRect.GetSplitVertical(2, 2, LineSpacing),
                 "Delete from Back",
-                this.RenameOperation.NumBackDeleteChars);
-            this.RenameOperation.NumBackDeleteChars = Mathf.Max(0, this.RenameOperation.NumBackDeleteChars);
+                RenameOperation.NumBackDeleteChars);
+            RenameOperation.NumBackDeleteChars = Mathf.Max(0, RenameOperation.NumBackDeleteChars);
         }
     }
 }

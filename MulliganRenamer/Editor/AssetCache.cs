@@ -23,7 +23,6 @@ SOFTWARE.
 
 namespace RedBlueGames.MulliganRenamer
 {
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -41,8 +40,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public AssetCache()
         {
-            this.cachedAssetsInDirectories = new Dictionary<string, List<Object>>();
-            this.cachedFilePaths = new HashSet<string>();
+            cachedAssetsInDirectories = new Dictionary<string, List<Object>>();
+            cachedFilePaths = new HashSet<string>();
         }
 
         /// <summary>
@@ -54,14 +53,14 @@ namespace RedBlueGames.MulliganRenamer
         {
             // Load the assets in the directory or get the previously loaded ones.
             List<Object> assetsInDirectory;
-            if (this.cachedAssetsInDirectories.ContainsKey(assetRelativePath))
+            if (cachedAssetsInDirectories.ContainsKey(assetRelativePath))
             {
-                assetsInDirectory = this.cachedAssetsInDirectories[assetRelativePath];
+                assetsInDirectory = cachedAssetsInDirectories[assetRelativePath];
             }
             else
             {
                 assetsInDirectory = AssetDatabaseUtility.LoadAssetsAtDirectory(assetRelativePath);
-                this.AddAssets(assetRelativePath, assetsInDirectory);
+                AddAssets(assetRelativePath, assetsInDirectory);
             }
 
             return assetsInDirectory;
@@ -72,8 +71,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public void Clear()
         {
-            this.cachedAssetsInDirectories = new Dictionary<string, List<Object>>();
-            this.cachedFilePaths = new HashSet<string>();
+            cachedAssetsInDirectories = new Dictionary<string, List<Object>>();
+            cachedFilePaths = new HashSet<string>();
         }
 
         /// <summary>
@@ -82,11 +81,11 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The all file paths hashed.</returns>
         public HashSet<string> GetAllPathsHashed()
         {
-            var copy = new HashSet<string>(this.cachedFilePaths);
+            var copy = new HashSet<string>(cachedFilePaths);
             return copy;
         }
 
-        private void AddAssets(string assetRelativePath, List<UnityEngine.Object> assets)
+        private void AddAssets(string assetRelativePath, List<Object> assets)
         {
             foreach (var asset in assets)
             {
@@ -102,7 +101,7 @@ namespace RedBlueGames.MulliganRenamer
                 }
             }
 
-            this.cachedAssetsInDirectories[assetRelativePath] = assets;
+            cachedAssetsInDirectories[assetRelativePath] = assets;
         }
     }
 }

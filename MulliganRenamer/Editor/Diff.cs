@@ -39,8 +39,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operation">Operation the diff applied.</param>
         public Diff(string result, DiffOperation operation)
         {
-            this.Result = result;
-            this.Operation = operation;
+            Result = result;
+            Operation = operation;
         }
 
         /// <summary>
@@ -74,12 +74,12 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (!this.Result.Equals(otherDiff.Result))
+            if (!Result.Equals(otherDiff.Result))
             {
                 return false;
             }
 
-            if (!this.Operation.Equals(otherDiff.Operation))
+            if (!Operation.Equals(otherDiff.Operation))
             {
                 return false;
             }
@@ -105,8 +105,8 @@ namespace RedBlueGames.MulliganRenamer
         {
             return string.Format(
                 "[Diff: Result={0}, Operation={1}]",
-                this.Result,
-                this.Operation);
+                Result,
+                Operation);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.ReplaceColor;
+                return ReplaceColor;
             }
         }
 
@@ -83,7 +83,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(1);
+            return CalculateGUIHeightForLines(1);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace RedBlueGames.MulliganRenamer
 
             GUIContent newNameContent = new GUIContent("New Name", "Name to replace the old one with.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, newNameContent.text));
-            this.RenameOperation.NewName = EditorGUI.TextField(singleLineRect, newNameContent, this.RenameOperation.NewName);
+            RenameOperation.NewName = EditorGUI.TextField(singleLineRect, newNameContent, RenameOperation.NewName);
         }
     }
 }

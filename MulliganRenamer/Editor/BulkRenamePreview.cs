@@ -33,7 +33,7 @@ namespace RedBlueGames.MulliganRenamer
     /// </summary>
     public class BulkRenamePreview
     {
-        private Dictionary<UnityEngine.Object, RenamePreview> renamePreviews;
+        private Dictionary<Object, RenamePreview> renamePreviews;
         private List<RenamePreview> renamePreviewsList;
 
         private HashSet<RenamePreview> duplicatePreviews;
@@ -45,7 +45,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.renamePreviewsList.Count;
+                return renamePreviewsList.Count;
             }
         }
 
@@ -56,13 +56,13 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.NumObjects == 0)
+                if (NumObjects == 0)
                 {
                     return 0;
                 }
 
                 // All rename results sequences should have the same number of steps so just grab the first
-                return this.renamePreviewsList[0].RenameResultSequence.NumSteps;
+                return renamePreviewsList[0].RenameResultSequence.NumSteps;
             }
         }
 
@@ -73,9 +73,9 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                for (int i = 0; i < this.NumObjects; ++i)
+                for (int i = 0; i < NumObjects; ++i)
                 {
-                    var preview = this.GetPreviewAtIndex(i);
+                    var preview = GetPreviewAtIndex(i);
                     if (preview.HasWarnings)
                     {
                         return true;
@@ -92,19 +92,19 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="previews">Previews in the collection.</param>
         public BulkRenamePreview(RenamePreview[] previews, AssetCache existingAssets)
         {
-            this.renamePreviews = new Dictionary<UnityEngine.Object, RenamePreview>();
-            this.renamePreviewsList = new List<RenamePreview>(previews.Length);
-            this.duplicatePreviews = new HashSet<RenamePreview>();
+            renamePreviews = new Dictionary<Object, RenamePreview>();
+            renamePreviewsList = new List<RenamePreview>(previews.Length);
+            duplicatePreviews = new HashSet<RenamePreview>();
 
             for (int i = 0; i < previews.Length; ++i)
             {
-                this.AddEntry(previews[i]);
+                AddEntry(previews[i]);
             }
 
-            var previewsWithDuplicateNames = GetPreviewsWithDuplicateNames(this.renamePreviewsList, existingAssets);
+            var previewsWithDuplicateNames = GetPreviewsWithDuplicateNames(renamePreviewsList, existingAssets);
             foreach (var preview in previewsWithDuplicateNames)
             {
-                this.duplicatePreviews.Add(preview);
+                duplicatePreviews.Add(preview);
             }
         }
 
@@ -115,7 +115,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="index">Index to query.</param>
         public RenamePreview GetPreviewAtIndex(int index)
         {
-            return this.renamePreviewsList[index];
+            return renamePreviewsList[index];
         }
 
         /// <summary>
@@ -123,9 +123,9 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns><c>true</c>, if object is in the bulk rename, <c>false</c> otherwise.</returns>
         /// <param name="obj">Object to query.</param>
-        public bool ContainsPreviewForObject(UnityEngine.Object obj)
+        public bool ContainsPreviewForObject(Object obj)
         {
-            return this.renamePreviews.ContainsKey(obj);
+            return renamePreviews.ContainsKey(obj);
         }
 
         /// <summary>
@@ -133,9 +133,9 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The preview for object.</returns>
         /// <param name="obj">Object to query.</param>
-        public RenamePreview GetPreviewForObject(UnityEngine.Object obj)
+        public RenamePreview GetPreviewForObject(Object obj)
         {
-            return this.renamePreviews[obj];
+            return renamePreviews[obj];
         }
 
         /// <summary>
@@ -146,14 +146,14 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="preview">Preview to check.</param>
         public bool WillRenameCollideWithExistingAsset(RenamePreview preview)
         {
-            return this.duplicatePreviews.Contains(preview);
+            return duplicatePreviews.Contains(preview);
         }
 
         private void AddEntry(RenamePreview singlePreview)
         {
             // Keeping a list and a dictionary for fast access by index and by object...
-            this.renamePreviews.Add(singlePreview.ObjectToRename, singlePreview);
-            this.renamePreviewsList.Add(singlePreview);
+            renamePreviews.Add(singlePreview.ObjectToRename, singlePreview);
+            renamePreviewsList.Add(singlePreview);
         }
 
         private static List<RenamePreview> GetPreviewsWithDuplicateNames(IList<RenamePreview> previews, AssetCache assetCache)

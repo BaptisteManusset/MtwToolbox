@@ -61,7 +61,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.ReplaceColor;
+                return ReplaceColor;
             }
         }
 
@@ -84,16 +84,16 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            var defaultHeight = this.CalculateGUIHeightForLines(4);
+            var defaultHeight = CalculateGUIHeightForLines(4);
             var preferredHeight = defaultHeight;
-            if (this.RenameOperation.HasErrors())
+            if (RenameOperation.HasErrors())
             {
-                if (!this.RenameOperation.SearchStringIsValidRegex)
+                if (!RenameOperation.SearchStringIsValidRegex)
                 {
                     preferredHeight += GetHeightForHelpBox();
                 }
 
-                if (!this.RenameOperation.ReplacementStringIsValidRegex)
+                if (!RenameOperation.ReplacementStringIsValidRegex)
                 {
                     preferredHeight += GetHeightForHelpBox();
                 }
@@ -108,7 +108,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="controlPrefix">The prefix of the control to assign to the control names</param>
         protected override void DrawContents(Rect operationRect, int controlPrefix)
         {
-            var preGUIModel = (ReplaceStringOperation)this.RenameOperation.Clone();
+            var preGUIModel = (ReplaceStringOperation)RenameOperation.Clone();
             var postGUIModel = (ReplaceStringOperation)preGUIModel.Clone();
             var weights = new List<float>(4);
             for (int i = 0; i < 4; ++i)
@@ -196,7 +196,7 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             // Apply model back to this version to be represented next frame.
-            this.RenameOperation.CopyFrom(postGUIModel);
+            RenameOperation.CopyFrom(postGUIModel);
         }
 
         private static float GetHeightForHelpBox()

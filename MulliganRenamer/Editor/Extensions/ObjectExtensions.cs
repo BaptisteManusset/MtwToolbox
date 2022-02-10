@@ -36,7 +36,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns><c>true</c> if the object is an asset; otherwise, <c>false</c>.</returns>
         /// <param name="obj">Object to test.</param>
-        public static bool IsAsset(this UnityEngine.Object obj)
+        public static bool IsAsset(this Object obj)
         {
             if (obj is GameObject)
             {
@@ -58,7 +58,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The editor icon.</returns>
         /// <param name="unityObject">Unity object.</param>
-        public static Texture GetEditorIcon(this UnityEngine.Object unityObject)
+        public static Texture GetEditorIcon(this Object unityObject)
         {
             var pathToObject = AssetDatabase.GetAssetPath(unityObject);
             Texture icon = null;

@@ -77,11 +77,11 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public CountByLetterOperation()
         {
-            this.countSequence = new string[0];
-            this.startingCount = 0;
-            this.increment = 1;
-            this.doNotCarryOver = false;
-            this.prepend = false;
+            countSequence = new string[0];
+            startingCount = 0;
+            increment = 1;
+            doNotCarryOver = false;
+            prepend = false;
         }
 
         /// <summary>
@@ -91,13 +91,13 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public CountByLetterOperation(CountByLetterOperation operationToCopy)
         {
-            this.DoNotCarryOver = operationToCopy.DoNotCarryOver;
-            this.StartingCount = operationToCopy.StartingCount;
-            this.Increment = operationToCopy.Increment;
-            this.preset = operationToCopy.preset;
-            this.countSequence = new string[operationToCopy.CountSequence.Length];
-            operationToCopy.countSequence.CopyTo(this.countSequence, 0);
-            this.Prepend = operationToCopy.Prepend;
+            DoNotCarryOver = operationToCopy.DoNotCarryOver;
+            StartingCount = operationToCopy.StartingCount;
+            Increment = operationToCopy.Increment;
+            preset = operationToCopy.preset;
+            countSequence = new string[operationToCopy.CountSequence.Length];
+            operationToCopy.countSequence.CopyTo(countSequence, 0);
+            Prepend = operationToCopy.Prepend;
         }
 
         /// <summary>
@@ -108,17 +108,17 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.preset == StringPreset.LowercaseAlphabet)
+                if (preset == StringPreset.LowercaseAlphabet)
                 {
                     return LowercaseAlphabet;
                 }
-                else if (this.preset == StringPreset.UppercaseAlphabet)
+                else if (preset == StringPreset.UppercaseAlphabet)
                 {
                     return UppercaseAlphabet;
                 }
                 else
                 {
-                    return this.countSequence;
+                    return countSequence;
                 }
             }
         }
@@ -130,12 +130,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.startingCount;
+                return startingCount;
             }
 
             set
             {
-                this.startingCount = value;
+                startingCount = value;
             }
         }
 
@@ -146,12 +146,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.increment;
+                return increment;
             }
 
             set
             {
-                this.increment = value;
+                increment = value;
             }
         }
 
@@ -164,12 +164,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.doNotCarryOver;
+                return doNotCarryOver;
             }
 
             set
             {
-                this.doNotCarryOver = value;
+                doNotCarryOver = value;
             }
         }
 
@@ -182,12 +182,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.prepend;
+                return prepend;
             }
 
             set
             {
-                this.prepend = value;
+                prepend = value;
             }
         }
 
@@ -198,7 +198,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.preset;
+                return preset;
             }
         }
 
@@ -230,19 +230,19 @@ namespace RedBlueGames.MulliganRenamer
         public RenameResult Rename(string input, int relativeCount)
         {
             var renameResult = new RenameResult();
-            if (!string.IsNullOrEmpty(input) && !this.Prepend)
+            if (!string.IsNullOrEmpty(input) && !Prepend)
             {
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
             }
 
-            var offsetCount = (relativeCount * this.Increment) + this.StartingCount;
-            var stringToInsert = this.GetStringFromSequenceForIndex(offsetCount);
+            var offsetCount = (relativeCount * Increment) + StartingCount;
+            var stringToInsert = GetStringFromSequenceForIndex(offsetCount);
             if (!string.IsNullOrEmpty(stringToInsert))
             {
                 renameResult.Add(new Diff(stringToInsert, DiffOperation.Insertion));
             }
 
-            if (this.Prepend)
+            if (Prepend)
             {
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
             }
@@ -258,14 +258,14 @@ namespace RedBlueGames.MulliganRenamer
         public string GetStringFromSequenceForIndex(int index)
         {
             string result = string.Empty;
-            while (index >= 0 && this.CountSequence.Length > 0)
+            while (index >= 0 && CountSequence.Length > 0)
             {
-                var wrappedIndex = index % this.CountSequence.Length;
-                var value = this.CountSequence[wrappedIndex];
+                var wrappedIndex = index % CountSequence.Length;
+                var value = CountSequence[wrappedIndex];
                 result = string.Concat(value, result);
-                index = (index / this.CountSequence.Length) - 1;
+                index = (index / CountSequence.Length) - 1;
 
-                if (this.DoNotCarryOver)
+                if (DoNotCarryOver)
                 {
                     break;
                 }
@@ -280,8 +280,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="sequence">Sequence of strings to count from</param>
         public void SetCountSequence(string[] sequence)
         {
-            this.preset = StringPreset.Custom;
-            this.countSequence = sequence;
+            preset = StringPreset.Custom;
+            countSequence = sequence;
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="countPreset">Preset of strings to use when counting.</param>
         public void SetCountSequencePreset(StringPreset countPreset)
         {
-            this.preset = countPreset;
+            preset = countPreset;
         }
 
         /// <summary>
@@ -302,12 +302,12 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.CountSequence.GetHashCode();
-            hash = hash * 23 + this.StartingCount.GetHashCode();
-            hash = hash * 23 + this.Increment.GetHashCode();
-            hash = hash * 23 + this.DoNotCarryOver.GetHashCode();
-            hash = hash * 23 + this.Prepend.GetHashCode();
-            hash = hash * 23 + this.Preset.GetHashCode();
+            hash = hash * 23 + CountSequence.GetHashCode();
+            hash = hash * 23 + StartingCount.GetHashCode();
+            hash = hash * 23 + Increment.GetHashCode();
+            hash = hash * 23 + DoNotCarryOver.GetHashCode();
+            hash = hash * 23 + Prepend.GetHashCode();
+            hash = hash * 23 + Preset.GetHashCode();
             return hash;
         }
 
@@ -323,40 +323,40 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.CountSequence.Length != otherAsOp.CountSequence.Length)
+            if (CountSequence.Length != otherAsOp.CountSequence.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < this.CountSequence.Length; ++i)
+            for (int i = 0; i < CountSequence.Length; ++i)
             {
-                if (this.CountSequence[i] != otherAsOp.CountSequence[i])
+                if (CountSequence[i] != otherAsOp.CountSequence[i])
                 {
                     return false;
                 }
             }
 
-            if (this.StartingCount != otherAsOp.StartingCount)
+            if (StartingCount != otherAsOp.StartingCount)
             {
                 return false;
             }
 
-            if (this.Increment != otherAsOp.Increment)
+            if (Increment != otherAsOp.Increment)
             {
                 return false;
             }
 
-            if (this.DoNotCarryOver != otherAsOp.DoNotCarryOver)
+            if (DoNotCarryOver != otherAsOp.DoNotCarryOver)
             {
                 return false;
             }
 
-            if (this.Prepend != otherAsOp.Prepend)
+            if (Prepend != otherAsOp.Prepend)
             {
                 return false;
             }
 
-            if (this.Preset != otherAsOp.Preset)
+            if (Preset != otherAsOp.Preset)
             {
                 return false;
             }

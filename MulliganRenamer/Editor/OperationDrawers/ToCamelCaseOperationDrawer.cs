@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.ModifyColor;
+                return ModifyColor;
             }
         }
 
@@ -83,7 +83,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(2);
+            return CalculateGUIHeightForLines(2);
         }
 
         /// <summary>
@@ -96,19 +96,19 @@ namespace RedBlueGames.MulliganRenamer
 
             var pascalLabel = new GUIContent("Use Pascal Casing", "Flag to capitalize the first letter of the name (also known as Upper Camel Casing).");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Pascal"));
-            this.RenameOperation.UsePascal = EditorGUI.Toggle(
+            RenameOperation.UsePascal = EditorGUI.Toggle(
                 singleLineRect,
                 pascalLabel,
-                this.RenameOperation.UsePascal
+                RenameOperation.UsePascal
             );
 
             var delimitersRect = operationRect.GetSplitVertical(2, 2, LineSpacing);
             var delimitersLabel = new GUIContent("Delimiter Characters", "The case sensitive characters that indicate the start of a word.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Delimiters"));
-            this.RenameOperation.DelimiterCharacters = EditorGUI.TextField(
+            RenameOperation.DelimiterCharacters = EditorGUI.TextField(
                 delimitersRect,
                 delimitersLabel,
-                this.RenameOperation.DelimiterCharacters
+                RenameOperation.DelimiterCharacters
             );
         }
     }

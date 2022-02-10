@@ -38,10 +38,10 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public ReplaceStringOperation()
         {
-            this.UseRegex = false;
-            this.SearchString = string.Empty;
-            this.SearchIsCaseSensitive = false;
-            this.ReplacementString = string.Empty;
+            UseRegex = false;
+            SearchString = string.Empty;
+            SearchIsCaseSensitive = false;
+            ReplacementString = string.Empty;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public ReplaceStringOperation(ReplaceStringOperation operationToCopy)
         {
-            this.CopyFrom(operationToCopy);
+            CopyFrom(operationToCopy);
         }
 
         [SerializeField]
@@ -75,12 +75,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.userRegex;
+                return userRegex;
             }
 
             set
             {
-                this.userRegex = value;
+                userRegex = value;
             }
         }
 
@@ -92,12 +92,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.searchString;
+                return searchString;
             }
 
             set
             {
-                this.searchString = value;
+                searchString = value;
             }
         }
 
@@ -109,12 +109,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.searchIsCaseSensitive;
+                return searchIsCaseSensitive;
             }
 
             set
             {
-                this.searchIsCaseSensitive = value;
+                searchIsCaseSensitive = value;
             }
         }
 
@@ -126,12 +126,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.replacementString;
+                return replacementString;
             }
 
             set
             {
-                this.replacementString = value;
+                replacementString = value;
             }
         }
 
@@ -141,9 +141,9 @@ namespace RedBlueGames.MulliganRenamer
         /// <value><c>true</c> if this instance has errors; otherwise, <c>false</c>.</value>
         public bool HasErrors()
         {
-            if (this.UseRegex)
+            if (UseRegex)
             {
-                return !this.SearchStringIsValidRegex || !this.ReplacementStringIsValidRegex;
+                return !SearchStringIsValidRegex || !ReplacementStringIsValidRegex;
             }
             else
             {
@@ -159,18 +159,18 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.UseRegex)
+                if (UseRegex)
                 {
-                    return this.SearchString;
+                    return SearchString;
                 }
                 else
                 {
                     string searchStringRegexPattern = string.Empty;
 
-                    if (!string.IsNullOrEmpty(this.SearchString))
+                    if (!string.IsNullOrEmpty(SearchString))
                     {
                         // Escape the non-regex search string to prevent any embedded patterns from being interpretted as regex.
-                        searchStringRegexPattern = string.Concat(Regex.Escape(this.SearchString));
+                        searchStringRegexPattern = string.Concat(Regex.Escape(SearchString));
                     }
 
                     return searchStringRegexPattern;
@@ -185,7 +185,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return IsValidRegex(this.SearchString);
+                return IsValidRegex(SearchString);
             }
         }
 
@@ -196,7 +196,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return IsValidRegex(this.ReplacementString);
+                return IsValidRegex(ReplacementString);
             }
         }
 
@@ -216,10 +216,10 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="other">Other.</param>
         public void CopyFrom(ReplaceStringOperation other)
         {
-            this.UseRegex = other.UseRegex;
-            this.SearchString = other.SearchString;
-            this.SearchIsCaseSensitive = other.SearchIsCaseSensitive;
-            this.ReplacementString = other.ReplacementString;
+            UseRegex = other.UseRegex;
+            SearchString = other.SearchString;
+            SearchIsCaseSensitive = other.SearchIsCaseSensitive;
+            ReplacementString = other.ReplacementString;
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             RenameResult renameResult;
-            if (string.IsNullOrEmpty(this.SearchString))
+            if (string.IsNullOrEmpty(SearchString))
             {
                 renameResult = new RenameResult();
                 renameResult.Add(new Diff(input, DiffOperation.Equal));
@@ -247,8 +247,8 @@ namespace RedBlueGames.MulliganRenamer
             try
             {
                 // Regex gives us case sensitivity, even when not searching with regex.
-                var regexOptions = this.SearchIsCaseSensitive ? default(RegexOptions) : RegexOptions.IgnoreCase;
-                matches = Regex.Matches(input, this.SearchStringAsRegex, regexOptions);
+                var regexOptions = SearchIsCaseSensitive ? default(RegexOptions) : RegexOptions.IgnoreCase;
+                matches = Regex.Matches(input, SearchStringAsRegex, regexOptions);
             }
             catch (System.ArgumentException)
             {
@@ -257,7 +257,7 @@ namespace RedBlueGames.MulliganRenamer
                 return renameResult;
             }
 
-            renameResult = this.CreateDiffFromMatches(input, this.ReplacementString, matches);
+            renameResult = CreateDiffFromMatches(input, ReplacementString, matches);
             return renameResult;
         }
 
@@ -270,10 +270,10 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.ReplacementString.GetHashCode();
-            hash = hash * 23 + this.SearchString.GetHashCode();
-            hash = hash * 23 + this.searchIsCaseSensitive.GetHashCode();
-            hash = hash * 23 + this.UseRegex.GetHashCode();
+            hash = hash * 23 + ReplacementString.GetHashCode();
+            hash = hash * 23 + SearchString.GetHashCode();
+            hash = hash * 23 + searchIsCaseSensitive.GetHashCode();
+            hash = hash * 23 + UseRegex.GetHashCode();
             return hash;
         }
 
@@ -289,22 +289,22 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.UseRegex != otherAsOp.UseRegex)
+            if (UseRegex != otherAsOp.UseRegex)
             {
                 return false;
             }
 
-            if (this.SearchIsCaseSensitive != otherAsOp.SearchIsCaseSensitive)
+            if (SearchIsCaseSensitive != otherAsOp.SearchIsCaseSensitive)
             {
                 return false;
             }
 
-            if (this.SearchString != otherAsOp.SearchString)
+            if (SearchString != otherAsOp.SearchString)
             {
                 return false;
             }
 
-            if (this.ReplacementString != otherAsOp.ReplacementString)
+            if (ReplacementString != otherAsOp.ReplacementString)
             {
                 return false;
             }
@@ -341,7 +341,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var renameResult = new RenameResult();
             var nextMatchStartingIndex = 0;
-            foreach (System.Text.RegularExpressions.Match match in matches)
+            foreach (Match match in matches)
             {
                 // Grab the substring before the match
                 if (nextMatchStartingIndex < match.Index)

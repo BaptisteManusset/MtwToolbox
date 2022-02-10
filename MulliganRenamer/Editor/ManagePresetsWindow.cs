@@ -45,33 +45,33 @@ namespace RedBlueGames.MulliganRenamer
 
         public void PopulateWithPresets(List<RenameSequencePreset> presets)
         {
-            this.uniqueNames = new Dictionary<RenameSequencePreset, string>();
-            this.presetsToDraw = new List<RenameSequencePreset>(presets.Count);
+            uniqueNames = new Dictionary<RenameSequencePreset, string>();
+            presetsToDraw = new List<RenameSequencePreset>(presets.Count);
             for (int i = 0; i < presets.Count; ++i)
             {
                 var preset = presets[i];
                 var copySerialized = JsonUtility.ToJson(preset);
                 var copy = JsonUtility.FromJson<RenameSequencePreset>(copySerialized);
-                this.presetsToDraw.Add(copy);
-                this.uniqueNames.Add(copy, $"Preset {i}");
+                presetsToDraw.Add(copy);
+                uniqueNames.Add(copy, $"Preset {i}");
             }
 
-            this.reorderableList.list = this.presetsToDraw;
+            reorderableList.list = presetsToDraw;
         }
 
         private void OnEnable()
         {
-            this.reorderableList = new ReorderableList(
+            reorderableList = new ReorderableList(
                 new List<RenameSequencePreset>(),
                 typeof(RenameSequencePreset),
                 true,
                 false,
                 false,
                 true);
-            this.reorderableList.drawHeaderCallback = this.DrawHeader;
-            this.reorderableList.drawElementCallback = this.DrawElement;
-            this.reorderableList.onRemoveCallback = this.HandleElementRemoved;
-            this.reorderableList.onReorderCallback = this.HandleReordered;
+            reorderableList.drawHeaderCallback = DrawHeader;
+            reorderableList.drawElementCallback = DrawElement;
+            reorderableList.onRemoveCallback = HandleElementRemoved;
+            reorderableList.onReorderCallback = HandleReordered;
         }
 
         private void DrawHeader(Rect rect)
@@ -81,13 +81,13 @@ namespace RedBlueGames.MulliganRenamer
 
         private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
-            var preset = (RenameSequencePreset)this.reorderableList.list[index];
+            var preset = (RenameSequencePreset)reorderableList.list[index];
 
             var previousNameRect = new Rect(rect);
             previousNameRect.width = rect.width * 0.25f;
             previousNameRect.height = EditorGUIUtility.singleLineHeight;
             previousNameRect.y += (rect.height - previousNameRect.height) / 2.0f;
-            EditorGUI.LabelField(previousNameRect, this.uniqueNames[preset]);
+            EditorGUI.LabelField(previousNameRect, uniqueNames[preset]);
 
             var newNameRect = new Rect(rect);
             newNameRect.width = rect.width - previousNameRect.width;
@@ -103,9 +103,9 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             // Don't let them name two presets the same thing.
-            for (int i = 0; i < this.presetsToDraw.Count; ++i)
+            for (int i = 0; i < presetsToDraw.Count; ++i)
             {
-                var existingPreset = this.presetsToDraw[i];
+                var existingPreset = presetsToDraw[i];
                 if (i != index && newName == existingPreset.Name)
                 {
                     newName = preset.Name;
@@ -114,8 +114,8 @@ namespace RedBlueGames.MulliganRenamer
 
             if (newName != preset.Name)
             {
-                this.presetsToDraw[index].Name = newName;
-                this.InvokePresetsChanged();
+                presetsToDraw[index].Name = newName;
+                InvokePresetsChanged();
             }
 
             return;
@@ -123,22 +123,22 @@ namespace RedBlueGames.MulliganRenamer
 
         private void OnGUI()
         {
-            if (this.reorderableList.count > 0)
+            if (reorderableList.count > 0)
             {
                 var padding = 10;
-                var windowRect = this.position;
+                var windowRect = position;
                 windowRect.x = 0;
                 windowRect.y = 0;
                 var contentsHeight =
-                    (this.reorderableList.elementHeight * this.reorderableList.count) +
-                    this.reorderableList.headerHeight +
-                    this.reorderableList.footerHeight +
+                    (reorderableList.elementHeight * reorderableList.count) +
+                    reorderableList.headerHeight +
+                    reorderableList.footerHeight +
                     padding * 2;
                 var contentsRect = new Rect(windowRect);
                 contentsRect.height = contentsHeight;
-                this.scrollPosition = GUI.BeginScrollView(windowRect, this.scrollPosition, contentsRect);
+                scrollPosition = GUI.BeginScrollView(windowRect, scrollPosition, contentsRect);
                 var paddedRect = windowRect.AddPadding(padding, padding, padding, padding);
-                this.reorderableList.DoList(paddedRect);
+                reorderableList.DoList(paddedRect);
                 GUI.EndScrollView();
             }
             else
@@ -155,32 +155,32 @@ namespace RedBlueGames.MulliganRenamer
             }
         }
 
-        private void HandleElementRemoved(UnityEditorInternal.ReorderableList list)
+        private void HandleElementRemoved(ReorderableList list)
         {
             var indexToRemove = list.index;
-            var elementToDelete = this.presetsToDraw[indexToRemove];
+            var elementToDelete = presetsToDraw[indexToRemove];
             var popupMessage = string.Format(
                 "Are you sure you want to delete the preset \"{0}\"?", elementToDelete.Name
             );
 
             if (EditorUtility.DisplayDialog("Warning", popupMessage, "Delete Preset", "No"))
             {
-                this.presetsToDraw.RemoveAt(indexToRemove);
-                this.reorderableList.index = 0;
-                this.InvokePresetsChanged();
+                presetsToDraw.RemoveAt(indexToRemove);
+                reorderableList.index = 0;
+                InvokePresetsChanged();
             }
         }
 
-        private void HandleReordered(UnityEditorInternal.ReorderableList list)
+        private void HandleReordered(ReorderableList list)
         {
-            this.InvokePresetsChanged();
+            InvokePresetsChanged();
         }
 
         private void InvokePresetsChanged()
         {
-            if (this.PresetsChanged != null)
+            if (PresetsChanged != null)
             {
-                this.PresetsChanged.Invoke(this.presetsToDraw);
+                PresetsChanged.Invoke(presetsToDraw);
             }
         }
     }

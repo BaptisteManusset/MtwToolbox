@@ -37,8 +37,8 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public TrimCharactersOperation()
         {
-            this.NumFrontDeleteChars = 0;
-            this.NumBackDeleteChars = 0;
+            NumFrontDeleteChars = 0;
+            NumBackDeleteChars = 0;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public TrimCharactersOperation(TrimCharactersOperation operationToCopy)
         {
-            this.NumFrontDeleteChars = operationToCopy.NumFrontDeleteChars;
-            this.NumBackDeleteChars = operationToCopy.NumBackDeleteChars;
+            NumFrontDeleteChars = operationToCopy.NumFrontDeleteChars;
+            NumBackDeleteChars = operationToCopy.NumBackDeleteChars;
         }
 
         [SerializeField]
@@ -66,12 +66,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.numFrontDeleteChars;
+                return numFrontDeleteChars;
             }
 
             set
             {
-                this.numFrontDeleteChars = value;
+                numFrontDeleteChars = value;
             }
         }
 
@@ -83,12 +83,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.numBackDeleteChars;
+                return numBackDeleteChars;
             }
 
             set
             {
-                this.numBackDeleteChars = value;
+                numBackDeleteChars = value;
             }
         }
 
@@ -120,9 +120,9 @@ namespace RedBlueGames.MulliganRenamer
                 return RenameResult.Empty;
             }
 
-            var numCharactersFromFront = Mathf.Clamp(this.NumFrontDeleteChars, 0, input.Length);
+            var numCharactersFromFront = Mathf.Clamp(NumFrontDeleteChars, 0, input.Length);
             var numCharactersNotTrimmedFromFront = input.Length - numCharactersFromFront;
-            var numCharactersFromBack = Mathf.Clamp(this.NumBackDeleteChars, 0, numCharactersNotTrimmedFromFront);
+            var numCharactersFromBack = Mathf.Clamp(NumBackDeleteChars, 0, numCharactersNotTrimmedFromFront);
             var numUntrimmedChars = Mathf.Max(input.Length - (numCharactersFromFront + numCharactersFromBack), 0);
 
             var result = new RenameResult();
@@ -156,8 +156,8 @@ namespace RedBlueGames.MulliganRenamer
             // Easy hash method:
             // https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-an-overridden-system-object-gethashcode
             int hash = 17;
-            hash = hash * 23 + this.NumFrontDeleteChars.GetHashCode();
-            hash = hash * 23 + this.NumBackDeleteChars.GetHashCode();
+            hash = hash * 23 + NumFrontDeleteChars.GetHashCode();
+            hash = hash * 23 + NumBackDeleteChars.GetHashCode();
             return hash;
         }
 
@@ -173,12 +173,12 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.NumFrontDeleteChars != otherAsOp.NumFrontDeleteChars)
+            if (NumFrontDeleteChars != otherAsOp.NumFrontDeleteChars)
             {
                 return false;
             }
 
-            if (this.NumBackDeleteChars != otherAsOp.NumBackDeleteChars)
+            if (NumBackDeleteChars != otherAsOp.NumBackDeleteChars)
             {
                 return false;
             }

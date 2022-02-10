@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.AddColor;
+                return AddColor;
             }
         }
 
@@ -83,7 +83,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(2);
+            return CalculateGUIHeightForLines(2);
         }
 
         /// <summary>
@@ -93,16 +93,16 @@ namespace RedBlueGames.MulliganRenamer
         protected override void DrawContents(Rect operationRect, int controlPrefix)
         {
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Prefix"));
-            this.RenameOperation.Prefix = EditorGUI.TextField(
+            RenameOperation.Prefix = EditorGUI.TextField(
                 operationRect.GetSplitVertical(1, 2, LineSpacing),
                 "Prefix",
-                this.RenameOperation.Prefix);
+                RenameOperation.Prefix);
 
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Suffix"));
-            this.RenameOperation.Suffix = EditorGUI.TextField(
+            RenameOperation.Suffix = EditorGUI.TextField(
                 operationRect.GetSplitVertical(2, 2, LineSpacing),
                 "Suffix",
-                this.RenameOperation.Suffix);
+                RenameOperation.Suffix);
         }
     }
 }

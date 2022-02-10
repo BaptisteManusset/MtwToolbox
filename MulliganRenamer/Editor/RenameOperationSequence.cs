@@ -58,7 +58,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public RenameOperationSequence()
         {
-            this.operationSequence = new List<T>();
+            operationSequence = new List<T>();
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.operationSequence.Count;
+                return operationSequence.Count;
             }
         }
 
@@ -94,12 +94,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.operationSequence[index];
+                return operationSequence[index];
             }
 
             set
             {
-                this.operationSequence[index] = value;
+                operationSequence[index] = value;
             }
         }
 
@@ -109,7 +109,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="item">Item to add.</param>
         public void Add(T item)
         {
-            this.operationSequence.Add(item);
+            operationSequence.Add(item);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="item">Item to query.</param>
         public int IndexOf(T item)
         {
-            return this.operationSequence.IndexOf(item);
+            return operationSequence.IndexOf(item);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="item">Item to insert.</param>
         public void Insert(int index, T item)
         {
-            this.operationSequence.Insert(index, item);
+            operationSequence.Insert(index, item);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="index">Index of the item to remove.</param>
         public void RemoveAt(int index)
         {
-            this.operationSequence.RemoveAt(index);
+            operationSequence.RemoveAt(index);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public void Clear()
         {
-            this.operationSequence.Clear();
+            operationSequence.Clear();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>true if the item is found in the sequence, false otherwise.</returns>
         public bool Contains(T item)
         {
-            return this.operationSequence.Contains(item);
+            return operationSequence.Contains(item);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="arrayIndex">Array index.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            this.operationSequence.CopyTo(array, arrayIndex);
+            operationSequence.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>true if the object is removed, false otherwise.</returns>
         public bool Remove(T item)
         {
-            return this.operationSequence.Remove(item);
+            return operationSequence.Remove(item);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return this.operationSequence.GetEnumerator();
+            return operationSequence.GetEnumerator();
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -225,14 +225,14 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.operationSequence.Count != otherSequence.operationSequence.Count)
+            if (operationSequence.Count != otherSequence.operationSequence.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < this.operationSequence.Count; ++i)
+            for (int i = 0; i < operationSequence.Count; ++i)
             {
-                if (!this.operationSequence[i].Equals(otherSequence[i]))
+                if (!operationSequence[i].Equals(otherSequence[i]))
                 {
                     return false;
                 }
@@ -249,7 +249,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="count">Count, used for enumerating rename operations.</param>
         public RenameResultSequence GetRenamePreview(string originalName, int count)
         {
-            var renameResults = this.GetRenameSequenceForName(originalName, count);
+            var renameResults = GetRenameSequenceForName(originalName, count);
             var resultSequence = new RenameResultSequence(renameResults);
 
             return resultSequence;
@@ -263,7 +263,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="count">Count, used for enumerating rename operations.</param>
         public string GetResultingName(string originalName, int count)
         {
-            var resultSequence = this.GetRenamePreview(originalName, count);
+            var resultSequence = GetRenamePreview(originalName, count);
             return resultSequence.NewName;
         }
 
@@ -275,7 +275,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var stringBuilder = new System.Text.StringBuilder();
             stringBuilder.Append(VersionTag);
-            foreach (var op in this.operationSequence)
+            foreach (var op in operationSequence)
             {
                 stringBuilder.Append('\n');
                 stringBuilder.Append(ConvertOperationToStringEntry(op));
@@ -356,7 +356,7 @@ namespace RedBlueGames.MulliganRenamer
             string modifiedName = originalName;
             RenameResult result;
 
-            if (this.operationSequence.Count == 0)
+            if (operationSequence.Count == 0)
             {
                 result = new RenameResult();
                 result.Add(new Diff(originalName, DiffOperation.Equal));
@@ -364,7 +364,7 @@ namespace RedBlueGames.MulliganRenamer
             }
             else
             {
-                foreach (var op in this.operationSequence)
+                foreach (var op in operationSequence)
                 {
                     result = op.Rename(modifiedName, count);
                     renameResults.Add(result);

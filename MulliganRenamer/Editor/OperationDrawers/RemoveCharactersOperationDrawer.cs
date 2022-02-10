@@ -31,7 +31,7 @@ namespace RedBlueGames.MulliganRenamer
     {
         public RemoveCharactersOperationDrawer()
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.DeleteColor;
+                return DeleteColor;
             }
         }
 
@@ -88,15 +88,15 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.RenameOperation == null)
+                if (RenameOperation == null)
                 {
                     return 0;
                 }
                 else
                 {
-                    for (int i = 0; i < this.GUIPresets.Count; ++i)
+                    for (int i = 0; i < GUIPresets.Count; ++i)
                     {
-                        if (this.GUIPresets[i].PresetID == this.RenameOperation.CurrentPresetID)
+                        if (GUIPresets[i].PresetID == RenameOperation.CurrentPresetID)
                         {
                             return i;
                         }
@@ -116,7 +116,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            var selectedPreset = this.GUIPresets[this.SelectedPresetIndex];
+            var selectedPreset = GUIPresets[SelectedPresetIndex];
             int numGUILines;
             if (selectedPreset.IsReadOnly)
             {
@@ -127,7 +127,7 @@ namespace RedBlueGames.MulliganRenamer
                 numGUILines = 3;
             }
 
-            return this.CalculateGUIHeightForLines(numGUILines);
+            return CalculateGUIHeightForLines(numGUILines);
         }
 
         /// <summary>
@@ -139,11 +139,11 @@ namespace RedBlueGames.MulliganRenamer
             // Read and write into copies so that we don't resize the view while it's being worked on,
             // which is what is required when the user switches settings around and options (lines) are added into the GUI,
             // after it's already been measured based on it's PRE Update state.
-            var originalPresetIndex = this.SelectedPresetIndex;
+            var originalPresetIndex = SelectedPresetIndex;
 
             var currentSplit = 0;
             int numSplits = 2;
-            if (this.GUIPresets[originalPresetIndex].IsReadOnly)
+            if (GUIPresets[originalPresetIndex].IsReadOnly)
             {
                 numSplits = 2;
             }
@@ -153,8 +153,8 @@ namespace RedBlueGames.MulliganRenamer
             }
 
             var presetsContent = new GUIContent("Preset", "Select a preset or specify your own characters.");
-            var names = new List<GUIContent>(this.GUIPresets.Count);
-            foreach (var preset in this.GUIPresets)
+            var names = new List<GUIContent>(GUIPresets.Count);
+            foreach (var preset in GUIPresets)
             {
                 names.Add(new GUIContent(preset.DisplayName));
             }
@@ -166,7 +166,7 @@ namespace RedBlueGames.MulliganRenamer
                 originalPresetIndex,
                 names.ToArray());
 
-            var selectedPreset = this.GUIPresets[selectedPresetIndex];
+            var selectedPreset = GUIPresets[selectedPresetIndex];
             var workingOptions = new RemoveCharactersOperation.RenameOptions();
 
             // We can't resize the Rects mid-GUI loop (GetHeight already said how tall it would be),
@@ -176,11 +176,11 @@ namespace RedBlueGames.MulliganRenamer
             {
                 if (selectedPreset.IsReadOnly)
                 {
-                    this.RenameOperation.SetOptionPreset(selectedPreset.PresetID);
+                    RenameOperation.SetOptionPreset(selectedPreset.PresetID);
                 }
                 else
                 {
-                    this.RenameOperation.SetOptions(workingOptions);
+                    RenameOperation.SetOptions(workingOptions);
                 }
                 return;
             }
@@ -205,22 +205,22 @@ namespace RedBlueGames.MulliganRenamer
                 workingOptions.CharactersToRemove = EditorGUI.TextField(
                     operationRect.GetSplitVertical(++currentSplit, numSplits, LineSpacing),
                     charactersFieldContent,
-                    this.RenameOperation.CharactersToRemove);
+                    RenameOperation.CharactersToRemove);
 
                 var caseSensitiveToggleContent = new GUIContent("Case Sensitive", "Flag the search to match only the specified case");
                 workingOptions.IsCaseSensitive = EditorGUI.Toggle(
                     operationRect.GetSplitVertical(++currentSplit, numSplits, LineSpacing),
                     caseSensitiveToggleContent,
-                    this.RenameOperation.IsCaseSensitive);
+                    RenameOperation.IsCaseSensitive);
             }
 
             if (selectedPreset.IsReadOnly)
             {
-                this.RenameOperation.SetOptionPreset(selectedPreset.PresetID);
+                RenameOperation.SetOptionPreset(selectedPreset.PresetID);
             }
             else
             {
-                this.RenameOperation.SetOptions(workingOptions);
+                RenameOperation.SetOptions(workingOptions);
             }
         }
 
@@ -258,7 +258,7 @@ namespace RedBlueGames.MulliganRenamer
                 ReadOnlyLabel = string.Empty
             };
 
-            this.GUIPresets = new List<CharacterPresetGUI>
+            GUIPresets = new List<CharacterPresetGUI>
             {
                 symbolsPreset,
                 numbersPreset,

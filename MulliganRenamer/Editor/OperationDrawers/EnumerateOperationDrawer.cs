@@ -31,7 +31,7 @@ namespace RedBlueGames.MulliganRenamer
     {
         public EnumerateOperationDrawer()
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.AddColor;
+                return AddColor;
             }
         }
 
@@ -88,15 +88,15 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.RenameOperation == null)
+                if (RenameOperation == null)
                 {
                     return 0;
                 }
                 else
                 {
-                    for (int i = 0; i < this.GUIPresets.Count; ++i)
+                    for (int i = 0; i < GUIPresets.Count; ++i)
                     {
-                        if (this.GUIPresets[i].Preset == this.RenameOperation.FormatPreset)
+                        if (GUIPresets[i].Preset == RenameOperation.FormatPreset)
                         {
                             return i;
                         }
@@ -116,11 +116,11 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            var defaultHeight = this.CalculateGUIHeightForLines(5);
+            var defaultHeight = CalculateGUIHeightForLines(5);
             var preferredHeight = defaultHeight;
-            if (!this.RenameOperation.IsCountStringFormatValid)
+            if (!RenameOperation.IsCountStringFormatValid)
             {
-                preferredHeight += this.GetHeightForHelpBox();
+                preferredHeight += GetHeightForHelpBox();
             }
 
             return preferredHeight;
@@ -138,8 +138,8 @@ namespace RedBlueGames.MulliganRenamer
         protected override void DrawContents(Rect operationRect, int controlPrefix)
         {
             var presetsContent = new GUIContent("Format", "Select a preset format or specify your own format.");
-            var names = new List<GUIContent>(this.GUIPresets.Count);
-            foreach (var preset in this.GUIPresets)
+            var names = new List<GUIContent>(GUIPresets.Count);
+            foreach (var preset in GUIPresets)
             {
                 names.Add(new GUIContent(preset.DisplayName));
             }
@@ -147,7 +147,7 @@ namespace RedBlueGames.MulliganRenamer
             var currentLine = 0;
             float[] weights;
             bool countFormatWasValidBeforeDraw;
-            if (!this.RenameOperation.IsCountStringFormatValid)
+            if (!RenameOperation.IsCountStringFormatValid)
             {
                 weights = new float[] { 1, 1, 3, 1, 1, 1 };
                 countFormatWasValidBeforeDraw = false;
@@ -162,9 +162,9 @@ namespace RedBlueGames.MulliganRenamer
             var newlySelectedIndex = EditorGUI.Popup(
                 operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                 presetsContent,
-                this.SelectedPresetIndex,
+                SelectedPresetIndex,
                 names.ToArray());
-            var selectedPreset = this.GUIPresets[newlySelectedIndex];
+            var selectedPreset = GUIPresets[newlySelectedIndex];
 
             EditorGUI.BeginDisabledGroup(selectedPreset.ReadOnly);
             var countFormatContent = new GUIContent("Count Format", "The string format to use when adding the Count to the name.");
@@ -173,27 +173,27 @@ namespace RedBlueGames.MulliganRenamer
             {
                 EditorGUI.TextField(operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                        countFormatContent,
-                       this.RenameOperation.CountFormat);
-                this.RenameOperation.SetCountFormatPreset(selectedPreset.Preset);
+                       RenameOperation.CountFormat);
+                RenameOperation.SetCountFormatPreset(selectedPreset.Preset);
             }
             else
             {
                 // Clear out the sequence when moving from a non-custom to Custom so that they don't
                 // see it prepopulated with the previous preset's entries.
-                if (this.RenameOperation.FormatPreset != EnumerateOperation.CountFormatPreset.Custom)
+                if (RenameOperation.FormatPreset != EnumerateOperation.CountFormatPreset.Custom)
                 {
-                    this.RenameOperation.SetCountFormat("0");
+                    RenameOperation.SetCountFormat("0");
                 }
 
-                this.RenameOperation.SetCountFormat(EditorGUI.TextField(
+                RenameOperation.SetCountFormat(EditorGUI.TextField(
                     operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                     countFormatContent,
-                    this.RenameOperation.CountFormat));
+                    RenameOperation.CountFormat));
             }
 
             EditorGUI.EndDisabledGroup();
 
-            if (!this.RenameOperation.IsCountStringFormatValid)
+            if (!RenameOperation.IsCountStringFormatValid)
             {
                 // On the first frame a user sets the count invalid, measurements will be broken because
                 // the Height was calculated using the non-erroring size. So don't draw the error box until next frame
@@ -213,24 +213,24 @@ namespace RedBlueGames.MulliganRenamer
 
             var countFromContent = new GUIContent("Count From", "The value to start counting from. The first object will have this number.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, countFromContent.text));
-            this.RenameOperation.StartingCount = EditorGUI.IntField(
+            RenameOperation.StartingCount = EditorGUI.IntField(
                 operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                 countFromContent,
-                this.RenameOperation.StartingCount);
+                RenameOperation.StartingCount);
 
             var incrementContent = new GUIContent("Increment", "The value to add to each object when counting.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, incrementContent.text));
-            this.RenameOperation.Increment = EditorGUI.IntField(
+            RenameOperation.Increment = EditorGUI.IntField(
                 operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                 incrementContent,
-                this.RenameOperation.Increment);
+                RenameOperation.Increment);
 
             var prependContent = new GUIContent("Add as Prefix", "Add the count to the front of the object's name.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, prependContent.text));
-            this.RenameOperation.Prepend = EditorGUI.Toggle(
+            RenameOperation.Prepend = EditorGUI.Toggle(
                 operationRect.GetSplitVerticalWeighted(++currentLine, LineSpacing, weights),
                 prependContent,
-                this.RenameOperation.Prepend);
+                RenameOperation.Prepend);
         }
 
         private void Initialize()
@@ -263,7 +263,7 @@ namespace RedBlueGames.MulliganRenamer
                 ReadOnly = false
             };
 
-            this.GUIPresets = new List<EnumeratePresetGUI>
+            GUIPresets = new List<EnumeratePresetGUI>
             {
                 singleDigitPreset,
                 leadingZeroPreset,

@@ -37,18 +37,18 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <param name="obj">Object associated with these names.</param>
         /// <param name="newName">New name for the object</param>
-        public ObjectNameDelta(UnityEngine.Object obj, string newName)
+        public ObjectNameDelta(Object obj, string newName)
         {
-            this.NamedObject = obj;
-            this.OldName = obj.name;
-            this.NewName = newName;
+            NamedObject = obj;
+            OldName = obj.name;
+            NewName = newName;
         }
 
         /// <summary>
         /// Gets the named object.
         /// </summary>
         /// <value>The named object.</value>
-        public UnityEngine.Object NamedObject { get; private set; }
+        public Object NamedObject { get; private set; }
 
         /// <summary>
         /// Gets the old name of the object.

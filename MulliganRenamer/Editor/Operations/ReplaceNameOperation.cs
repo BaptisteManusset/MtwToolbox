@@ -37,7 +37,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public ReplaceNameOperation()
         {
-            this.NewName = string.Empty;
+            NewName = string.Empty;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="operationToCopy">Operation to copy.</param>
         public ReplaceNameOperation(ReplaceNameOperation operationToCopy)
         {
-            this.NewName = operationToCopy.NewName;
+            NewName = operationToCopy.NewName;
         }
 
         [SerializeField]
@@ -61,12 +61,12 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.newName;
+                return newName;
             }
 
             set
             {
-                this.newName = value;
+                newName = value;
             }
         }
 
@@ -100,9 +100,9 @@ namespace RedBlueGames.MulliganRenamer
                 renameResult.Add(new Diff(input, DiffOperation.Deletion));
             }
 
-            if (!string.IsNullOrEmpty(this.NewName))
+            if (!string.IsNullOrEmpty(NewName))
             {
-                renameResult.Add(new Diff(this.NewName, DiffOperation.Insertion));
+                renameResult.Add(new Diff(NewName, DiffOperation.Insertion));
             }
 
             return renameResult;
@@ -114,7 +114,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>A unique hash code from the values</returns>
         public override int GetHashCode()
         {
-            return this.NewName.GetHashCode();
+            return NewName.GetHashCode();
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.NewName != otherAsOp.NewName)
+            if (NewName != otherAsOp.NewName)
             {
                 return false;
             }

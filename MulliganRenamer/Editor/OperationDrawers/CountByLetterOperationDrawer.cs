@@ -37,7 +37,7 @@ namespace RedBlueGames.MulliganRenamer
 
         public CountByLetterOperationDrawer()
         {
-            this.Initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.AddColor;
+                return AddColor;
             }
         }
 
@@ -94,15 +94,15 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                if (this.RenameOperation == null)
+                if (RenameOperation == null)
                 {
                     return 0;
                 }
                 else
                 {
-                    for (int i = 0; i < this.GUIPresets.Count; ++i)
+                    for (int i = 0; i < GUIPresets.Count; ++i)
                     {
-                        if (this.GUIPresets[i].Preset == this.RenameOperation.Preset)
+                        if (GUIPresets[i].Preset == RenameOperation.Preset)
                         {
                             return i;
                         }
@@ -122,7 +122,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(5);
+            return CalculateGUIHeightForLines(5);
         }
 
         /// <summary>
@@ -135,66 +135,66 @@ namespace RedBlueGames.MulliganRenamer
             var numLines = 5;
 
             var sequenceRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            var newlySelectedPreset = this.DrawSequenceSelection(sequenceRect, controlPrefix);
+            var newlySelectedPreset = DrawSequenceSelection(sequenceRect, controlPrefix);
 
             var customSequenceRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
             if (newlySelectedPreset.Preset != CountByLetterOperation.StringPreset.Custom)
             {
-                this.DrawPlaceholderSequenceField(customSequenceRect, controlPrefix, newlySelectedPreset.SequenceToDisplay);
-                this.RenameOperation.SetCountSequencePreset(newlySelectedPreset.Preset);
+                DrawPlaceholderSequenceField(customSequenceRect, controlPrefix, newlySelectedPreset.SequenceToDisplay);
+                RenameOperation.SetCountSequencePreset(newlySelectedPreset.Preset);
             }
             else
             {
                 // Clear out the sequence when moving from a non-custom to Custom so that they don't
                 // see it prepopulated with the previous preset's entries.
-                if (this.RenameOperation.Preset != CountByLetterOperation.StringPreset.Custom)
+                if (RenameOperation.Preset != CountByLetterOperation.StringPreset.Custom)
                 {
-                    this.RenameOperation.SetCountSequence(new string[] { });
+                    RenameOperation.SetCountSequence(new string[] { });
                 }
 
-                var customSequence = this.DrawCustomSequenceField(
+                var customSequence = DrawCustomSequenceField(
                     customSequenceRect,
                     controlPrefix,
-                    this.RenameOperation.CountSequence);
-                this.RenameOperation.SetCountSequence(customSequence);
+                    RenameOperation.CountSequence);
+                RenameOperation.SetCountSequence(customSequence);
             }
 
             var countFromRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            this.RenameOperation.StartingCount = this.DrawCountFromField(
+            RenameOperation.StartingCount = DrawCountFromField(
                 countFromRect,
                 controlPrefix,
-                this.RenameOperation.StartingCount);
+                RenameOperation.StartingCount);
 
             var incrementRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            this.RenameOperation.Increment = this.DrawIncrementField(
+            RenameOperation.Increment = DrawIncrementField(
                 incrementRect,
                 controlPrefix,
-                this.RenameOperation.Increment);
+                RenameOperation.Increment);
 
             var prependRect = operationRect.GetSplitVertical(++currentRectSplit, numLines, LineSpacing);
-            this.RenameOperation.Prepend = this.DrawPrependField(
+            RenameOperation.Prepend = DrawPrependField(
                 prependRect,
                 controlPrefix,
-                this.RenameOperation.Prepend);
+                RenameOperation.Prepend);
         }
 
         private CountByLetterPresetGUI DrawSequenceSelection(Rect rect, int controlPrefix)
         {
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "Format"));
             var modeContent = new GUIContent("Format", "Format for the added letters.");
-            var optionsContent = new GUIContent[this.GUIPresets.Count];
+            var optionsContent = new GUIContent[GUIPresets.Count];
             for (int i = 0; i < optionsContent.Length; ++i)
             {
-                optionsContent[i] = new GUIContent(this.GUIPresets[i].DisplayName);
+                optionsContent[i] = new GUIContent(GUIPresets[i].DisplayName);
             }
 
             var newlySelectedIndex = EditorGUI.Popup(
                 rect,
                 modeContent,
-                this.SelectedModeIndex,
+                SelectedModeIndex,
                 optionsContent);
 
-            return this.GUIPresets[newlySelectedIndex];
+            return GUIPresets[newlySelectedIndex];
         }
 
         private void DrawPlaceholderSequenceField(Rect rect, int controlPrefix, string placeholderText)
@@ -227,7 +227,7 @@ namespace RedBlueGames.MulliganRenamer
             // Add and subtract 1 so that it displays as 1 based.
             var countFrom = EditorGUI.IntField(intFieldRect, content, originalIndex + 1) - 1;
 
-            var stringToCountFrom = this.RenameOperation.GetStringFromSequenceForIndex(countFrom);
+            var stringToCountFrom = RenameOperation.GetStringFromSequenceForIndex(countFrom);
             if (!string.IsNullOrEmpty(stringToCountFrom))
             {
                 EditorGUI.BeginDisabledGroup(true);
@@ -280,7 +280,7 @@ namespace RedBlueGames.MulliganRenamer
                 Preset = CountByLetterOperation.StringPreset.Custom,
             };
 
-            this.GUIPresets = new List<CountByLetterPresetGUI>
+            GUIPresets = new List<CountByLetterPresetGUI>
             {
                 uppercasePreset,
                 lowercasePreset,

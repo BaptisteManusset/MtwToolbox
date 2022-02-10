@@ -48,7 +48,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="objectRenames">Object renames.</param>
         public void SetRenamedAssets(List<ObjectNameDelta> objectRenames)
         {
-            this.renamedAssets = objectRenames;
+            renamedAssets = objectRenames;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var validRenames = new List<ObjectNameDelta>();
 
-            foreach (var renamedAsset in this.renamedAssets)
+            foreach (var renamedAsset in renamedAssets)
             {
                 if (!DoesObjectStillExist(renamedAsset.NamedObject))
                 {
@@ -77,7 +77,7 @@ namespace RedBlueGames.MulliganRenamer
         public void RevertNameChange()
         {
             var reversedNames = new List<ObjectNameDelta>();
-            foreach (var renamedAsset in this.renamedAssets)
+            foreach (var renamedAsset in renamedAssets)
             {
                 if (!DoesObjectStillExist(renamedAsset.NamedObject))
                 {
@@ -90,7 +90,7 @@ namespace RedBlueGames.MulliganRenamer
             BulkRenamer.ApplyNameDeltas(reversedNames, true);
         }
 
-        private static bool DoesObjectStillExist(UnityEngine.Object objectToTest)
+        private static bool DoesObjectStillExist(Object objectToTest)
         {
             var objectHasBeenDeleted = objectToTest == null || objectToTest.Equals(null);
 

@@ -41,7 +41,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public RenameResult()
         {
-            this.diffs = new List<Diff>();
+            diffs = new List<Diff>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.diffs.Count;
+                return diffs.Count;
             }
         }
 
@@ -77,7 +77,7 @@ namespace RedBlueGames.MulliganRenamer
             get
             {
                 var name = string.Empty;
-                foreach (var diff in this.diffs)
+                foreach (var diff in diffs)
                 {
                     if (diff.Operation == DiffOperation.Equal)
                     {
@@ -102,7 +102,7 @@ namespace RedBlueGames.MulliganRenamer
             get
             {
                 var name = string.Empty;
-                foreach (var diff in this.diffs)
+                foreach (var diff in diffs)
                 {
                     if (diff.Operation == DiffOperation.Equal)
                     {
@@ -123,7 +123,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         public void Clear()
         {
-            this.diffs.Clear();
+            diffs.Clear();
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>True if the collection contains the diff, false otherwise</returns>
         public bool Contains(Diff item)
         {
-            return this.diffs.Contains(item);
+            return diffs.Contains(item);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="arrayIndex">Array index.</param>
         public void CopyTo(Diff[] array, int arrayIndex)
         {
-            this.diffs.CopyTo(array, arrayIndex);
+            diffs.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>True if the item was successfully removed from the collection, false otherwise</returns>
         public bool Remove(Diff item)
         {
-            return this.diffs.Remove(item);
+            return diffs.Remove(item);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The enumerator.</returns>
         public IEnumerator<Diff> GetEnumerator()
         {
-            return this.diffs.GetEnumerator();
+            return diffs.GetEnumerator();
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The enumerator.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="diffToAdd">Diff to add.</param>
         public void Add(Diff diffToAdd)
         {
-            this.diffs.Add(diffToAdd);
+            diffs.Add(diffToAdd);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var startTag = $"<color=#{ColorUtility.ToHtmlStringRGB(deletionColor)}>";
             var endTag = "</color>";
-            return this.GetOriginalWithTags(startTag, endTag);
+            return GetOriginalWithTags(startTag, endTag);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             var startTag = $"<color=#{ColorUtility.ToHtmlStringRGB(insertionColor)}>";
             var endTag = "</color>";
-            return this.GetResultWithTags(startTag, endTag);
+            return GetResultWithTags(startTag, endTag);
         }
 
         /// <summary>
@@ -226,14 +226,14 @@ namespace RedBlueGames.MulliganRenamer
                 return false;
             }
 
-            if (this.diffs.Count != otherRenameResult.diffs.Count)
+            if (diffs.Count != otherRenameResult.diffs.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < this.diffs.Count; ++i)
+            for (int i = 0; i < diffs.Count; ++i)
             {
-                if (!this.diffs[i].Equals(otherRenameResult.diffs[i]))
+                if (!diffs[i].Equals(otherRenameResult.diffs[i]))
                 {
                     return false;
                 }
@@ -258,7 +258,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="RedBlueGames.MulliganRenamer.RenameResult"/>.</returns>
         public override string ToString()
         {
-            var str = string.Format("[RenameResult: NewName={0}, OriginalName={1}]", this.Result, this.Original);
+            var str = string.Format("[RenameResult: NewName={0}, OriginalName={1}]", Result, Original);
             var diffs = string.Empty;
             foreach (var diff in this.diffs)
             {
@@ -273,7 +273,7 @@ namespace RedBlueGames.MulliganRenamer
         private string GetOriginalWithTags(string deletionTagStart, string deletionTagEnd)
         {
             var name = string.Empty;
-            foreach (var diff in this.diffs)
+            foreach (var diff in diffs)
             {
                 if (diff.Operation == DiffOperation.Equal)
                 {
@@ -291,7 +291,7 @@ namespace RedBlueGames.MulliganRenamer
         private string GetResultWithTags(string insertionTagStart, string insertionTagEnd)
         {
             var name = string.Empty;
-            foreach (var diff in this.diffs)
+            foreach (var diff in diffs)
             {
                 if (diff.Operation == DiffOperation.Equal)
                 {

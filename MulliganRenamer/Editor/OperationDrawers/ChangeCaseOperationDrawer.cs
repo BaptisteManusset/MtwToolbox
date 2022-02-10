@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.ModifyColor;
+                return ModifyColor;
             }
         }
 
@@ -83,7 +83,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <returns>The preferred height for contents.</returns>
         protected override float GetPreferredHeightForContents()
         {
-            return this.CalculateGUIHeightForLines(2);
+            return CalculateGUIHeightForLines(2);
         }
 
         /// <summary>
@@ -96,17 +96,17 @@ namespace RedBlueGames.MulliganRenamer
 
             var casingLabel = new GUIContent("New Casing", "The desired casing for the new name.");
             GUI.SetNextControlName(GUIControlNameUtility.CreatePrefixedName(controlPrefix, "To Uppercase"));
-            this.RenameOperation.Casing = (ChangeCaseOperation.CasingChange)EditorGUI.EnumPopup(
+            RenameOperation.Casing = (ChangeCaseOperation.CasingChange)EditorGUI.EnumPopup(
                 singleLineRect,
                 casingLabel,
-                this.RenameOperation.Casing);
+                RenameOperation.Casing);
 
             var firstCharOnlyRect = operationRect.GetSplitVertical(2, 2, LineSpacing);
             var firstCharToggleLabel = new GUIContent("Only First Character", "Change only the first character's case.");
-            this.RenameOperation.ChangeFirstCharacterOnly = EditorGUI.Toggle(
+            RenameOperation.ChangeFirstCharacterOnly = EditorGUI.Toggle(
                 firstCharOnlyRect,
                 firstCharToggleLabel,
-                this.RenameOperation.ChangeFirstCharacterOnly
+                RenameOperation.ChangeFirstCharacterOnly
             );
         }
     }

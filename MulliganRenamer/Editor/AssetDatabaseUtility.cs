@@ -38,7 +38,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The asset path directory.</returns>
         /// <param name="asset">Asset to query.</param>
-        public static string GetAssetPathDirectory(UnityEngine.Object asset)
+        public static string GetAssetPathDirectory(Object asset)
         {
             var path = AssetDatabase.GetAssetPath(asset);
             return GetDirectoryFromAssetPath(path);
@@ -60,7 +60,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The asset path including sub asset.</returns>
         /// <param name="asset">Asset or SubAsset.</param>
-        public static string GetAssetPathWithSubAsset(UnityEngine.Object asset)
+        public static string GetAssetPathWithSubAsset(Object asset)
         {
             var path = AssetDatabase.GetAssetPath(asset);
 
@@ -77,7 +77,7 @@ namespace RedBlueGames.MulliganRenamer
         /// </summary>
         /// <returns>The assets at the specified asset relative directory.</returns>
         /// <param name="assetDirectory">Asset relative directory.</param>
-        public static List<UnityEngine.Object> LoadAssetsAtDirectory(string assetDirectory)
+        public static List<Object> LoadAssetsAtDirectory(string assetDirectory)
         {
             // Note this has to use AssetDatabase.Load so that we load sprites and other sub assets and
             // include them as "assets" in the directory. System.IO would not find these files.
@@ -96,7 +96,7 @@ namespace RedBlueGames.MulliganRenamer
                 }
             }
 
-            var assetsAtPath = new List<UnityEngine.Object>();
+            var assetsAtPath = new List<Object>();
             foreach (var filePath in filePaths)
             {
                 // Textures have sprites in them. Add all assets in this file, including the file itself.
@@ -106,7 +106,7 @@ namespace RedBlueGames.MulliganRenamer
                 // (does it maybe try to load the contents inside the scene?)
                 if (System.IO.Path.GetExtension(assetRelativePath) == ".unity")
                 {
-                    var sceneAsset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetRelativePath);
+                    var sceneAsset = AssetDatabase.LoadAssetAtPath<Object>(assetRelativePath);
                     assetsAtPath.Add(sceneAsset);
                 }
                 else

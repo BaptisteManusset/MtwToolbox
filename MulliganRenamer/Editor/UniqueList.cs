@@ -39,19 +39,19 @@ namespace RedBlueGames.MulliganRenamer
 
         public UniqueList()
         {
-            this.objects = new List<T>();
-            this.cachedObjects = new HashSet<T>();
+            objects = new List<T>();
+            cachedObjects = new HashSet<T>();
         }
 
         public T this[int index]
         {
             get
             {
-                return this.objects[index];
+                return objects[index];
             }
             set
             {
-                if (this.cachedObjects.Contains(value))
+                if (cachedObjects.Contains(value))
                 {
                     var exceptionMessage = string.Format(
                         "Tried to add a repeat of an item to UniqueList. Item: {0}", value);
@@ -59,14 +59,14 @@ namespace RedBlueGames.MulliganRenamer
                 }
 
                 // if we are replacing an element in the list, we need to replace it in the cache as well
-                var existingObject = this.objects[index];
+                var existingObject = objects[index];
                 if (typeof(T).IsValueType || existingObject != null)
                 {
-                    this.cachedObjects.Remove(existingObject);
+                    cachedObjects.Remove(existingObject);
                 }
 
-                this.objects[index] = value;
-                this.cachedObjects.Add(value);
+                objects[index] = value;
+                cachedObjects.Add(value);
             }
         }
 
@@ -74,7 +74,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             get
             {
-                return this.objects.Count;
+                return objects.Count;
             }
         }
 
@@ -88,73 +88,73 @@ namespace RedBlueGames.MulliganRenamer
 
         public void Add(T item)
         {
-            if (this.cachedObjects.Contains(item))
+            if (cachedObjects.Contains(item))
             {
                 var exceptionMessage = string.Format(
                     "Tried to add a repeat of an item to UniqueList. Item: {0}", item);
-                throw new System.InvalidOperationException(exceptionMessage);
+                throw new InvalidOperationException(exceptionMessage);
             }
 
-            this.objects.Add(item);
-            this.cachedObjects.Add(item);
+            objects.Add(item);
+            cachedObjects.Add(item);
         }
 
         public void Clear()
         {
-            this.objects.Clear();
-            this.cachedObjects.Clear();
+            objects.Clear();
+            cachedObjects.Clear();
         }
 
         public bool Contains(T item)
         {
-            return this.cachedObjects.Contains(item);
+            return cachedObjects.Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            this.objects.CopyTo(array, arrayIndex);
+            objects.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return this.objects.GetEnumerator();
+            return objects.GetEnumerator();
         }
 
         public int IndexOf(T item)
         {
-            return this.objects.IndexOf(item);
+            return objects.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
-            if (this.cachedObjects.Contains(item))
+            if (cachedObjects.Contains(item))
             {
                 var exceptionMessage = string.Format(
                     "Tried to insert a repeat of an item to UniqueList. Item: {0}", item);
-                throw new System.InvalidOperationException(exceptionMessage);
+                throw new InvalidOperationException(exceptionMessage);
             }
 
-            this.objects.Insert(index, item);
-            this.cachedObjects.Add(item);
+            objects.Insert(index, item);
+            cachedObjects.Add(item);
         }
 
         public bool Remove(T item)
         {
-            this.cachedObjects.Remove(item);
-            return this.objects.Remove(item);
+            cachedObjects.Remove(item);
+            return objects.Remove(item);
         }
 
         public void RemoveAt(int index)
         {
-            var objectToRemove = this.objects[index];
-            this.cachedObjects.Remove(objectToRemove);
+            var objectToRemove = objects[index];
+            cachedObjects.Remove(objectToRemove);
 
-            this.objects.RemoveAt(index);
+            objects.RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.objects.GetEnumerator();
+            return objects.GetEnumerator();
         }
 
         public void RemoveNullObjects()
@@ -165,15 +165,15 @@ namespace RedBlueGames.MulliganRenamer
                 return;
             }
 
-            this.objects.RemoveNullObjects();
-            this.cachedObjects.RemoveWhere(item => item == null || item.Equals(null));
+            objects.RemoveNullObjects();
+            cachedObjects.RemoveWhere(item => item == null || item.Equals(null));
         }
 
         public List<T> ToList()
         {
             // Return a copy so that users can't manipulate the order or contents of the internal list
             var copy = new List<T>();
-            copy.AddRange(this.objects);
+            copy.AddRange(objects);
             return copy;
         }
 
@@ -181,7 +181,7 @@ namespace RedBlueGames.MulliganRenamer
         {
             foreach (var obj in collection)
             {
-                this.Add(obj);
+                Add(obj);
             }
         }
     }
