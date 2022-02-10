@@ -210,8 +210,8 @@ public class SerializableDictionaryPropertyDrawer : PropertyDrawer {
         if (!keyCanBeExpanded && valueCanBeExpanded)
             return DrawKeyValueLineExpand(keyProperty, valueProperty, linePosition);
 
-        string keyLabel = keyCanBeExpanded ? "Key " + index : "";
-        string valueLabel = valueCanBeExpanded ? "Value " + index : "";
+        string keyLabel = keyCanBeExpanded ? $"Key {index}" : "";
+        string valueLabel = valueCanBeExpanded ? $"Value {index}" : "";
         return DrawKeyValueLineSimple(keyProperty, valueProperty, keyLabel, valueLabel, linePosition);
     }
 

@@ -142,7 +142,7 @@ namespace ItsBaptiste.Toolbox.Editor {
         }
 
         private void FindAssetAndOpenInInspector(string name, string[] folders) {
-            string[] objsGuid = AssetDatabase.FindAssets("t:" + name, folders);
+            string[] objsGuid = AssetDatabase.FindAssets($"t:{name}", folders);
 
             Shortcut.PingAssetByPath(AssetDatabase.GUIDToAssetPath(objsGuid[0]));
 

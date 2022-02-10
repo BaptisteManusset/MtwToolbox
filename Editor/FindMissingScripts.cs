@@ -38,7 +38,7 @@ namespace Toolbox.Editor {
                     string s = g.name;
                     Transform t = g.transform;
                     while (t.parent != null) {
-                        s = t.parent.name + "/" + s;
+                        s = $"{t.parent.name}/{s}";
                         t = t.parent;
                     }
 

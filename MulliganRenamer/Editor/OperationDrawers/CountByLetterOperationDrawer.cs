@@ -234,7 +234,7 @@ namespace RedBlueGames.MulliganRenamer
                 var labelStyle = new GUIStyle(EditorStyles.label);
                 labelStyle.alignment = TextAnchor.MiddleLeft;
                 var labelRect = rect.GetSplitHorizontalWeighted(2, 0.0f, weights);
-                EditorGUI.LabelField(labelRect, new GUIContent("Starts with: " + stringToCountFrom), labelStyle);
+                EditorGUI.LabelField(labelRect, new GUIContent($"Starts with: {stringToCountFrom}"), labelStyle);
                 EditorGUI.EndDisabledGroup();
             }
 

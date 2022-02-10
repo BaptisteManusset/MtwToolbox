@@ -174,7 +174,7 @@ namespace RedBlueGames.MulliganRenamer
                     regexPattern = Regex.Escape(regexPattern);
                 }
 
-                var charactersAsRegex = string.Concat("[", regexPattern, "]");
+                var charactersAsRegex = $"[{regexPattern}]";
                 this.internalReplaceStringOperation.SearchString = charactersAsRegex;
                 this.internalReplaceStringOperation.ReplacementString = string.Empty;
 

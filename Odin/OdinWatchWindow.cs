@@ -135,7 +135,7 @@ public class OdinWatchWindow : OdinEditorWindow {
                 GUILayout.Space(5);
             first = false;
 
-            Rect titleRect = SirenixEditorGUI.BeginBox("      " + holder.Tree.TargetType.Name);
+            Rect titleRect = SirenixEditorGUI.BeginBox($"      {holder.Tree.TargetType.Name}");
 
             titleRect = titleRect.AlignTop(21);
             if (holder.ParentObject != null) {

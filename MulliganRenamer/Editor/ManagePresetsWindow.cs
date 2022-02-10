@@ -53,7 +53,7 @@ namespace RedBlueGames.MulliganRenamer
                 var copySerialized = JsonUtility.ToJson(preset);
                 var copy = JsonUtility.FromJson<RenameSequencePreset>(copySerialized);
                 this.presetsToDraw.Add(copy);
-                this.uniqueNames.Add(copy, "Preset " + i);
+                this.uniqueNames.Add(copy, $"Preset {i}");
             }
 
             this.reorderableList.list = this.presetsToDraw;

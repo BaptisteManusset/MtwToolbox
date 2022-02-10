@@ -305,7 +305,7 @@ namespace RedBlueGames.MulliganRenamer {
         private void InitializeGUIContents() {
             this.guiContents = new GUIContents();
 
-            var copyrightLabel = string.Concat("Mulligan Renamer v", VersionString, ", ©2018 RedBlueGames");
+            var copyrightLabel = $"Mulligan Renamer v{VersionString}, ©2018 RedBlueGames";
             this.guiContents.CopyrightLabel = new GUIContent(copyrightLabel);
         }
 
@@ -403,11 +403,8 @@ namespace RedBlueGames.MulliganRenamer {
                         }
                     }
                     catch (System.OperationCanceledException e) {
-                        var errorMessage = string.Concat(
-                            "Sorry, some objects failed to rename. Something went wrong with Mulligan." +
-                            "Please report a bug (see UserManual for details). This rename operation will be automatically undone",
-                            "\n\nException: ",
-                            e.Message);
+                        var errorMessage =
+                            $"{"Sorry, some objects failed to rename. Something went wrong with Mulligan." + "Please report a bug (see UserManual for details). This rename operation will be automatically undone"}\n\nException: {e.Message}";
                         if (EditorUtility.DisplayDialog("Error", errorMessage, "Ok")) {
                             Undo.RevertAllDownToGroup(undoGroupBeforeRename);
                         }
@@ -690,9 +687,7 @@ namespace RedBlueGames.MulliganRenamer {
             var operationDrawerBinding = operation as RenameOperationDrawerBinding;
             if (operationDrawerBinding == null) {
                 throw new System.ArgumentException(
-                    "MulliganRenamerWindow tried to add a new RenameOperation using a type that is not a subclass of RenameOperationDrawerBinding." +
-                    " Operation type: " +
-                    operation.GetType().ToString());
+                    $"MulliganRenamerWindow tried to add a new RenameOperation using a type that is not a subclass of RenameOperationDrawerBinding. Operation type: {operation.GetType()}");
             }
 
             this.AddRenameOperation(operationDrawerBinding);

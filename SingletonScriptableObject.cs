@@ -15,7 +15,7 @@ namespace Toolbox {
 #if UNITY_EDITOR
                 // If we're running the game in the editor, the "Preloaded Assets" array will be ignored.
                 // So get all the assets of type T using AssetDatabase.
-                string[] objsGuid = AssetDatabase.FindAssets("t:" + typeof(T).Name);
+                string[] objsGuid = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
                 int count = objsGuid.Length;
                 objs = new T[count];
                 for (int i = 0; i < count; i++)

@@ -16,7 +16,7 @@ namespace ItsBaptiste {
                 Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
 
                 if (o == null) {
-                    Debug.Log("prefab " + prefab + " null?");
+                    Debug.Log($"prefab {prefab} null?");
                     continue;
                 }
 
@@ -29,7 +29,7 @@ namespace ItsBaptiste {
                     GameObject.DestroyImmediate(go);
                 }
                 catch {
-                    Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject");
+                    Debug.Log($"For some reason, prefab {prefab} won't cast to GameObject");
                 }
             }
 

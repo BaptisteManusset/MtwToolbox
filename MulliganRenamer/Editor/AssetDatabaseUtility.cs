@@ -66,7 +66,7 @@ namespace RedBlueGames.MulliganRenamer
 
             if (AssetDatabase.IsSubAsset(asset))
             {
-                path = string.Concat(path, "/", asset.name);
+                path = $"{path}/{asset.name}";
             }
 
             return path;

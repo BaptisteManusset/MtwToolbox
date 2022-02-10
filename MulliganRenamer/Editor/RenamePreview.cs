@@ -124,7 +124,7 @@ namespace RedBlueGames.MulliganRenamer
             string newFilename = this.RenameResultSequence.NewName;
             if (AssetDatabase.IsSubAsset(this.ObjectToRename))
             {
-                resultingPath = string.Concat(this.OriginalPathToObject, "/", newFilename);
+                resultingPath = $"{this.OriginalPathToObject}/{newFilename}";
             }
             else
             {

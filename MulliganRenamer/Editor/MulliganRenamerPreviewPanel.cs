@@ -765,7 +765,7 @@ namespace RedBlueGames.MulliganRenamer
                     else
                     {
                         throw new System.IndexOutOfRangeException(
-                            "Trying to access PreviewRowModel at index that is out of bounds. Index: " + index);
+                            $"Trying to access PreviewRowModel at index that is out of bounds. Index: {index}");
                     }
                 }
             }

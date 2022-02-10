@@ -43,7 +43,7 @@ namespace RedBlueGames.MulliganRenamer
                 fullString = string.Concat(fullString, strings[i]);
                 if (i < strings.Length - 1)
                 {
-                    fullString = string.Concat(fullString, ",");
+                    fullString = $"{fullString},";
                 }
             }
 

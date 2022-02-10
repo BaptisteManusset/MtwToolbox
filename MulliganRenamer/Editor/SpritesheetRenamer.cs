@@ -70,7 +70,7 @@ namespace RedBlueGames.MulliganRenamer
                 throw new System.ArgumentException(exception);
             }
 
-            var pathToMeta = pathToSprite + ".meta";
+            var pathToMeta = $"{pathToSprite}.meta";
             if (!System.IO.File.Exists(pathToMeta))
             {
                 var exception = string.Format(
@@ -103,7 +103,7 @@ namespace RedBlueGames.MulliganRenamer
             // We know all the sprites have the same path because it is enforced
             // in the Add function.
             var pathToTexture = GetPathToTextureForFirstSprite();
-            var pathToTextureMetaFile = pathToTexture + ".meta";
+            var pathToTextureMetaFile = $"{pathToTexture}.meta";
             string metaFileWithRenames = System.IO.File.ReadAllText(pathToTextureMetaFile);
 
             var spritesAndUniqueNames = new Dictionary<Sprite, string>();
@@ -151,17 +151,17 @@ namespace RedBlueGames.MulliganRenamer
 
         private static string ReplaceFileIDRecycleNames(string metafileText, string oldName, string newName)
         {
-            string fileIDPattern = "([\\d]{8}: )" + oldName + "(\r?\n)";
+            string fileIDPattern = $"([\\d]{{8}}: ){oldName}(\r?\n)";
             var fileIDRegex = new System.Text.RegularExpressions.Regex(fileIDPattern);
-            string replacementText = "${1}" + newName + "${2}";
+            string replacementText = $"${{1}}{newName}${{2}}";
             return fileIDRegex.Replace(metafileText, replacementText);
         }
 
         private static string ReplaceSpriteData(string metafileText, string oldName, string newName)
         {
-            string spritenamePattern = "(name: )" + oldName + "(\r?\n)";
+            string spritenamePattern = $"(name: ){oldName}(\r?\n)";
             var spritenameRegex = new System.Text.RegularExpressions.Regex(spritenamePattern);
-            string replacementText = "${1}" + newName + "${2}";
+            string replacementText = $"${{1}}{newName}${{2}}";
             return spritenameRegex.Replace(metafileText, replacementText);
         }
 
@@ -172,7 +172,7 @@ namespace RedBlueGames.MulliganRenamer
             while (this.SpritesAndNewNames.ContainsValue(uniqueName))
             {
                 repeats++;
-                uniqueName = string.Concat(newName, "(" + repeats + ")");
+                uniqueName = $"{newName}({repeats})";
             }
 
             return uniqueName;

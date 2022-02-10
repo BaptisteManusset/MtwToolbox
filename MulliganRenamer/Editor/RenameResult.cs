@@ -190,7 +190,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="deletionColor">Deletion color.</param>
         public string GetOriginalColored(Color32 deletionColor)
         {
-            var startTag = string.Concat("<color=#", ColorUtility.ToHtmlStringRGB(deletionColor), ">");
+            var startTag = $"<color=#{ColorUtility.ToHtmlStringRGB(deletionColor)}>";
             var endTag = "</color>";
             return this.GetOriginalWithTags(startTag, endTag);
         }
@@ -202,7 +202,7 @@ namespace RedBlueGames.MulliganRenamer
         /// <param name="insertionColor">Insertion color.</param>
         public string GetResultColored(Color32 insertionColor)
         {
-            var startTag = string.Concat("<color=#", ColorUtility.ToHtmlStringRGB(insertionColor), ">");
+            var startTag = $"<color=#{ColorUtility.ToHtmlStringRGB(insertionColor)}>";
             var endTag = "</color>";
             return this.GetResultWithTags(startTag, endTag);
         }
@@ -262,7 +262,7 @@ namespace RedBlueGames.MulliganRenamer
             var diffs = string.Empty;
             foreach (var diff in this.diffs)
             {
-                diffs = string.Concat(diffs, "\n", diff.ToString());
+                diffs = $"{diffs}\n{diff}";
             }
 
             str = string.Concat(str, diffs);
